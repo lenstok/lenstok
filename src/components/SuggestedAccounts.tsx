@@ -11,6 +11,8 @@ const SuggestedAccounts = () => {
     variables: { options: { shuffle: true } },
   });
   console.log("Recommended", data);
+
+
   return (
     <div className="lg:border-b-2 border-gray-200 pb-4">
       <p className="text-gray-500 font-semibold m-3 mt-4 hidden lg:block">
@@ -18,10 +20,11 @@ const SuggestedAccounts = () => {
       </p>
 
       <div>
-        {data?.recommendedProfiles.map((profile) => (
+        {data?.recommendedProfiles.slice(0, 5).map((profile) => (
           <Link href={`/profile/${profile.id}`} key={profile.id}>
             <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded">
               {profile.picture?.__typename === "MediaSet" ? (
+                profile.picture.original &&
                 profile.picture.original?.url.includes("ipfs") ? (
                   <div className="w-8 h-8">
                     <Image
@@ -36,7 +39,7 @@ const SuggestedAccounts = () => {
                 ) : (
                   <div className="bg-emerald-900 w-8 h-8 rounded-full" />
                 )
-              ) : null}
+              ) : <div className="bg-emerald-900 w-8 h-8 rounded-full" />}
 
               <div className="hidden lg:block">
                 <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
