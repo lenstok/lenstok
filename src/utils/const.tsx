@@ -4,11 +4,11 @@ import { FaPaw, FaMedal, FaGamepad } from "react-icons/fa";
 
 export const topics = [
   {
-    name: "development",
+    name: "coding",
     icon: <BsCode />,
   },
   {
-    name: "comedy",
+    name: "funny",
     icon: <BsEmojiSunglasses />,
   },
   {
