@@ -1,4 +1,4 @@
-import logo from "@/images/logo.png";
+import logo from "@/images/Lenstoklogo.png";
 import Link from "next/link";
 import Image from "next/image";
 
