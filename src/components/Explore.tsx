@@ -12,7 +12,7 @@ const Explore = () => {
   }>(ExplorePublicationsDocument, {
     variables: {
       request: {
-        sortCriteria: "LATEST",
+        sortCriteria: "CURATED_PROFILES",
         publicationTypes: ["POST"],
         limit: 10,
         metadata: {
