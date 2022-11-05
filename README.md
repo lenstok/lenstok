@@ -1,1 +1,1 @@
-# Lenstok
+# Lenstok - privacy and ownership
