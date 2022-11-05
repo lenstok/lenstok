@@ -2,7 +2,9 @@ import {
   ExplorePublicationsDocument,
   ExplorePublicationResult,
 } from "@/types/lens";
+import type { Publication } from "@/types/lens";
 import { useQuery } from "@apollo/client";
+import VideoCard from "@/components/UI/VideoCard";
 
 const Explore = () => {
   const { data, loading, error } = useQuery<{
@@ -24,7 +26,7 @@ const Explore = () => {
   return (
     <div>
       {publications?.map((pub) => (
-        <div key={pub.id}>{pub?.metadata?.media[0]?.original.url}</div>
+        <VideoCard key={pub.id} publication={pub as Publication} />
       ))}
     </div>
   );
