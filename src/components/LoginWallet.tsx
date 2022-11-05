@@ -1,10 +1,9 @@
-import { FC, useState, ReactNode, useCallback, useEffect } from "react";
-import { gql } from "@apollo/client/core";
+import { FC, useState } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import {
   AuthenticateDocument,
   GetChallengeDocument,
-  GetUserProfilesDocument,
+  ProfilesDocument,
 } from "@/types/lens";
 import { CHAIN_ID } from "src/constants";
 import { useAppPersistStore, useAppStore } from "src/store/app";
@@ -36,7 +35,7 @@ const LoginWallet: FC = () => {
   const [authenticate, { error: errorAuthenticate, loading: authLoading }] =
     useMutation(AuthenticateDocument);
   const [getUserProfiles, { error: errorProfiles, loading: profilesLoading }] =
-    useLazyQuery(GetUserProfilesDocument);
+    useLazyQuery(ProfilesDocument);
 
   const onConnect = async (connector: Connector) => {
     try {
