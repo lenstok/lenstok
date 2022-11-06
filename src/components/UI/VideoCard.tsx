@@ -2,76 +2,70 @@ import { useState, useEffect, useRef } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import Link from "next/link";
+import Image from "next/image";
 import type { FC } from "react";
 import type { Publication } from "@/types/lens";
 import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
+import Video from './Video'
+import { GoVerified } from "react-icons/go";
 
 interface Props {
   publication: Publication;
 }
 const VideoCard: FC<Props> = ({ publication }) => {
-  const [isHover, setIsHover] = useState(false);
-  const [isVideoMuted, setIsVideoMuted] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const videoRef = useRef(publication?.metadata?.media[0]?.original?.url);
-
-  const onVideoPress = () => {
-    if (playing) {
-      videoRef?.current?.pause();
-      setPlaying(false);
-    } else {
-      videoRef?.current?.play();
-      setPlaying(true);
-    }
-  };
-
-  useEffect(() => {
-    if (videoRef?.current) {
-      videoRef.current.muted = isVideoMuted;
-    }
-  }, [isVideoMuted]);
-
-  const url = sanitizeIpfsUrl(publication.metadata.media[0].original.url);
 
   return (
-    <div className="lg:ml-20 flex gap-4 relative">
-      <div
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-        className="rounded-3xl"
-      >
-        <Link href={"/"}>
-          <video
-            loop
-            ref={videoRef}
-            src={url}
-            className="lg:w-[300px] h-[600px] md:h-[400px] lg:h-[528px] w-[200px] rounded-2xl cursor-pointer bg-gray-100"
-          ></video>
-        </Link>
-
-        {isHover && (
-          <div className="absolute bottom-6 cursor-pointer left-8 md:left-14 lg:left-0 flex gap-10 lg:justify-between w-[100px] md:w-[50px] lg:w-[300px] p-3">
-            {playing ? (
-              <button onClick={onVideoPress}>
-                <BsFillPauseFill className="text-black text-2xl lg:text-4xl" />
-              </button>
-            ) : (
-              <button onClick={onVideoPress}>
-                <BsFillPlayFill className="text-black text-2xl lg:text-4xl" />
-              </button>
-            )}
-            {isVideoMuted ? (
-              <button onClick={() => setIsVideoMuted(false)}>
-                <HiVolumeOff className="text-black text-2xl lg:text-4xl" />
-              </button>
-            ) : (
-              <button onClick={() => setIsVideoMuted(true)}>
-                <HiVolumeUp className="text-black text-2xl lg:text-4xl" />
-              </button>
-            )}
+    <div className="flex flex-col border-b-2 border-gray-200 pb-6">
+      <div>
+        <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded ">
+          <div className="md:w-16 md:h-16 w-10 h-10">
+            <Link href="/">
+              <>
+               {publication.profile.picture?.__typename === "MediaSet" ? (
+                publication.profile.picture.original?.url.includes("ipfs") ? (
+                  <div>
+                    <img
+                    src={sanitizeIpfsUrl(publication.profile.picture.original.url)}
+                    width={62}
+                    height={62}
+                    alt={publication.profile.handle}
+                    className="rounded-full"
+                    />
+                  </div>
+                ) : (
+                  <img
+                   src={publication.profile.picture.original.url}
+                   width={62}
+                   height={62}
+                   alt={publication.profile.handle}
+                   className="rounded-full"
+                  />
+                )
+               ) : null}
+              </>
+            </Link>
           </div>
-        )}
+        <div>
+          <Link href="/">
+            <div className="flex items-center gap-2">
+              <p className="flex gap-2 items-center md:text-md font-bold text-primary">
+                {publication.profile.handle}{' '}
+                <GoVerified className="text-blue-400 text-md"/>
+              </p>
+              <p className="capitalize font-medium text-xs text-gray-500 hidden md:block">
+                {publication.profile.name}
+              </p>
+            </div>
+          </Link>
+          <Link href="/">
+            <p className="mt-2 font-normal">
+              {publication.metadata.description}
+            </p>
+          </Link>
+        </div>
+        </div>
       </div>
+      <Video publication={publication as Publication} />
     </div>
   );
 };
