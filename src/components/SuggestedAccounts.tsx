@@ -35,7 +35,15 @@ const SuggestedAccounts = () => {
                     />
                   </div>
                 ) : (
-                  <div className="bg-emerald-900 w-8 h-8 rounded-full" />
+                  <div className="w-8 h-8">
+                    <img
+                      src={profile.picture.original.url}
+                      width={34}
+                      height={34}
+                      alt={profile.handle}
+                      className="rounded-full"
+                    />
+                  </div>
                 )
               ) : <div className="bg-emerald-900 w-8 h-8 rounded-full" />}
 
