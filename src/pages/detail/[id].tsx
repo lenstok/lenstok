@@ -6,6 +6,8 @@ import { MdOutlineCancel } from 'react-icons/md';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
+import Comments from '../../components/Comments';
+
 const Detail = () => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();
@@ -77,7 +79,7 @@ const Detail = () => {
           <div className='mt-10 px-10'>
             {/* <LikeButton/> */}
           </div>
-          {/* <Comments/> */}
+          <Comments/>
           </div>
         </div>
 
