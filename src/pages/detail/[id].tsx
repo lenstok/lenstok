@@ -7,10 +7,48 @@ import { BsFillPlayFill } from 'react-icons/bs';
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 import Comments from '../../components/Comments';
+import { useQuery } from '@apollo/client';
+import { ProfileDocument, PublicationDocument } from '@/types/lens';
+import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 
 const Detail = () => {
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
+
     const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();
+    const { id } = router.query
+
+    const { data, loading, error } = useQuery(PublicationDocument, {
+      variables: { 
+        request: {
+          publicationId: id
+        }
+       },
+    });
+    const profile = data?.publication?.profile
+    console.log("Profile", profile);
+
+    const publication = data?.publication
+    console.log("Publication", publication)
+
+    const url = publication?.metadata.media[0].original.url
+
+    const onVideoClick = () => {
+      if (isPlaying) {
+        videoRef?.current?.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef?.current?.play();
+        setIsPlaying(true);
+      }
+    };
+
+    useEffect(() => {
+      if (videoRef?.current) {
+        videoRef.current.muted = isVideoMuted;
+      }
+    }, [isVideoMuted]);
 
     return (
         <div className='flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
@@ -24,22 +62,32 @@ const Detail = () => {
             <div className='lg:h-[100vh] h-[60vh]'>
                 <video
                   ref={videoRef}
-             //   onClick={}
+                  onClick={onVideoClick}
                   loop
-                  src={'video goes here'}
+                  src={url}
                   className='h-full cursor-pointer'
                   >
                 </video>
                     </div>
                     <div className="absolute top-[45%] left-[45%] cursor-pointer">
-                    <button onClick={ () => {}}>
-                      <BsFillPlayFill className="text-white text-6xl lg:text-8xl"/>
-                    </button>
+                    {!isPlaying && (
+                      <button onClick={onVideoClick}>
+                        <BsFillPlayFill className="text-white text-6xl lg:text-8xl"/>
+                      </button>
+                    )}
                    </div>
                 </div>
 
             <div className="absolute bottom-5 lg:bottom-10 right-5 lg:right-10 cursor-pointer">
-              Video Mute button here
+              {isVideoMuted ? (
+                <button onClick={() => setIsVideoMuted(false)}>
+                  <HiVolumeOff className='text-white text-3xl lg:text-4xl' />
+                </button>
+              ) : (
+                <button onClick={() => setIsVideoMuted(true)}>
+                  <HiVolumeUp className='text-white text-3xl lg:text-4xl' />
+                </button>
+              )}
             </div>
             </div>
 
@@ -49,14 +97,27 @@ const Detail = () => {
               <div className="ml-4 md:w-20 md:h-20 w-16 h-16">
                 <Link href="/">
                   <>
-                  <Image
-                  width={62}
-                  height={62}
-                  className="rounded-full"
-                  src={"/"}
-                  alt="profile photo"
-                  layout="responsive"
-                  />
+                  {profile?.picture?.__typename === "MediaSet" ? (
+                    profile.picture.original?.url.includes("ipfs") ? (
+                    <Image
+                    width={62}
+                    height={62}
+                    className="rounded-full"
+                    src={sanitizeIpfsUrl(profile?.picture.original.url)}
+                    alt="profile photo"
+                    layout="responsive"
+                    />
+                  ) : (
+                    <Image
+                    width={62}
+                    height={62}
+                    className="rounded-full"
+                    src={profile?.picture.original.url}
+                    alt="profile photo"
+                    layout="responsive"
+                    />
+                  )
+                ) : null}
                   </>
                 </Link>
               </div>
@@ -64,17 +125,17 @@ const Detail = () => {
                 <Link href="/"> 
                   <div className="mt-3 flex flex-col gap-2">
                     <p className="flex gap-2 items-center md:text-md font-bold text-primary">
-                      Profile.lensname
+                      {profile?.name}
                     </p>
                     <p className="capitalize font-medium text-xs text-gray-500 hidden md:block">
-                      post.postedby:username
+                      {profile?.handle}
                     </p>
                   </div>
                 </Link>
               </div> 
             </div>
 
-              <p className="px-10 text-lg text-gray-600">Lorum ipsum lorum ipsom caption goes here</p>
+              <p className="px-10 text-lg text-gray-600">{publication?.metadata.content}</p>
 
           <div className='mt-10 px-10'>
             {/* <LikeButton/> */}
