@@ -14,7 +14,7 @@ import CollectButton from  "@/components/Buttons/CollectButton";
 interface Props {
   publication: Publication;
 }
-const VideoCard: FC<Props> = ({ publication }) => {
+const Video: FC<Props> = ({ publication }) => {
   const [isHover, setIsHover] = useState(false);
   const [isVideoMuted, setIsVideoMuted] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -87,4 +87,4 @@ const VideoCard: FC<Props> = ({ publication }) => {
   );
 };
 
-export default VideoCard;
+export default Video;
