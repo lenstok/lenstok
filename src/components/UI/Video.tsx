@@ -6,6 +6,11 @@ import type { FC } from "react";
 import type { Publication } from "@/types/lens";
 import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
 
+import LikeButton from  "@/components/Buttons/LikeButton";
+import MirrorButton from  "@/components/Buttons/MirrorButton";
+import CommentButton from  "@/components/Buttons/CommentButton";
+import CollectButton from  "@/components/Buttons/CollectButton";
+
 interface Props {
   publication: Publication;
 }
@@ -40,15 +45,14 @@ const VideoCard: FC<Props> = ({ publication }) => {
         onMouseLeave={() => setIsHover(false)}
         className="rounded-3xl"
       >
-        <Link href={"/"}>
+        <Link href={`/detail/${publication.profile.id}`} key={publication.profile.id}>
           <video
             loop
             ref={videoRef}
             src={url}
-            className="lg:w-[300px] h-[600px] md:h-[400px] lg:h-[528px] w-[200px] rounded-2xl cursor-pointer bg-gray-100"
+            className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[200px] rounded-2xl cursor-pointer bg-gray-100'
           ></video>
         </Link>
-
         {isHover && (
           <div className="absolute bottom-6 cursor-pointer left-8 md:left-14 lg:left-0 flex gap-10 lg:justify-between w-[100px] md:w-[50px] lg:w-[300px] p-3">
             {playing ? (
@@ -71,8 +75,15 @@ const VideoCard: FC<Props> = ({ publication }) => {
             )}
           </div>
         )}
-      </div>
+         </div>
+        <div className="max-w-xs flex flex-col pt-[120px]">
+          <LikeButton/>
+          <CommentButton publication={publication as Publication} />
+          <MirrorButton/>
+          <CollectButton/>
+        </div>
     </div>
+    
   );
 };
 

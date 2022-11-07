@@ -17,7 +17,7 @@ const VideoCard: FC<Props> = ({ publication }) => {
   return (
     <div className="flex flex-col border-b-2 border-gray-200 pb-6">
       <div>
-        <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded ">
+        <div className="flex gap-3 p-2 mt-4 cursor-pointer font-semibold rounded ">
           <div className="md:w-16 md:h-16 w-10 h-10">
             <Link href="/">
               <>
@@ -59,7 +59,7 @@ const VideoCard: FC<Props> = ({ publication }) => {
           </Link>
           <Link href="/">
             <p className="mt-2 font-normal">
-              {publication.metadata.description}
+              {publication.metadata.description.slice(0, 100)}
             </p>
           </Link>
         </div>
