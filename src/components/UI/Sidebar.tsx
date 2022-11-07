@@ -15,11 +15,11 @@ const Sidebar = () => {
 
   const userProfile = false;
 
-  const activeLink =
-    "flex items-center gap-3 hover:bg-primary p-3 justify-center xl:justify-start cursor-pointer font-semibold text-[#527862]";
+  // const activeLink =
+  //   "flex items-center gap-3 hover:bg-primary p-3 justify-center xl:justify-start cursor-pointer font-semibold text-[#527862]";
 
   const normalLink =
-    "flex items-center gap-3 hover:bg-primary p-3 justify-center lg:justify-start curser-pointer font-semibold text-[#96de26] rounded'";
+  'flex items-center gap-3 hover:bg-primary p-3 justify-center lg:justify-start curser-pointer font-semibold text-[#96de26] rounded';
 
   return (
     <div>
@@ -31,12 +31,12 @@ const Sidebar = () => {
       </div>
       {showSidebar && (
         <div className="lg:w-400 w-20 flex flex-col justify-start mb-10 border-r-2 border-gray-100 xl:border-0 p-3">
-          <div className="lg:border-b-2 border-gray-200 xl:pb-4">
+        <div className="lg:border-b-2 border-gray-200 xl:pb-4">
             <Link href="/">
-              <div className={normalLink}>
-                <p className="text-2xl">
-                  <AiFillHome />
-                </p>
+                <div className={normalLink}>
+                    <p className="text-2xl">
+                        <AiFillHome />
+                    </p>
                 <span className="text-lg hidden lg:block">For You</span>
               </div>
             </Link>
