@@ -59,7 +59,7 @@ const VideoCard: FC<Props> = ({ publication }) => {
           </Link>
           <Link href="/">
             <p className="mt-2 font-normal">
-              {publication.metadata.description.slice(0, 100)}
+              {publication.metadata.description.slice(0, 105)}
             </p>
           </Link>
         </div>
