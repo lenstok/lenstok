@@ -50,7 +50,7 @@ const Video: FC<Props> = ({ publication }) => {
             loop
             ref={videoRef}
             src={url}
-            className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[200px] rounded-2xl cursor-pointer bg-gray-100'
+            className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
           ></video>
         </Link>
         {isHover && (
