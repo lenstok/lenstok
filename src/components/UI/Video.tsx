@@ -77,10 +77,10 @@ const Video: FC<Props> = ({ publication }) => {
         )}
          </div>
         <div className="max-w-xs flex flex-col pt-[120px]">
-          <LikeButton/>
+          <LikeButton publication={publication as Publication}/>
           <CommentButton publication={publication as Publication} />
-          <MirrorButton/>
-          <CollectButton/>
+          <MirrorButton publication={publication as Publication}/>
+          <CollectButton publication={publication as Publication}/>
         </div>
     </div>
     

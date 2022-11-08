@@ -140,7 +140,7 @@ const Detail = () => {
           <div className='mt-10 px-10'>
             {/* <LikeButton/> */}
           </div>
-          <Comments/>
+          <Comments key={publication?.profile.id} />
           </div>
         </div>
 
