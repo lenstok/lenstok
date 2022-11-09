@@ -14,7 +14,7 @@ import CollectButton from  "@/components/Buttons/CollectButton";
 interface Props {
   publication: Publication;
 }
-const VideoCard: FC<Props> = ({ publication }) => {
+const Video: FC<Props> = ({ publication }) => {
   const [isHover, setIsHover] = useState(false);
   const [isVideoMuted, setIsVideoMuted] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -45,7 +45,7 @@ const VideoCard: FC<Props> = ({ publication }) => {
         onMouseLeave={() => setIsHover(false)}
         className="rounded-3xl"
       >
-        <Link href={`/detail/${publication.profile.id}`} key={publication.profile.id}>
+        <Link href={`/detail/${publication.id}`} key={publication.id}>
           <video
             loop
             ref={videoRef}
@@ -77,14 +77,14 @@ const VideoCard: FC<Props> = ({ publication }) => {
         )}
          </div>
         <div className="max-w-xs flex flex-col pt-[120px]">
-          <LikeButton/>
+          <LikeButton publication={publication as Publication}/>
           <CommentButton publication={publication as Publication} />
-          <MirrorButton/>
-          <CollectButton/>
+          <MirrorButton publication={publication as Publication}/>
+          <CollectButton publication={publication as Publication}/>
         </div>
     </div>
     
   );
 };
 
-export default VideoCard;
+export default Video;

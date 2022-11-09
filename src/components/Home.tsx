@@ -4,6 +4,8 @@ import Navbar from "@/components/UI/Navbar";
 import Sidebar from "@/components/UI/Sidebar";
 import Explore from "@/components/Explore";
 
+
+
 const Home: NextPage = () => {
   return (
     <div>

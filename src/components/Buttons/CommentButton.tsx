@@ -31,7 +31,7 @@ const CommentButton: FC<Props> = ({ publication }) => {
             <ChatBubbleLeftEllipsisIcon className='w-4 h-4 text-white' />
           </div>
         )}
-        <p className="text-xs font-semibold text-gray-400">{/* comments?.length | */} 0</p>
+        <p className="text-xs font-semibold text-gray-400">{publication.stats.totalAmountOfComments}</p>
         </div>
         </Link>
         </div>
