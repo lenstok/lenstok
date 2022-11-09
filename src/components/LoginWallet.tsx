@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import {
   AuthenticateDocument,
@@ -21,6 +21,7 @@ const LoginWallet: FC = () => {
   const setProfiles = useAppStore((state) => state.setProfiles);
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile);
   const setProfileId = useAppPersistStore((state) => state.setProfileId);
+  const [mounted, setMounted] = useState(false);
 
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
@@ -36,6 +37,10 @@ const LoginWallet: FC = () => {
     useMutation(AuthenticateDocument);
   const [getUserProfiles, { error: errorProfiles, loading: profilesLoading }] =
     useLazyQuery(ProfilesDocument);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const onConnect = async (connector: Connector) => {
     try {
@@ -96,7 +101,7 @@ const LoginWallet: FC = () => {
     <div className="flex flex-1">
       {chain?.id === CHAIN_ID ? (
         <button className="flex-1" onClick={() => handleLogin()}>
-          Login In With Lens
+          {mounted ? "Log In With Lens" : ""}
         </button>
       ) : (
         <button
@@ -116,7 +121,7 @@ const LoginWallet: FC = () => {
   ) : (
     <div className="flex flex-1">
       <button className="flex-1" onClick={() => onConnect(connectors[0])}>
-        Connect Your Wallet
+        {mounted ? "Connect Your Wallet" : ""}
       </button>
     </div>
   );
