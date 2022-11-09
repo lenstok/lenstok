@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import type { FC } from 'react'
 import { FolderPlusIcon } from '@heroicons/react/24/solid';
 import { MdFavorite } from 'react-icons/md';
 import { NextPage } from 'next';
+import type { Publication } from '@/types/lens';
 
 //should also add authorisation so user cant like posttwice
 
-const CollectButton = () => {
+interface Props {
+  publication: Publication
+}
+
+const CollectButton: FC<Props> = ({publication}) => {
     const [alreadyCollected, setAlreadyLiked] = useState(false);
 
     return (
@@ -20,7 +26,7 @@ const CollectButton = () => {
             <FolderPlusIcon className='w-4 h-4 text-white' />
           </div>
         )}
-        <p className="text-xs font-semibold text-gray-400">{/* collects?.length | */} 0</p>
+        <p className="text-xs font-semibold text-gray-400">{publication.stats.totalAmountOfCollects}</p>
         </div>
         </div>
     );

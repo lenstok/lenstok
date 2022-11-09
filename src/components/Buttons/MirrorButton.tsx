@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import type { FC } from 'react'
 import { ArrowsRightLeftIcon } from '@heroicons/react/24/outline';
 import { MdFavorite } from 'react-icons/md';
 import { NextPage } from 'next';
+import type { Publication } from '@/types/lens';
 
 //should also add authorisation so user cant like posttwice
 
-const MirrorButton = () => {
+interface Props {
+  publication: Publication
+}
+
+const MirrorButton: FC<Props> = ({publication}) => {
     const [alreadyMirrored, setAlreadyLiked] = useState(false);
 
     return (
@@ -20,7 +26,7 @@ const MirrorButton = () => {
             <ArrowsRightLeftIcon className='w-4 h-4 text-white' />
           </div>
         )}
-        <p className="text-xs font-semibold text-gray-400">{/* mirrors?.length | */} 0</p>
+        <p className="text-xs font-semibold text-gray-400">{publication.stats.totalAmountOfMirrors}</p>
         </div>
         </div>
     );

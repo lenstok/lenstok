@@ -1,8 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
-import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import Link from "next/link";
-import Image from "next/image";
 import type { FC } from "react";
 import type { Publication } from "@/types/lens";
 import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
@@ -19,7 +15,7 @@ const VideoCard: FC<Props> = ({ publication }) => {
       <div>
         <div className="flex gap-3 p-2 mt-4 cursor-pointer font-semibold rounded ">
           <div className="md:w-16 md:h-16 w-10 h-10">
-            <Link href="/">
+            <Link href={`/profile/${publication.profile.id}`} key={publication.profile.id}>
               <>
                {publication.profile.picture?.__typename === "MediaSet" ? (
                 publication.profile.picture.original?.url.includes("ipfs") ? (
@@ -46,7 +42,7 @@ const VideoCard: FC<Props> = ({ publication }) => {
             </Link>
           </div>
         <div>
-          <Link href="/">
+          <Link href={`/profile/${publication.profile.id}`} key={publication.profile.id}>
             <div className="flex items-center gap-2">
               <p className="flex gap-2 items-center md:text-md font-bold text-primary">
                 {publication.profile.handle}{' '}
