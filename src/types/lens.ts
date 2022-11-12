@@ -3428,7 +3428,9 @@ export type CreateCommentTypedDataMutationVariables = Exact<{
 }>;
 
 
-export type CreateCommentTypedDataMutation = { __typename?: 'Mutation', createCommentTypedData: { __typename?: 'CreateCommentBroadcastItemResult', id: any, expiresAt: any, typedData: { __typename?: 'CreateCommentEIP712TypedData', types: { __typename?: 'CreateCommentEIP712TypedDataTypes', CommentWithSig: Array<{ __typename?: 'EIP712TypedDataField', name: string, type: string }> }, domain: { __typename?: 'EIP712TypedDataDomain', name: string, chainId: any, version: string, verifyingContract: any }, value: { __typename?: 'CreateCommentEIP712TypedDataValue', nonce: any, deadline: any, profileId: any, profileIdPointed: any, pubIdPointed: any, contentURI: any, referenceModuleData: any, collectModule: any, collectModuleInitData: any, referenceModule: any, referenceModuleInitData: any } } } };
+export type CreateCommentTypedDataMutation = { __typename?: 'Mutation', createCommentTypedData: {
+  createCommentTypedData: any; __typename?: 'CreateCommentBroadcastItemResult', id: any, expiresAt: any, typedData: { __typename?: 'CreateCommentEIP712TypedData', types: { __typename?: 'CreateCommentEIP712TypedDataTypes', CommentWithSig: Array<{ __typename?: 'EIP712TypedDataField', name: string, type: string }> }, domain: { __typename?: 'EIP712TypedDataDomain', name: string, chainId: any, version: string, verifyingContract: any }, value: { __typename?: 'CreateCommentEIP712TypedDataValue', nonce: any, deadline: any, profileId: any, profileIdPointed: any, pubIdPointed: any, contentURI: any, referenceModuleData: any, collectModule: any, collectModuleInitData: any, referenceModule: any, referenceModuleInitData: any } } 
+} };
 
 export type ProfileQueryVariables = Exact<{
   request: SingleProfileQueryRequest;
