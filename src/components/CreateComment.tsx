@@ -30,7 +30,8 @@ const CreateComment = () => {
     return result
   };
 
-  async function submitComment() {
+  async function submitComment(e: { preventDefault: () => void; }) {
+    e.preventDefault()
     setIsPostingComment(true)
 
     const provider = new ethers.providers.Web3Provider(window.ethereum)
