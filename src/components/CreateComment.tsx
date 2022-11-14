@@ -26,9 +26,7 @@ const CreateComment: FC<Props> = ({ publication }) => {
 
   const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
 
-  const [commented, setCommented] = useState(
-    publication?.metadata?.content?.length > 0
-  );
+  const [commented, setCommented] = useState(false);
 
   function useCreateCommentTypedDataMutation(
     baseOptions?: Apollo.MutationHookOptions<
@@ -101,7 +99,7 @@ const CreateComment: FC<Props> = ({ publication }) => {
     onError
   })
 
-    async function createComment (e: { preventDefault: () => void; }) {
+    async function createComment (e: React.FormEvent) {
       e.preventDefault()
       const ipfsResult = await uploadIpfs({
         version: '2.0.0',
@@ -152,7 +150,7 @@ const CreateComment: FC<Props> = ({ publication }) => {
           className='bg-primary px-6 py-4 text-md font-medium border-2 w-[250px] md:w-[700px] lg:w-[350px] border-gray-100 focus:outline-none focus:border-2 focus:border-gray-300 flex-1 rounded-lg'
           placeholder='Add comment..'
         />
-        <button className="text-md text-gray-400 border-gray-100" onClick={createComment} disabled={isLoading}>
+        <button className="text-md text-gray-400 border-gray-100" onClick={ createComment} disabled={isLoading}>
           {isLoading ? 'Commenting...' 
           :
           'Comment'}
