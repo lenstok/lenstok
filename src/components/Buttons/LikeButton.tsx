@@ -25,7 +25,7 @@ const LikeButton: FC<Props> = ({publication}) => {
             <HeartIcon className='w-4 h-4 text-white' />
           </div>
         )}
-        <p className="text-xs font-semibold text-gray-400">{publication.stats.totalUpvotes} 0</p>
+        <p className="text-xs font-semibold text-gray-400"> 0 </p>
         </div>
         </div>
     );

@@ -1,4 +1,7 @@
-query Publications($request: PublicationsQueryRequest!) {
+query Publications(
+$request: PublicationsQueryRequest!
+$reactionRequest: ReactionFieldResolverRequest
+) {
   publications(request: $request) {
     items {
       __typename 

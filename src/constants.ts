@@ -19,3 +19,5 @@ export const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID;
 export const INFURA_RPC = IS_MAINNET
   ? `https://polygon-mainnet.infura.io/v3/${INFURA_ID}`
   : `https://polygon-mumbai.infura.io/v3/${INFURA_ID}`;
+
+export const ERROR_MESSAGE = 'Something went wrong!';
