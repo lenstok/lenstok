@@ -1,11 +1,18 @@
 import logo from "@/images/Lenstoklogo.png";
 import Link from "next/link";
 import Image from "next/image";
+import type { FC } from "react";
+import { useAppStore } from "src/store/app";
+import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 
 import { BiSearch } from 'react-icons/bi';
 import { IoMdAdd } from 'react-icons/io';
 
-const Navbar = () => {
+const Navbar: FC = () => {
+  const currentProfile = useAppStore((state) => state.currentProfile);
+
+  const profilePic = currentProfile?.picture
+  console.log('CURRENT PROFILE', currentProfile?.picture)
   
   return (
     <div className="w-full flex justify-between items-center border-b-2 border-gray-200 py-2 px-4">
@@ -43,20 +50,39 @@ const Navbar = () => {
         </button>  
         </Link>
 
-        <Link href={`/`}>
-                <div>
-                  <Image
-                    className='rounded-full cursor-pointer'
-                    src={'/'}
-                    alt='currentUserProfilePic'
+      <div className="flex">
+        {currentProfile ? (
+           <div className='w-12 h-12'>
+          <Link href={`/profile/${currentProfile.id}`} key={currentProfile.id}>
+            { profilePic?.__typename === "MediaSet" ? (
+              profilePic.original?.url.includes("ipfs") ? (
+                    <Image
+                    src={sanitizeIpfsUrl(profilePic?.original.url)}
                     width={40}
                     height={40}
-                  />
-                </div>
-              </Link>
+                    className='rounded-full cursor-pointer'
+                    alt={currentProfile.id.handle}
+                    layout='responsive'
+                    />
+                    ) : (
+                      <Image
+                      src={profilePic?.original.url}
+                      width={40}
+                      height={40}
+                      className='rounded-full cursor-pointer'
+                      alt={currentProfile.id.handle}
+                      layout='responsive'
+                      />
+                    )
+                    ) : <div className="bg-emerald-900 w-8 h-8 rounded-full" />}
+           </Link>
+             </div>
+        ) : (
+          null
+        )}
+        </div>
       </div>
-    </div>
-
+     </div>
     </div>
   );
 };
