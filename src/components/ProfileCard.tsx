@@ -9,10 +9,12 @@ import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 import FollowButton from  "@/components/Buttons/FollowButton";
+import { useAppStore } from "src/store/app";
 
 import ProfileVideos from "@/components/UI/ProfileVideos";
 
     const ProfileCard = () => {
+        const currentProfile = useAppStore((state) => state.currentProfile);
         const [isPlaying, setIsPlaying] = useState<boolean>(false);
         const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
     
@@ -29,6 +31,8 @@ import ProfileVideos from "@/components/UI/ProfileVideos";
         });
         const profile = data?.profile
         console.log("Profile", profile);
+
+        const itsNotMe = profile?.id !== currentProfile?.id
 
     return (
         <div className='w-full'>
@@ -64,8 +68,16 @@ import ProfileVideos from "@/components/UI/ProfileVideos";
                     <p className='capitalize md:text-xl text-gray-400 text-xs'>
                     {profile?.name}
                     </p>
-                    <FollowButton />
-                </div>
+                
+                      {itsNotMe ? (
+                        <div>
+                        <FollowButton />
+                        </div>
+                      ) : (
+                        null
+                      )
+                    }  
+                 </div>    
             </div>
 
             <div>
