@@ -1,19 +1,21 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAppStore } from "src/store/app";
 
-import { GoVerified } from 'react-icons/go';
-
 import NoResults from './NoResults';
 import { useQuery } from '@apollo/client';
-import { PublicationsDocument } from '@/types/lens';
+import { Publication, PublicationsDocument } from '@/types/lens';
 import { useRouter } from 'next/router';
 import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 import CreateComment from './CreateComment';
 import LoginButton from './LoginButton';
 
-const Comments = () => {
+interface Props {
+    publication: Publication;
+}
+
+const Comments: FC<Props> = ({publication}) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     
     const router = useRouter()
@@ -81,7 +83,7 @@ const Comments = () => {
                 )}
             </div>
             {
-                currentProfile ? <CreateComment /> : <LoginButton />
+                currentProfile ? <CreateComment publication={publication as Publication} /> : <LoginButton />
             }
         </div>
     ) 

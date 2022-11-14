@@ -18,7 +18,7 @@ fragment PostFields on Post {
   }
   appId
   hidden
-  reaction(request: null)
+  reaction(request: $reactionRequest)
   mirrors(by: null)
   hasCollectedByMe
 }

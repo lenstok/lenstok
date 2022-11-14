@@ -8,7 +8,7 @@ import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 import Comments from '../../components/Comments';
 import { useQuery } from '@apollo/client';
-import { ProfileDocument, PublicationDocument } from '@/types/lens';
+import { ProfileDocument, Publication, PublicationDocument } from '@/types/lens';
 import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 
 const Detail = () => {
@@ -140,7 +140,7 @@ const Detail = () => {
           <div className='mt-10 px-10'>
             {/* <LikeButton/> */}
           </div>
-          <Comments key={publication?.profile.id} />
+          <Comments key={publication?.profile.id} publication={publication as Publication} />
           </div>
         </div>
 
