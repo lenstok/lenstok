@@ -1,10 +1,9 @@
 import { create } from 'ipfs-http-client';
 
 const projectId = process.env.NEXT_PUBLIC_INFURA_PROJECT_ID;
-const secret = process.env.NEXT_PUBLIC_INFURA_SECRET;
 
-if (!projectId || !secret) {
-  throw new Error('Must define INFURA_PROJECT_ID and INFURA_SECRET in the .env to run this');
+if (!projectId) {
+  throw new Error('Must define INFURA_PROJECT_ID in the .env to run this');
 }
 
 const client = create({
@@ -12,7 +11,7 @@ const client = create({
   port: 5001,
   protocol: 'https',
   headers: {
-    authorization: `Basic ${Buffer.from(`${projectId}:${secret}`, 'utf-8').toString('base64')}`,
+    authorization: `Basic ${Buffer.from(`${projectId}`, 'utf-8').toString('base64')}`,
   },
 });
 
