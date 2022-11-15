@@ -1,9 +1,10 @@
 import { create } from 'ipfs-http-client';
 
 const projectId = process.env.NEXT_PUBLIC_INFURA_PROJECT_ID;
+const secret = process.env.NEXT_PUBLIC_INFURA_ID;
 
-if (!projectId) {
-  throw new Error('Must define INFURA_PROJECT_ID in the .env to run this');
+if (!projectId || !secret) {
+  throw new Error('Must define INFURA_PROJECT_ID and INFURA_ID in the .env to run this');
 }
 
 const client = create({
