@@ -18,10 +18,7 @@ interface Props {
 
 const CreateComment: FC<Props> = ({ publication }) => {
   const [comment, setComment] = useState("");
-  const [isPostingComment, setIsPostingComment] = useState(false)
   
-  const userSigNonce = useAppStore((state) => state.userSigNonce);
-  const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
   const currentProfile = useAppStore((state) => state.currentProfile);
 
   const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
