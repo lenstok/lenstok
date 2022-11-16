@@ -36,7 +36,7 @@ const SuggestedAccounts = () => {
                   </div>
                 ) : (
                   <div className="w-8 h-8">
-                    <img
+                    <Image
                       src={profile.picture.original.url}
                       width={34}
                       height={34}
