@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { FC } from "react";
 import type { Publication } from "@/types/lens";
 import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
@@ -14,13 +15,13 @@ const VideoCard: FC<Props> = ({ publication }) => {
     <div className="flex flex-col border-b-2 border-gray-200 pb-6">
       <div>
         <div className="flex gap-3 p-2 mt-4 cursor-pointer font-semibold rounded ">
+        <Link href={`/profile/${publication.profile.id}`} key={publication.profile.id}>
           <div className="md:w-16 md:h-16 w-10 h-10">
-            <Link href={`/profile/${publication.profile.id}`} key={publication.profile.id}>
               <>
                {publication.profile.picture?.__typename === "MediaSet" ? (
                 publication.profile.picture.original?.url.includes("ipfs") ? (
                   <div>
-                    <img
+                    <Image
                     src={sanitizeIpfsUrl(publication.profile.picture.original.url)}
                     width={62}
                     height={62}
@@ -29,7 +30,7 @@ const VideoCard: FC<Props> = ({ publication }) => {
                     />
                   </div>
                 ) : (
-                  <img
+                  <Image
                    src={publication.profile.picture.original.url}
                    width={62}
                    height={62}
@@ -39,8 +40,8 @@ const VideoCard: FC<Props> = ({ publication }) => {
                 )
                ) : null}
               </>
+              </div>
             </Link>
-          </div>
         <div>
           <Link href={`/profile/${publication.profile.id}`} key={publication.profile.id}>
             <div className="flex items-center gap-2">
