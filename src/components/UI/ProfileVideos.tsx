@@ -2,22 +2,18 @@
 import React, { useRef, useState } from 'react';
 import Link from "next/link";
 import { PublicationsDocument, PublicationsQueryRequest, PaginatedPublicationResult} from "@/types/lens";
-import type { Publications, Publication } from "@/types/lens";
 import { useQuery } from "@apollo/client";
 import { useRouter } from 'next/router';
 import type { FC } from "react";
 import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
 
-interface Props {
-    publication: Publications;
-  }
 
   const ProfileVideos = () => {
     const router = useRouter();
     const { id } = router.query
 
   const { data, loading, error } = useQuery
-  <{publications: PaginatedPublicationResult ;}>
+  <{publications: PaginatedPublicationResult}>
   ((PublicationsDocument), {
     variables: { 
       request: {

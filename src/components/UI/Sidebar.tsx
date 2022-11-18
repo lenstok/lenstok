@@ -8,10 +8,12 @@ import Discover from "@/components/Discover";
 import SuggestedAccounts from "@/components/SuggestedAccounts";
 import Footer from "./Footer";
 import LoginButton from "@/components/LoginButton";
+import { useAppStore } from "@/store/app";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(true);
   const { pathname } = useRouter();
+  const currentProfile = useAppStore((state) => state.currentProfile);
 
   const userProfile = false;
 
@@ -51,12 +53,16 @@ const Sidebar = () => {
               </div>
             </Link>
           </div>
-          <div className="px-2 py-4 hidden lg:block">
-            <p className="text-gray-400">
-              Log in to like and comment on videos
-            </p>
-            <LoginButton />
-          </div>
+            {currentProfile ? (
+              null
+              ) : (
+                <div className="px-2 py-4 hidden lg:block">
+                  <p className="text-gray-400">
+                    Log in to like and comment on videos
+                  </p>
+                  <LoginButton />
+                </div>
+              )}
           <SuggestedAccounts />
           <Discover />
           <Footer />

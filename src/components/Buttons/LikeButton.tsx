@@ -18,6 +18,7 @@ const LikeButton: FC<Props> = ({publication}) => {
   const { pathname } = useRouter()
   const currentProfile = useAppStore((state) => state.currentProfile)
   const [alreadyLiked, setAlreadyLiked] = useState((publication.reaction) === "UPVOTE");
+  console.log(alreadyLiked)
   const [count, setCount] = useState(publication.stats.totalUpvotes)
 
   function useAddReactionMutation(
@@ -68,8 +69,7 @@ const LikeButton: FC<Props> = ({publication}) => {
     update: (cache) => updateCache(cache, ReactionTypes.Downvote)
   })
 
-  const createLike = (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
+  const createLike = () => {
     if (!currentProfile) {
       throw new Error("No Profile dected");
     }
