@@ -4,12 +4,12 @@ import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import Link from "next/link";
 import type { FC } from "react";
 import type { Publication } from "@/types/lens";
-import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
 
 import LikeButton from  "@/components/Buttons/LikeButton";
 import MirrorButton from  "@/components/Buttons/MirrorButton";
 import CommentButton from  "@/components/Buttons/CommentButton";
 import CollectButton from  "@/components/Buttons/CollectButton";
+import getMedia from "@/lib/getMedia";
 
 interface Props {
   publication: Publication;
@@ -36,8 +36,6 @@ const Video: FC<Props> = ({ publication }) => {
     }
   }, [isVideoMuted]);
 
-  const url = sanitizeIpfsUrl(publication.metadata.media[0].original.url);
-
   return (
     <div className="lg:ml-20 flex gap-4 relative">
       <div
@@ -49,7 +47,7 @@ const Video: FC<Props> = ({ publication }) => {
           <video
             loop
             ref={videoRef}
-            src={url}
+            src={getMedia(publication)}
             className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
           ></video>
         </Link>

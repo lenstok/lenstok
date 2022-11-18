@@ -14,11 +14,10 @@ interface Props {
 
 const CommentButton: FC<Props> = ({ publication }) => {
     const [alreadyCommented, setAlreadyLiked] = useState(false);
-    const videoRef = useRef(publication?.metadata?.media[0]?.original?.url);
 
     return (
        <div className="flex gap-6">
-         <Link ref={videoRef} href={`/detail/${publication.id}`}> 
+         <Link href={`/detail/${publication.id}`}> 
         <div className="mt-4 flex flex-col justify-center items-center cursor-pointer">        
         {alreadyCommented ? (
          

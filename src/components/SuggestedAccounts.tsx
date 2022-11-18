@@ -21,15 +21,16 @@ const SuggestedAccounts = () => {
       <div>
         {data?.recommendedProfiles.slice(0, 5).map((profile) => (
           <Link href={`/profile/${profile.id}`} key={profile.id}>
-            <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded">
-              <img
-                src={getAvatar(profile)}
-                width={34}
-                height={34}
-                alt={profile.handle}
-                className="rounded-full"
-              />
-
+            <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded items-center">
+              <div className="relative h-[32px] w-[32px]">
+                <Image
+                  src={getAvatar(profile)}
+                  alt={profile.handle}
+                  className="rounded-full"
+                  layout="fill"
+                />
+              </div>
+              <div/>
               <div className="hidden lg:block">
                 <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
                   {profile.handle}

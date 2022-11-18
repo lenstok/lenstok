@@ -9,6 +9,7 @@ import { useAppStore } from "src/store/app";
 
 import ProfileVideos from "@/components/UI/ProfileVideos";
 import UnfollowButton from './Buttons/UnfollowButton';
+import getAvatar from '@/lib/getAvatar';
 
 interface Props {
     profile: Profile
@@ -24,27 +25,14 @@ interface Props {
         <div className='w-full'>
             <div className='flex gap-6 md:gap-10 mb-4 bg-white w-full'>
                 <div className='w-16 h-16 md:w-32 md:h-32'>
-                    { profile?.picture?.__typename === "MediaSet" ? (
-                        profile.picture.original?.url.includes("ipfs") ? (
                     <Image
-                    src={sanitizeIpfsUrl(profile?.picture.original.url)}
+                    src={getAvatar(profile)}
                     width={120}
                     height={120}
                     className='rounded-full'
-                    alt={profile.handle}
+                    alt=""
                     layout='responsive'
                     />
-                    ) : (
-                    <Image
-                    src={profile?.picture.original.url}
-                    width={120}
-                    height={120}
-                    className='rounded-full'
-                    alt={profile.handle}
-                    layout='responsive'
-                    />
-                    )
-                    ) : <div className="bg-emerald-900 w-[120px] h-[120px] rounded-full" />}
                 </div>
 
                 <div className='flex flex-col justify-center'> 
@@ -58,9 +46,9 @@ interface Props {
                       {itsNotMe ? (
                         <div>
                         { following ? (
-                            <UnfollowButton setFollowing={setFollowing} profile={profile as Profile}  />
+                            <UnfollowButton  />
                         ) : (
-                            <FollowButton setFollowing={setFollowing}  />
+                            <FollowButton  />
                         )
                         }
                         </div>
@@ -73,7 +61,7 @@ interface Props {
 
             <div>
                 <div className='flex gap-6 flex-wrap md:justify-start'>
-                <ProfileVideos/>
+                <ProfileVideos />
                 </div>
             </div>
         </div>
