@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Button from "./Button";
 import Asset from "./Asset";
-import { useCreateAsset } from "@livepeer/react";
+import { useCreateAsset, usePlaybackInfo } from "@livepeer/react";
 
 const VideoUpload = () => {
   const ref = useRef<HTMLInputElement>(null);
@@ -32,7 +32,8 @@ const VideoUpload = () => {
       return;
     }
   };
-  console.log("Assets", progress);
+  if (progress) console.log("Progress", progress);
+  console.log("Assets", assets);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
