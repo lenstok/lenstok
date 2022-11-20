@@ -2739,6 +2739,8 @@ export type PublicMediaResults = {
 
 export type Publication = Comment | Mirror | Post;
 
+export type Publications = Comment | Mirror | Post;
+
 /** The publication content warning */
 export enum PublicationContentWarning {
   Nsfw = 'NSFW',
