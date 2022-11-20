@@ -1,36 +1,23 @@
 //this is just the profile pic and info 
 
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, FC, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { GoVerified } from 'react-icons/go';
-import { ProfileDocument, PublicationsDocument, ProfileQuery} from '@/types/lens';
-import type { Publication } from "@/types/lens";
-import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
+import { Profile} from '@/types/lens';
 import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 import FollowButton from  "@/components/Buttons/FollowButton";
 import { useAppStore } from "src/store/app";
 
 import ProfileVideos from "@/components/UI/ProfileVideos";
+import UnfollowButton from './Buttons/UnfollowButton';
+import getAvatar from '@/lib/getAvatar';
 
-    const ProfileCard = () => {
+interface Props {
+    profile: Profile
+}
+    const ProfileCard: FC<Props> = ({ profile }) => {
         const currentProfile = useAppStore((state) => state.currentProfile);
-        const [isPlaying, setIsPlaying] = useState<boolean>(false);
-        const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
-    
-        const router = useRouter();
-        const { id } = router.query
-    
-        const { data, loading, error } = useQuery
-        (ProfileDocument, {
-          variables: { 
-            request: {
-                profileId: id,
-            }
-           },
-        });
-        const profile = data?.profile
-        console.log("Profile", profile);
+        const [following, setFollowing] = useState(profile?.isFollowedByMe)
+        console.log(following)
 
         const itsNotMe = profile?.id !== currentProfile?.id
 
@@ -38,27 +25,14 @@ import ProfileVideos from "@/components/UI/ProfileVideos";
         <div className='w-full'>
             <div className='flex gap-6 md:gap-10 mb-4 bg-white w-full'>
                 <div className='w-16 h-16 md:w-32 md:h-32'>
-                    { profile?.picture?.__typename === "MediaSet" ? (
-                        profile.picture.original?.url.includes("ipfs") ? (
                     <Image
-                    src={sanitizeIpfsUrl(profile?.picture.original.url)}
+                    src={getAvatar(profile)}
                     width={120}
                     height={120}
                     className='rounded-full'
-                    alt={profile.handle}
+                    alt=""
                     layout='responsive'
                     />
-                    ) : (
-                    <Image
-                    src={profile?.picture.original.url}
-                    width={120}
-                    height={120}
-                    className='rounded-full'
-                    alt={profile.handle}
-                    layout='responsive'
-                    />
-                    )
-                    ) : <div className="bg-emerald-900 w-[120px] h-[120px] rounded-full" />}
                 </div>
 
                 <div className='flex flex-col justify-center'> 
@@ -71,7 +45,12 @@ import ProfileVideos from "@/components/UI/ProfileVideos";
                 
                       {itsNotMe ? (
                         <div>
-                        <FollowButton />
+                        { following ? (
+                            <UnfollowButton  />
+                        ) : (
+                            <FollowButton  />
+                        )
+                        }
                         </div>
                       ) : (
                         null
@@ -82,7 +61,7 @@ import ProfileVideos from "@/components/UI/ProfileVideos";
 
             <div>
                 <div className='flex gap-6 flex-wrap md:justify-start'>
-                <ProfileVideos/>
+                <ProfileVideos />
                 </div>
             </div>
         </div>

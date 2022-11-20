@@ -51,12 +51,12 @@ const Sidebar = () => {
               </div>
             </Link>
           </div>
-          <div className="px-2 py-4 hidden lg:block">
-            <p className="text-gray-400">
-              Log in to like and comment on videos
-            </p>
-            <LoginButton />
-          </div>
+            <div className="px-2 py-4 hidden lg:block">
+              <p className="text-gray-400">
+                Log in to like and comment on videos
+              </p>
+              <LoginButton />
+            </div>
           <SuggestedAccounts />
           <Discover />
           <Footer />

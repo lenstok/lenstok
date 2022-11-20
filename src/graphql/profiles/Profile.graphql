@@ -1,4 +1,4 @@
-query Profile($request: SingleProfileQueryRequest!) {
+query Profile($request: SingleProfileQueryRequest!, $who: ProfileId) {
   profile(request: $request) {
     id
     name
@@ -10,6 +10,8 @@ query Profile($request: SingleProfileQueryRequest!) {
       value
     }
     followNftAddress
+    isFollowedByMe
+    isFollowing(who: $who)
     metadata
     isDefault
     picture {

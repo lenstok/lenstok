@@ -5,6 +5,7 @@ import Image from "next/image";
 import { GoVerified } from "react-icons/go";
 import { RecommendedProfilesDocument } from "@/types/lens";
 import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
+import getAvatar from "@/lib/getAvatar";
 
 const SuggestedAccounts = () => {
   const { data, loading, error } = useQuery(RecommendedProfilesDocument, {
@@ -20,40 +21,23 @@ const SuggestedAccounts = () => {
       <div>
         {data?.recommendedProfiles.slice(0, 5).map((profile) => (
           <Link href={`/profile/${profile.id}`} key={profile.id}>
-            <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded">
-              {profile.picture?.__typename === "MediaSet" ? (
-                profile.picture.original &&
-                profile.picture.original?.url.includes("ipfs") ? (
-                  <div className="w-8 h-8">
-                    <Image
-                      src={sanitizeIpfsUrl(profile.picture.original.url)}
-                      width={34}
-                      height={34}
-                      alt={profile.handle}
-                      className="rounded-full"
-                      layout="responsive"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-8 h-8">
-                    <Image
-                      src={profile.picture.original.url}
-                      width={34}
-                      height={34}
-                      alt={profile.handle}
-                      className="rounded-full"
-                    />
-                  </div>
-                )
-              ) : <div className="bg-emerald-900 w-8 h-8 rounded-full" />}
-
+            <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded items-center">
+              <div className="relative h-[32px] w-[32px]">
+                <Image
+                  src={getAvatar(profile)}
+                  alt={profile.handle}
+                  className="rounded-full"
+                  layout="fill"
+                />
+              </div>
+              <div/>
               <div className="hidden lg:block">
                 <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
                   {profile.handle}
                   <GoVerified className="text-blue-400" />
                 </p>
                 <p className="cpaitalize text-gray-400 text-xs">
-                  {profile.name}
+                  {profile.name} {""}
                 </p>
               </div>
             </div>

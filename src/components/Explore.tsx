@@ -3,6 +3,7 @@ import {
   ExplorePublicationResult,
   ReactionRequest,
   PostFieldsFragmentDoc,
+  Profile,
 } from "@/types/lens";
 import type { Publication } from "@/types/lens";
 import { useQuery } from "@apollo/client";
@@ -30,7 +31,7 @@ const Explore = () => {
   return (
     <div>
       {publications?.map((pub: Publication) => (
-        <VideoCard key={pub.id} publication={pub as Publication} />
+        <VideoCard key={pub.id} publication={pub as Publication} profile={pub.profile as Profile} />
       ))}
     </div>
   );
