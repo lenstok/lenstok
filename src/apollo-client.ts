@@ -10,6 +10,9 @@ import {
   from,
   InMemoryCache,
 } from "@apollo/client";
+import result from "./types/lens";
+import { publicationKeyFields } from "./lib/keyFields";
+import cursorBasedPagination from "./lib/cursorBasedPagination";
 
 const REFRESH_AUTHENTICATION_MUTATION = `
     mutation Refresh($request: RefreshRequest!) {
@@ -94,5 +97,39 @@ const authLink = new ApolloLink((operation, forward) => {
 
 export const apolloClient = new ApolloClient({
   link: from([errorLink, authLink, httpLink]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    possibleTypes: result.possibleTypes,
+  typePolicies: {
+    Post: { keyFields: publicationKeyFields },
+    Comment: { keyFields: publicationKeyFields },
+    Mirror: { keyFields: publicationKeyFields },
+    Query: {
+      fields: {
+        timeline: cursorBasedPagination(['request', ['profileId']]),
+        feed: cursorBasedPagination(['request', ['profileId', 'feedEventItemTypes']]),
+        feedHighlights: cursorBasedPagination(['request', ['profileId']]),
+        explorePublications: cursorBasedPagination(['request', ['sortCriteria', 'metadata']]),
+        publications: cursorBasedPagination([
+          'request',
+          ['profileId', 'commentsOf', 'publicationTypes', 'metadata']
+        ]),
+        nfts: cursorBasedPagination(['request', ['ownerAddress', 'chainIds']]),
+        notifications: cursorBasedPagination(['request', ['profileId', 'notificationTypes']]),
+        followers: cursorBasedPagination(['request', ['profileId']]),
+        following: cursorBasedPagination(['request', ['address']]),
+        search: cursorBasedPagination(['request', ['query', 'type']]),
+        profiles: cursorBasedPagination([
+          'request',
+          ['profileIds', 'ownedBy', 'handles', 'whoMirroredPublicationId']
+        ]),
+        whoCollectedPublication: cursorBasedPagination(['request', ['publicationId']]),
+        whoReactedPublication: cursorBasedPagination(['request', ['publicationId']]),
+        mutualFollowersProfiles: cursorBasedPagination([
+          'request',
+          ['viewingProfileId', 'yourProfileId', 'limit']
+        ])
+      }
+    }
+  }
+  }),
 });
