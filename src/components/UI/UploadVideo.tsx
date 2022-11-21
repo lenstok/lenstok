@@ -12,6 +12,7 @@ const Upload = () => {
     const [wrongFileType, setWrongFileType] = useState(false);
 
     const [caption, setCaption] = useState('');
+    const [title, setTitle] = useState('');
     const [category, setCategory] = useState(topics[0].name); //this is a placeholder for now
 
     const uploadVideo = async (e: any) => {
@@ -97,8 +98,17 @@ const Upload = () => {
                     </div>
                 </div>
 
+                 {/* //start form// */}
                 <div className='flex flex-col gap-3 pb-10'>
-                        <label className='text-md font-medium'>Caption</label>
+                         <label className='text-md font-medium'>Title</label>
+                        <input
+                        type='text'
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className='rounded lg:after:w-650 outline-none text-md border-2 border-gray-200 p-2'
+                        ></input>
+
+                        <label className='text-md font-medium'>Description</label>
                         <input
                         type='text'
                         value={caption}
@@ -121,6 +131,7 @@ const Upload = () => {
                             </option>
                            ))};
                         </select>
+
                         <div className='flex gap-6 mt-10'>
                             <button
                                 onClick={() => {}}
