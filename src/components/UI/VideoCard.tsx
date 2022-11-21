@@ -17,7 +17,7 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
       <div>
         <div className="flex gap-3 p-2 mt-4 cursor-pointer font-semibold rounded ">
         <Link href={`/profile/${profile.id}`} key={profile.id}>
-          <a className="md:w-16 md:h-16 w-10 h-10">
+          <div className="md:w-16 md:h-16 w-10 h-10">
             <Image
               src={getAvatar(profile)}
               width={62}
@@ -26,7 +26,7 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
               className="rounded-full"
               layout="responsive"
               />
-          </a>
+          </div>
             </Link>
         <div>
           <Link href={`/profile/${profile.id}`} key={profile.id}>

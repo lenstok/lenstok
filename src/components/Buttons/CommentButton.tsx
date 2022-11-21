@@ -18,7 +18,7 @@ const CommentButton: FC<Props> = ({ publication }) => {
     return (
        <div className="flex gap-6">
          <Link href={`/detail/${publication.id}`}> 
-        <a className="mt-4 flex flex-col justify-center items-center cursor-pointer">        
+        <div className="mt-4 flex flex-col justify-center items-center cursor-pointer">        
         {alreadyCommented ? (
          
           <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3">
@@ -31,7 +31,7 @@ const CommentButton: FC<Props> = ({ publication }) => {
           </div>
         )}
         <p className="text-xs font-semibold text-gray-400">{publication.stats.totalAmountOfComments}</p>
-        </a>
+        </div>
         </Link>
         </div>
     );
