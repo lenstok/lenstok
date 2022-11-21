@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 
 import Discover from "@/components/Discover";
 import SuggestedAccounts from "@/components/SuggestedAccounts";
+import FollowingAccounts from "@/components/FollowingAccounts";
 import Footer from "./Footer";
 import LoginButton from "@/components/LoginButton";
 
@@ -58,6 +59,7 @@ const Sidebar = () => {
               <LoginButton />
             </div>
           <SuggestedAccounts />
+          <FollowingAccounts />
           <Discover />
           <Footer />
         </div>

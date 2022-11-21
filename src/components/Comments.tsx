@@ -33,24 +33,22 @@ const Comments: FC<Props> = ({publication}) => {
     console.log("Comments", comments);
 
     return (
-        <div className="border-t-2 border-gray-200 pt-4 px-10 mt-4 bg-[#F8F8F8] border-b-2 lg:pb-0 pb-[100px]">
-            <div className="overflow-scroll lg:h-[475px]">
-                {comments?.length ? (
-                comments?.map((comment) =>
-                    <>
-                        <div className="p-2 items-center">
-                            <Link href="/">
-                                <div className="flex items-start gap-3">
-                                    <div className="w-12 h-12">
-                                        {comment.profile.picture?.__typename === "MediaSet" ? (
-                                        comment.profile.picture.original.url.includes("ipfs") ? (
+    <div className="overflow-y-auto">
+        <div className=" h-screen flex-grow flex flex-col items-stretch gap-3 overflow-y-auto bg-[#F8F8F8] p-5">
+            { comments?.length ? (
+              comments?.map((comment) => 
+                <>
+                <div className="flex gap-2">
+                    <Link href={`/profile/${comment.profile.id}`} key={comment.profile.id}>
+                        <div className="flex-shrink-0 rounded-full">
+                        {comment.profile.picture?.__typename === "MediaSet" ? (
+                          comment.profile.picture.original.url.includes("ipfs") ? (
                                             <Image
-                                            width={48}
-                                            height={48}
+                                            width={40}
+                                            height={40}
                                             className="rounded-full cursor-pointer"
                                             src={sanitizeIpfsUrl(comment.profile.picture.original.url)}
                                             alt={comment.profile.handle}
-                                            layout="responsive" 
                                             />
                                         ) : (
                                             <Image
@@ -59,35 +57,35 @@ const Comments: FC<Props> = ({publication}) => {
                                             className="rounded-full cursor-pointer"
                                             src={comment.profile.picture.original.url}
                                             alt={comment.profile.handle}
-                                            layout="responsive" 
                                             />
                                         )
                                         ) : null}
-                                    </div>
-
-                                    <p className="flex cursor-pointer gap-1 items-center text-[18px] font-bold leading-6 text-primary">
-                                        {comment.profile.handle}
-                                    </p>
-                                </div>
-                            </Link>
-                            <div>
-                                <p className="-mt-5 ml-16 text-[16px] mr-8">
-                                    {comment.metadata.content}
-                                </p>
-                            </div>
-                        </div>
+                         </div>
+                    </Link>
+                    <div className="flex-grow">
+                        <p className="font-bold hover:underline">
+                        {comment.profile.handle}
+                        </p>
+                        <p
+                         style={{
+                         wordWrap: "break-word",
+                         overflowWrap: "break-word",
+                         }}
+                        >
+                        {comment.metadata.content}
+                        </p>
+                    </div>
+                    </div>
                     </>
-                )
-                ) : (
-                    <NoResults text='No Comments Yet! Be the first...' />
-                )}
-            </div>
-            {
-                currentProfile ? <CreateComment publication={publication as Publication} /> : <LoginButton />
-            }
-        </div>
-    ) 
+              )
+ ) : (
+     <NoResults text='No Comments Yet! Be the first...' />
+ ) }
+</div>
+
+</div>
+
+);
 }
 
 export default Comments;
-

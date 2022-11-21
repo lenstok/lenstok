@@ -1,25 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, FC } from 'react';
+import type { NextPage } from "next";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import toast from "react-hot-toast";
 import { MdOutlineCancel } from 'react-icons/md';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
-import Comments from '../../components/Comments';
+import Comments from '../Comments';
 import { useQuery } from '@apollo/client';
 import { Publication, PublicationDocument } from '@/types/lens';
 import getMedia from '@/lib/getMedia';
 import getAvatar from '@/lib/getAvatar';
+import { copyToClipboard } from "@/utils/clipboard";
+
+import { AiFillHeart, AiFillTwitterCircle } from "react-icons/ai";
+import { BsFacebook, BsReddit } from "react-icons/bs";
+import { FaCommentDots, FaTimes } from "react-icons/fa";
+import LikeButton from '../Buttons/LikeButton';
+import MirrorButton from '../Buttons/MirrorButton';
+import CommentButton from '../Buttons/CommentButton';
+import CreateComment from '../CreateComment';
+import LoginButton from '../LoginButton';
+import { useAppStore } from "src/store/app";
+
 
 const VideoDetail = () => {
+    const currentProfile = useAppStore((state) => state.currentProfile);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();
     const { id } = router.query
-
+    
     const { data, loading, error } = useQuery(PublicationDocument, {
       variables: { 
         request: {
@@ -32,6 +47,9 @@ const VideoDetail = () => {
 
     const publication = data?.publication
     console.log("Publication", publication)
+
+    const Links = `http://localhost:3000/detail/${publication?.id}`
+    const Title = `${profile?.handle} on Lenstok`
 
     const onVideoClick = () => {
       if (isPlaying) {
@@ -50,89 +68,127 @@ const VideoDetail = () => {
     }, [isVideoMuted]);
 
     return (
-        <div className='flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
-        <div className='relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-emerald-800'>
-          <div className='opacity-90 absolute top-6 left-2 lg:left-6 flex gap-6 z-50'>
-            <p className='cursor-pointer ' onClick={() => router.back()}>
-              <MdOutlineCancel className='text-black text-[35px] hover:opacity-90' /> {/*This is cancel button*/}
-            </p>
+       <div className="flex flex-col lg:flex-row lg:h-screen items-stretch">
+        <div className="lg:flex-grow flex justify-center items-center relative bg-emerald-800">
+           <video
+              className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full"
+              ref={videoRef}
+               onClick={onVideoClick}
+               loop
+               src={getMedia(publication)}
+              // poster={video.coverURL}
+              controls
+              playsInline
+            ></video>
+         <div className="absolute top-5 left-5 flex gap-3">
+           <button
+             onClick={() => router.back()}
+             className="bg-[#3D3C3D] w-[40px] h-[40px] rounded-full flex justify-center items-center">
+             <FaTimes className="w-5 h-5 fill-white cursor-pointer" />
+            </button>
           </div>
-          <div className='relative'>
-            <div className='lg:h-[100vh] h-[60vh]'>
-                <video
-                  ref={videoRef}
-                  onClick={onVideoClick}
-                  loop
-                  src={getMedia(publication)}
-                  className='h-full cursor-pointer'
-                  >
-                </video>
-                    </div>
-                    <div className="absolute top-[45%] left-[45%] cursor-pointer">
-                    {!isPlaying && (
-                      <button onClick={onVideoClick}>
-                        <BsFillPlayFill className="text-white text-6xl lg:text-8xl"/>
-                      </button>
-                    )}
-                   </div>
-                </div>
+        </div>
 
-            <div className="absolute bottom-5 lg:bottom-10 right-5 lg:right-10 cursor-pointer">
-              {isVideoMuted ? (
-                <button onClick={() => setIsVideoMuted(false)}>
-                  <HiVolumeOff className='text-white text-3xl lg:text-4xl' />
-                </button>
-              ) : (
-                <button onClick={() => setIsVideoMuted(true)}>
-                  <HiVolumeUp className='text-white text-3xl lg:text-4xl' />
-                </button>
-              )}
-            </div>
-            </div>
-
-        <div className="relative w-[1000px] md:w-[900px] lg:w-[700px]">
-          <div className="lg:mt-20 mt-10">
-            <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
-              <div className="ml-4 md:w-20 md:h-20 w-16 h-16">
-                <Link href="/">
-                  <>
+        <div className="w-full lg:w-[500px] flex-shrink-0 flex flex-col items-stretch h-screen">
+          <div className="px-4 pt-10 pb-4 flex-shrink-0 border-b">
+            <div className="flex">
+            <Link  href={`/profile/${profile?.id}`} key={profile?.id}>
+                  <a className="mr-3 flex-shrink-0 rounded-full">
                     <Image
-                    width={62}
-                    height={62}
-                    className="rounded-full"
-                    src={getAvatar(profile)}
-                    alt="profile photo"
-                    layout="responsive"
+                     src={getAvatar(profile)}
+                      alt="profile pic here"
+                      height={62}
+                      width={62}
+                      className="rounded-full"
                     />
-                  </>
+                  </a>
                 </Link>
+              <div className='flex flex-col flex-grow justify-center'>
+              <Link href={`/`}>
+                <a className="font-bold block hover:underline items-center text-primary">
+                {profile?.name}
+                </a>
+                </Link>
+                <p className="capitalize font-medium text-sm text-gray-500">
+                {profile?.handle}
+                </p>
               </div>
-              <div>
-                <Link href="/"> 
-                  <div className="mt-3 flex flex-col gap-2">
-                    <p className="flex gap-2 items-center md:text-md font-bold text-primary">
-                      {profile?.name}
+              <div className="flex-shrink-0">
+              <button className='py-1 px-3 rounded text-sm mt-2 border border-pink text-pink hover:bg-[#FFF4F5] transition'>
+              Follow button
+              </button>
+              </div>
+            </div>
+            <p className="my-3 pb-3 text-lg text-gray-600" style={{ wordWrap: "break-word", overflowWrap: "break-word" }}>
+             {publication?.metadata.content.slice(0, 175)}
+            </p>
+
+            {/* BUTTONS */}
+            <div className="flex justify-between items-center">
+              <div className="flex gap-5">
+                <div className="flex items-center gap-1">
+                  <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full"
+                    >
+                      <AiFillHeart
+                        className='w-5 h-5'
+                      />
+                  </button>
+                  <span className="text-center text-xs font-semibold">
+                      {"LIKES COUNT"}
+                    </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
+                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" />
+                  </button>
+                  <p className="text-center text-xs font-semibold">
+                      {"COMMENT COUNT"}
                     </p>
-                    <p className="capitalize font-medium text-xs text-gray-500 hidden md:block">
-                      {profile?.handle}
-                    </p>
-                  </div>
-                </Link>
-              </div> 
+                </div>
+              </div>
+              <div className="flex gap-1 items-center">
+                 <a
+                  href={`http://twitter.com/share?text=${encodeURIComponent(
+                    Title
+                  )}&url=${encodeURIComponent(Links)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <AiFillTwitterCircle className="fill-[#05AAF4] w-8 h-8" />
+                </a>
+                </div>
             </div>
 
-              <p className="px-10 text-lg text-gray-600">{publication?.metadata.content}</p>
-
-          <div className='mt-10 px-10'>
-            {/* <LikeButton/> */}
+            <div className="flex items-stretch mt-3">
+              <input 
+                  // @ts-ignore
+                  onClick={(e) => e.target?.select?.()}
+                  className="bg-[#F1F1F2] p-2 flex-grow text-sm border outline-none"
+                  readOnly
+                  type="text"
+                  value={Links}
+                />
+              <button
+                  className="flex-shrink-0 border px-2 active:bg-green-800 cursor-pointer"
+                  onClick={() => {
+                    copyToClipboard(Links)
+                  }}
+                  >
+                  Copy link
+                </button>
+            </div>
           </div>
+
           <Comments key={publication?.profile.id} publication={publication as Publication} />
-          </div>
-        </div>
+
+          {
+                currentProfile ? <CreateComment publication={publication as Publication} /> 
+                : <div className='flex-shrink-0 flex pt-1 p-4 border-t'><LoginButton /></div>
+            }
 
         </div>
+       </div>
     ) 
 }
-
 
 export default VideoDetail
