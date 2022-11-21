@@ -1,41 +1,27 @@
-import {
-  ExplorePublicationsDocument,
-  ExplorePublicationResult,
-  ReactionRequest,
-  PostFieldsFragmentDoc,
-  Profile,
-} from "@/types/lens";
-import type { Publication } from "@/types/lens";
-import { useQuery } from "@apollo/client";
-import VideoCard from "@/components/UI/VideoCard";
-import { apolloClient } from "@/apollo-client";
 import type { NextPage } from "next";
 
-const Explore: NextPage = () => {
-  const { data, loading, error } = useQuery<{
-    explorePublications: ExplorePublicationResult;
-  }>(ExplorePublicationsDocument, {
-    variables: {
-      request: {
-        sortCriteria: "CURATED_PROFILES",
-        publicationTypes: ["POST"],
-        limit: 10,
-        metadata: {
-          mainContentFocus: ["VIDEO"],
-        },
-      },
-    },
-  });
-  const publications = data?.explorePublications.items;
-  console.log("DATA", data?.explorePublications.items);
-  
+import Navbar from "@/components/UI/Navbar";
+import Sidebar from "@/components/UI/Sidebar";
+import Explore from "@/components/Explore";
+
+
+
+const Home: NextPage = () => {
   return (
     <div>
-      {publications?.map((pub: Publication) => (
-        <VideoCard key={pub.id} publication={pub as Publication} profile={pub.profile as Profile} />
-      ))}
+      <div className="xl:w-[1200px] lg:w-[1100px] m-auto overflow-hidden h-[100vh]">
+        <Navbar />
+        <div className="flex gap-6 md:gap-20 ">
+          <div className="h-[92vh] overflow-hidden lg:hover:overflow-auto">
+            <Sidebar />
+          </div>
+          <div className="mt-4 flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
+            <Explore />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Explore;
+export default Home;
