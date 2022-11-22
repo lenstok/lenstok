@@ -13,11 +13,11 @@ import getAvatar from '@/lib/getAvatar';
 
 interface Props {
     profile: Profile
+    setFollowing: Dispatch<boolean>
+    following: boolean
 }
-    const ProfileCard: FC<Props> = ({ profile }) => {
+    const ProfileCard: FC<Props> = ({ profile, setFollowing, following }) => {
         const currentProfile = useAppStore((state) => state.currentProfile);
-        const [following, setFollowing] = useState(profile?.isFollowedByMe)
-        console.log(following)
 
         const itsNotMe = profile?.id !== currentProfile?.id
 
@@ -46,9 +46,9 @@ interface Props {
                       {itsNotMe ? (
                         <div>
                         { following ? (
-                            <UnfollowButton  />
+                            <UnfollowButton setFollowing={ setFollowing } profile={ profile as Profile } />
                         ) : (
-                            <FollowButton  />
+                            <FollowButton setFollowing={ setFollowing } profile={ profile as Profile }/>
                         )
                         }
                         </div>

@@ -8,6 +8,7 @@ import { CHAIN_ID } from "@/constants";
 import Loading from "./Loading";
 import ProfileCard from './ProfileCard';
 import Profiles from './Profiles';
+import VideoDetail from './UI/VideoDetail';
 
 
 const ProfileRender = () => {
@@ -105,7 +106,7 @@ const ProfileRender = () => {
 
   return (
     <div>
-      <Profiles/>
+      <VideoDetail/>
     </div>
   )
 }

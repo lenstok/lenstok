@@ -134,7 +134,7 @@ const VideoDetail = () => {
                       />
                   </button>
                   <span className="text-center text-xs font-semibold">
-                      {"LIKES COUNT"}
+                      {publication?.stats.totalUpvotes}
                     </span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -142,7 +142,7 @@ const VideoDetail = () => {
                       <FaCommentDots className="w-5 h-5 scale-x-[-1]" />
                   </button>
                   <p className="text-center text-xs font-semibold">
-                      {"COMMENT COUNT"}
+                      {publication?.stats.totalAmountOfComments}
                     </p>
                 </div>
               </div>

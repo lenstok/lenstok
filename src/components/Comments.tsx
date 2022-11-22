@@ -10,12 +10,13 @@ import { useRouter } from 'next/router';
 import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 import CreateComment from './CreateComment';
 import LoginButton from './LoginButton';
+import getComments from '@/lib/getComments';
 
 interface Props {
     publication: Publication;
 }
 
-const Comments: FC<Props> = ({publication}) => {
+const Comments: FC<Props> = ({ publication }) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     
     const router = useRouter()
@@ -72,7 +73,7 @@ const Comments: FC<Props> = ({publication}) => {
                          overflowWrap: "break-word",
                          }}
                         >
-                        {comment.metadata.content}
+                        {getComments(comment)}
                         </p>
                     </div>
                     </div>

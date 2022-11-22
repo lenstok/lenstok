@@ -1,5 +1,5 @@
 import { CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, Publication, PublicationMainFocus } from '@/types/lens';
-import React, { FC, useState } from 'react'
+import React, { Dispatch, FC, useState } from 'react'
 import { LENS_HUB_ABI } from '@/abi/abi';
 import { useAppStore } from "src/store/app";
 import { useContractWrite, useSignTypedData } from 'wagmi';
@@ -13,7 +13,7 @@ import { uploadIpfs } from '@/utils/ipfs';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
-  publication: Publication;
+  publication: Publication
 }
 
 const CreateComment: FC<Props> = ({ publication }) => {

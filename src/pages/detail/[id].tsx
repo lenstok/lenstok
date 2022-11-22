@@ -1,3 +1,3 @@
-import VideoDetail from "@/components/UI/VideoDetail";
+import DetailRender from "@/components/DetailRender";
 
-export default VideoDetail
+export default DetailRender
