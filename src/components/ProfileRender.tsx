@@ -1,9 +1,3 @@
-import type { NextPage } from "next";
-
-import Navbar from "@/components/UI/Navbar";
-import Sidebar from "@/components/UI/Sidebar";
-import Explore from "@/components/Explore";
-
 import * as Apollo from '@apollo/client';
 
 import { useEffect, useState } from "react";
@@ -12,10 +6,12 @@ import { useAccount, useDisconnect, useNetwork } from 'wagmi';
 import { Profile, ReferenceModules, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from "@/types/lens";
 import { CHAIN_ID } from "@/constants";
 import Loading from "./Loading";
+import ProfileCard from './ProfileCard';
+import Profiles from './Profiles';
 
 
-const Home: NextPage = () => {
-  const [mounted, setMounted] = useState(false);
+const ProfileRender = () => {
+    const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -106,22 +102,12 @@ const Home: NextPage = () => {
   if (loading || !mounted) {
     return <Loading />
   }
-  
+
   return (
     <div>
-      <div className="xl:w-[1200px] lg:w-[1100px] m-auto overflow-hidden h-[100vh]">
-        <Navbar />
-        <div className="flex gap-6 md:gap-20 ">
-          <div className="h-[92vh] overflow-hidden lg:hover:overflow-auto">
-            <Sidebar />
-          </div>
-          <div className="mt-4 flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
-            <Explore />
-          </div>
-        </div>
-      </div>
+      <Profiles/>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default ProfileRender

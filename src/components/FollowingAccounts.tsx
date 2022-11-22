@@ -6,24 +6,26 @@ import { FollowingDocument, PaginatedFollowingResult, FollowingRequest, Profile 
 import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
 import getAvatar from "@/lib/getAvatar";
 import { useAppStore } from "@/store/app";
+import { useAccount } from "wagmi";
 
 const FollowingAccounts = () => {
   // const currentProfile = "0x1efDb7fBAc17c8c7C9C163741e6043aC9974381b"
   const currentProfile = useAppStore((state) => state.currentProfile)
   console.log('ADDRESSS', currentProfile?.id);
+  const { address } = useAccount()
 
   const { data, loading, error } = useQuery
   <{following: PaginatedFollowingResult}>
   ((FollowingDocument), {
     variables: { 
       request: {
-          address: "0x1efDb7fBAc17c8c7C9C163741e6043aC9974381b",
+          address: address,
           limit: 10,
       }
      },
   });
 
-    const iFollow = data?.following?.items;
+    const iFollow = data?.following.items
     console.log('I Follow', iFollow);
   
   return (
