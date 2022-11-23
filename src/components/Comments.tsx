@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAppStore } from "src/store/app";
@@ -17,8 +17,8 @@ interface Props {
 }
 
 const Comments: FC<Props> = ({ publication }) => {
-    const currentProfile = useAppStore((state) => state.currentProfile);
-    
+    const currentProfile = useAppStore((state) => state.currentProfile)
+
     const router = useRouter()
     const { id } = router.query
 
@@ -32,6 +32,7 @@ const Comments: FC<Props> = ({ publication }) => {
       });
     const comments = data?.publications.items
     console.log("Comments", comments);
+
 
     return (
     <div className="overflow-y-auto">
@@ -73,7 +74,7 @@ const Comments: FC<Props> = ({ publication }) => {
                          overflowWrap: "break-word",
                          }}
                         >
-                        {getComments(comment)}
+                        {comment.metadata.content}
                         </p>
                     </div>
                     </div>

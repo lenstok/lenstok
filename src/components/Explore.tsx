@@ -1,14 +1,11 @@
 import {
   ExplorePublicationsDocument,
   ExplorePublicationResult,
-  ReactionRequest,
-  PostFieldsFragmentDoc,
   Profile,
 } from "@/types/lens";
 import type { Publication } from "@/types/lens";
 import { useQuery } from "@apollo/client";
 import VideoCard from "@/components/UI/VideoCard";
-import { apolloClient } from "@/apollo-client";
 
 const Explore = () => {
   const { data, loading, error } = useQuery<{
