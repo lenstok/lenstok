@@ -9,8 +9,10 @@ import SuggestedAccounts from "@/components/SuggestedAccounts";
 import FollowingAccounts from "@/components/FollowingAccounts";
 import Footer from "./Footer";
 import LoginButton from "@/components/LoginButton";
+import { useAppStore } from '@/store/app';
 
 const Sidebar = () => {
+  const currentProfile = useAppStore((state) => state.currentProfile)
   const [showSidebar, setShowSidebar] = useState(true);
   const { pathname } = useRouter();
 
@@ -41,7 +43,7 @@ const Sidebar = () => {
                 <span className="text-lg hidden lg:block">For You</span>
               </div>
             </Link>
-            <Link href="/latest">
+            <Link href="/">
               <div className={normalLink}>
                 <p className="text-2xl text-[#25511f]">
                   <AiFillCalendar />
@@ -59,7 +61,11 @@ const Sidebar = () => {
               <LoginButton />
             </div>
           <SuggestedAccounts />
-          <FollowingAccounts />
+          {currentProfile ? (
+            <FollowingAccounts />
+          ) : (
+            null) 
+          }
           <Discover />
           <Footer />
         </div>

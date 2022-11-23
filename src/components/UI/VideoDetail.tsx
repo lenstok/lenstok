@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState, FC } from 'react';
+import React, { useEffect, useRef, useState, FC, Dispatch } from 'react';
 import type { NextPage } from "next";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { MdOutlineCancel } from 'react-icons/md';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 import Comments from '../Comments';
 import { useQuery } from '@apollo/client';
-import { Publication, PublicationDocument } from '@/types/lens';
+import { Publication, PublicationDocument, Profile } from '@/types/lens';
 import getMedia from '@/lib/getMedia';
 import getAvatar from '@/lib/getAvatar';
 import { copyToClipboard } from "@/utils/clipboard";
@@ -24,9 +24,17 @@ import CommentButton from '../Buttons/CommentButton';
 import CreateComment from '../CreateComment';
 import LoginButton from '../LoginButton';
 import { useAppStore } from "src/store/app";
+import UnfollowButton from '../Buttons/UnfollowButton';
+import FollowButton from '../Buttons/FollowButton';
+
+interface Props {
+  // profiles: Profile
+  setFollowing: Dispatch<boolean>
+  following: boolean
+}
 
 
-const VideoDetail = () => {
+const VideoDetail: FC<Props> = ({ setFollowing, following }) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
@@ -51,6 +59,8 @@ const VideoDetail = () => {
     const Links = `http://localhost:3000/detail/${publication?.id}`
     const Title = `${profile?.handle} on Lenstok`
 
+    const itsNotMe = profile?.id !== currentProfile?.id
+
     const onVideoClick = () => {
       if (isPlaying) {
         videoRef?.current?.pause();
@@ -69,7 +79,6 @@ const VideoDetail = () => {
 
     return (
        <div className="flex flex-col lg:flex-row lg:h-screen items-stretch">
-        <Toaster position="bottom-right" />
         <div className="lg:flex-grow flex justify-center items-center relative bg-emerald-800">
            <video
               className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full"
@@ -114,11 +123,24 @@ const VideoDetail = () => {
                 {profile?.handle}
                 </p>
               </div>
+
               <div className="flex-shrink-0">
-              <button className='py-1 px-3 rounded text-sm mt-2 border border-pink text-pink hover:bg-[#FFF4F5] transition'>
-              Follow button
-              </button>
+                              {itsNotMe ? (
+                             <div>
+                            { following ? (
+                                <UnfollowButton setFollowing={ setFollowing } profile={ profile as Profile } />
+                            ) : (
+                               <FollowButton setFollowing={ setFollowing } profile={ profile as Profile }/>
+                            )
+                            }
+                            </div>
+                           ) : (
+                            null
+                           )
+                           } 
               </div>
+
+
             </div>
             <p className="my-3 pb-3 text-lg text-gray-600" style={{ wordWrap: "break-word", overflowWrap: "break-word" }}>
              {publication?.metadata.content.slice(0, 175)}

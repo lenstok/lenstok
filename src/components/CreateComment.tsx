@@ -66,7 +66,6 @@ const CreateComment: FC<Props> = ({ publication }) => {
   const onCompleted = () => {
     setCommented(true);
     toast.success('Post has been commented!');
-    window.location.reload()
   };
 
   const { isLoading: writeLoading, write } = useContractWrite({
