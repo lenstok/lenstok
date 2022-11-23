@@ -1,4 +1,4 @@
-import { CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, Publication, PublicationMainFocus } from '@/types/lens';
+import { CommentFieldsFragmentDoc, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreatePublicCommentRequest, Publication, PublicationMainFocus } from '@/types/lens';
 import React, { Dispatch, FC, useState } from 'react'
 import { LENS_HUB_ABI } from '@/abi/abi';
 import { useAppStore } from "src/store/app";
@@ -11,6 +11,9 @@ import getSignature from '@/lib/getSignature';
 import { splitSignature } from 'ethers/lib/utils';
 import { uploadIpfs } from '@/utils/ipfs';
 import { v4 as uuidv4 } from 'uuid';
+import useBroadcast from '@/utils/useBroadcast';
+import { ApolloCache } from '@apollo/client';
+import { publicationKeyFields } from '@/lib/keyFields';
 
 interface Props {
   publication: Publication
@@ -18,6 +21,8 @@ interface Props {
 
 const CreateComment: FC<Props> = ({ publication }) => {
   const [comment, setComment] = useState("");
+  const userSigNonce = useAppStore((state) => state.userSigNonce);
+  const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
   
   const currentProfile = useAppStore((state) => state.currentProfile);
 
@@ -41,10 +46,27 @@ const CreateComment: FC<Props> = ({ publication }) => {
     )
   }
 
+  function useCreateCommentViaDispatcherMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+      CreateCommentViaDispatcherMutation,
+      CreateCommentViaDispatcherMutationVariables
+    >
+  ){
+    const options = {...baseOptions}
+    return Apollo.useMutation<
+      CreateCommentViaDispatcherMutation,
+      CreateCommentViaDispatcherMutationVariables
+    >(
+      CreateCommentViaDispatcherDocument,
+      options
+    )
+  }
+
   
   const onCompleted = () => {
     setCommented(true);
     toast.success('Post has been commented!');
+    window.location.reload()
   };
 
   const { isLoading: writeLoading, write } = useContractWrite({
@@ -56,6 +78,7 @@ const CreateComment: FC<Props> = ({ publication }) => {
     onError
   });
 
+  const { broadcast, loading: broadcastLoading } = useBroadcast({ onCompleted })
   const [createCommentTypedData, { loading: typedDataLoading }] = useCreateCommentTypedDataMutation({
     onCompleted: async ({ createCommentTypedData }) => {
       try {
@@ -96,8 +119,32 @@ const CreateComment: FC<Props> = ({ publication }) => {
     onError
   })
 
+  const [createCommentViaDispatcher, { loading: dispatcherLoading }] = useCreateCommentViaDispatcherMutation({
+    onCompleted,
+    onError
+  })
+
+  const createViaDispatcher = async (request: CreatePublicCommentRequest) => {
+    const { data } = await createCommentViaDispatcher({
+      variables: { request }
+    })
+    if (data?.createCommentViaDispatcher.__typename === 'RelayError') {
+      createCommentTypedData({
+        variables: {
+          options: { overrideSigNonce: userSigNonce },
+          request
+        }
+      })
+    }
+  }
+
+  const isLoading = typedDataLoading || dispatcherLoading || signLoading || writeLoading || broadcastLoading
+
     async function createComment (e: React.FormEvent) {
-      e.preventDefault()
+      if (!isLoading) {
+        e.preventDefault()
+      }
+      
       const ipfsResult = await uploadIpfs({
         version: '2.0.0',
         mainContentFocus: PublicationMainFocus.TextOnly,
@@ -127,14 +174,17 @@ const CreateComment: FC<Props> = ({ publication }) => {
         }
       }
 
-      return createCommentTypedData({
-        variables: {
-          request
-        }
-      })
+      if (currentProfile?.dispatcher?.canUseRelay) {
+        createViaDispatcher(request)
+      } else {
+        createCommentTypedData({
+          variables: {
+            options: { overrideSigNonce: userSigNonce },
+            request
+          }
+        })
+      }
     }
-
-    const isLoading = typedDataLoading || signLoading || writeLoading
 
   return (
    

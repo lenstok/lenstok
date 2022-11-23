@@ -10,6 +10,7 @@ import { useAppStore } from "src/store/app";
 import ProfileVideos from "@/components/UI/ProfileVideos";
 import UnfollowButton from './Buttons/UnfollowButton';
 import getAvatar from '@/lib/getAvatar';
+import MirrorVideos from './UI/MirrorVideos';
 
 interface Props {
     profile: Profile
@@ -20,6 +21,8 @@ interface Props {
         const currentProfile = useAppStore((state) => state.currentProfile);
 
         const itsNotMe = profile?.id !== currentProfile?.id
+
+        const [mirror, setMirror] = useState(false)
 
     return (
         <div className='w-full'>
@@ -59,9 +62,25 @@ interface Props {
                  </div>    
             </div>
 
+            <div className='flex gap-10 mb-10 mt-10 border-b-2 border-gray-200 bg-white w-full'>
+                <p className={`text-xl font-semibold cursor-pointer mt-2`} onClick={() => setMirror(false)}>
+                    Videos
+                </p>
+                <p className={`text-xl font-semibold cursor-pointer mt-2`} onClick={() => setMirror(true)}>
+                    Mirrored
+                </p>
+                <p className={`text-xl font-semibold cursor-pointer mt-2`}>
+                    Collected
+                </p>
+            </div>
+
             <div>
                 <div className='flex gap-6 flex-wrap md:justify-start'>
-                <ProfileVideos />
+                    {mirror ? (
+                        <MirrorVideos />
+                    ) : (
+                        <ProfileVideos />
+                    )}
                 </div>
             </div>
         </div>

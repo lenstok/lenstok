@@ -18,14 +18,16 @@ const LikeButton: FC<Props> = ({publication}) => {
   const { pathname } = useRouter()
   const currentProfile = useAppStore((state) => state.currentProfile)
   const [alreadyLiked, setAlreadyLiked] = useState((publication.reaction) === "UPVOTE");
-  console.log(alreadyLiked)
   const [count, setCount] = useState(publication.stats.totalUpvotes)
 
   function useAddReactionMutation(
     baseOptions?: Apollo.MutationHookOptions<AddReactionMutation, AddReactionMutationVariables>
   ) {
     const options = {...baseOptions}
-    return Apollo.useMutation<AddReactionMutation, AddReactionMutationVariables>(AddReactionDocument)
+    return Apollo.useMutation<AddReactionMutation, AddReactionMutationVariables>(
+      AddReactionDocument, 
+      options
+    )
   }
 
   const updateCache = (cache: ApolloCache<any>, type: ReactionTypes.Upvote | ReactionTypes.Downvote) => {
@@ -44,7 +46,10 @@ const LikeButton: FC<Props> = ({publication}) => {
     baseOptions?: Apollo.MutationHookOptions<RemoveReactionMutation, RemoveReactionMutationVariables>
   ) {
     const options = {...baseOptions}
-    return Apollo.useMutation<RemoveReactionMutation, RemoveReactionMutationVariables>(RemoveReactionDocument)
+    return Apollo.useMutation<RemoveReactionMutation, RemoveReactionMutationVariables>(
+      RemoveReactionDocument,
+      options
+    )
   }
 
   const addReaction = useAddReactionMutation({

@@ -41,7 +41,7 @@ const Sidebar = () => {
                 <span className="text-lg hidden lg:block">For You</span>
               </div>
             </Link>
-            <Link href="/">
+            <Link href="/latest">
               <div className={normalLink}>
                 <p className="text-2xl text-[#25511f]">
                   <AiFillCalendar />

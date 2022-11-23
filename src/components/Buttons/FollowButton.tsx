@@ -30,6 +30,7 @@ const FollowButton: FC<Props> = ({ setFollowing, profile}) => {
   const onCompleted = () => {
     setFollowing(true)
     toast.success("Followed successfully!")
+    window.location.reload()
   }
 
   const updateCache = (cache: ApolloCache<any>) => {
