@@ -1,15 +1,22 @@
 import { useEffect } from "react";
 import { useAppStore } from "@/store/app";
-import type {
+import { useMutation } from "@apollo/client";
+import {
   CreatePublicPostRequest,
   PublicationMetadataMediaInput,
   PublicationMetadataV2Input,
 } from "@/types/lens";
 import {
-  PublicationContentWarning,
   PublicationMainFocus,
   PublicationMetadataDisplayTypes,
+  CreatePostTypedDataDocument,
 } from "@/types/lens";
+import getSignature from "@/lib/getSignature";
+import { splitSignature } from "ethers/lib/utils";
+import { LENS_HUB_ABI } from "@/abi/abi";
+import { LENSHUB_PROXY } from "@/constants";
+import { useContractWrite, useSignTypedData } from "wagmi";
+import onError from "@/lib/onError";
 import { v4 as uuidv4 } from "uuid";
 import { LENSTOK_URL } from "@/constants";
 
@@ -20,12 +27,32 @@ interface Props {
 const LensSteps = ({ id }: Props) => {
   const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
+  const currentUser = useAppStore((state) => state.currentProfile);
+  const [
+    createPostTypedData,
+    { error: errorAuthenticate, loading: authLoading },
+  ] = useMutation(CreatePostTypedDataDocument);
+  const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({
+    onError,
+  });
+  const onCompleted = () => {
+    console.log("successfully write to contract");
+  };
+  const { isLoading: writeLoading, write } = useContractWrite({
+    address: LENSHUB_PROXY,
+    abi: LENS_HUB_ABI,
+    functionName: "commentWithSig",
+    mode: "recklesslyUnprepared",
+    onSuccess: onCompleted,
+    onError,
+  });
+
   const storeToIPFS = async () => {
-    const body = { id: "ec7a8247-e579-45ba-bd39-07e1b48907c5" };
+    const body = { id: id };
     try {
-      console.log("TRY");
+      console.log("Asset id from Lenssteps", id);
       const response = await fetch(`${LENSTOK_URL}/api/get-ipfs-cid`, {
-        method: "POST",
+        method: "PATCH",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(body),
       });
@@ -33,11 +60,10 @@ const LensSteps = ({ id }: Props) => {
         alert("Something wrong while trying getting Ipfs cid");
       } else {
         console.log("Form successfully submitted!");
-        let responseJSON = await response.json();
-        console.log("IPFS response is", responseJSON);
-        const url = responseJSON.storage.ipfs.url;
-        console.log("ipfs url:", url);
-        setUploadedVideo({ videoSource: url });
+        let cid = await response.json();
+        const contentURI = `https://infura-ipfs.io/ipfs/${cid}`;
+        setUploadedVideo({ videoSource: contentURI });
+        return contentURI;
       }
     } catch (err) {
       console.log(err);
@@ -45,7 +71,9 @@ const LensSteps = ({ id }: Props) => {
   };
 
   const uploadMetadata = async () => {
-    console.log("UUUUUUUUUUUUUUUUUP");
+    console.log("Uploaded video before storing", uploadedVideo.videoSource);
+    const videoSource = await storeToIPFS();
+    console.log("Uploaded video after storing", videoSource);
     try {
       const metadata: PublicationMetadataV2Input = {
         version: "2.0.0",
@@ -56,12 +84,12 @@ const LensSteps = ({ id }: Props) => {
         locale: "en",
         tags: [""],
         mainContentFocus: PublicationMainFocus.Video,
-        animation_url: uploadedVideo.videoSource,
+        animation_url: videoSource,
         image: uploadedVideo.thumbnail,
         imageMimeType: uploadedVideo.thumbnailType,
         name: uploadedVideo.title.trim(),
         attributes: [],
-        media: [{ item: uploadedVideo.videoSource }],
+        media: [{ item: videoSource }],
         appId: "lenstok",
       };
       const response = await fetch(`${LENSTOK_URL}/api/metaToIpfs`, {
@@ -76,17 +104,62 @@ const LensSteps = ({ id }: Props) => {
         console.log("Metadata sent successfully to Ipfs...");
         let responseJSON = await response.json();
         console.log("Metadata  response is", responseJSON);
-        /* const url = responseJSON.storage.ipfs.url;
+        const contentURI = `https://infura-ipfs.io/ipfs/${responseJSON.cid}`;
+        console.log("Content URI", contentURI);
+        /* const url = responseJSON.storage.ipfs.url;s
         console.log("ipfs url:", url); */
+        return contentURI;
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const createPublication = async () => {
+    const contentUri = await uploadMetadata();
+
+    const result = await createPostTypedData({
+      variables: {
+        request: {
+          profileId: currentUser?.id,
+          contentURI: contentUri,
+          collectModule: {
+            revertCollectModule: true,
+          },
+          referenceModule: {
+            followerOnlyReferenceModule: false,
+          },
+        },
+      },
+    });
+    console.log("A");
+    const typedData = result.data?.createPostTypedData.typedData;
+    console.log("B");
+    const signature = await signTypedDataAsync(getSignature(typedData));
+    console.log("C");
+    const { v, r, s } = splitSignature(signature);
+    console.log("D");
+    const sig = { v, r, s };
+    console.log("E");
+    const inputStruct = {
+      profileId: typedData?.value.profileId,
+      contentURI: typedData?.value.contentURI,
+      referenceModuleData: typedData?.value.referenceModule,
+      collectModule: typedData?.value.collectModule,
+      collectModuleInitData: typedData?.value.collectModuleInitData,
+      referenceModule: typedData?.value.referenceModule,
+      referenceModuleInitData: typedData?.value.referenceModuleInitData,
+      sig,
+    };
+    console.log("F");
+    const tx = await write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
+    console.log(tx);
+    console.log("TypedData", typedData);
+    console.log("Current user", currentUser);
+  };
   return (
     <div>
-      Uploading to lens<button onClick={uploadMetadata}>send!</button>
+      Uploading to lens<button onClick={createPublication}>send!</button>
     </div>
   );
 };

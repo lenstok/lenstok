@@ -5,7 +5,6 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("ENNNNNNNNNNNNTER");
   if (req.method === "POST") {
     console.log("REQUEST", req.body);
     return uploadIpfs(req, res);

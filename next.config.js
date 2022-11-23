@@ -11,7 +11,9 @@ const nextConfig = {
       "source.unsplash.com",
       "ipfs://",
       "avatar.tobi.sh",
-      "statics-mumbai-lens-staging.s3.eu-west-1.amazonaws.com"
+      "statics-mumbai-lens-staging.s3.eu-west-1.amazonaws.com",
+      "avatars.dicebear.com",
+      "cdn.stamp.fyi",
     ],
   },
 };

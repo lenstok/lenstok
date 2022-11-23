@@ -3,6 +3,7 @@ import Button from "./Button";
 import Asset from "./Asset";
 import LensSteps from "./LensSteps";
 import { useCreateAsset, useUpdateAsset, Player } from "@livepeer/react";
+import LoginButton from "@/components/LoginButton";
 
 const VideoUpload = () => {
   const ref = useRef<HTMLInputElement>(null);
@@ -56,6 +57,7 @@ const VideoUpload = () => {
       <h1 className="text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00A660] to-[#2BCE88] mb-4">
         Publish on Lenstok!
       </h1>
+      <LoginButton />
       <Button onClick={video ? uploadAsset : choseFile}>
         {video ? "Upload Video" : "Select Video"}
       </Button>
@@ -67,13 +69,12 @@ const VideoUpload = () => {
             {asset?.playbackId && (
               <div>
                 <Player title={asset.name} playbackId={asset.playbackId} />
-                {/* <LensSteps id={asset.id} /> */}
+                <LensSteps id={asset.id} />
               </div>
             )}
           </div>
         </div>
       ))}
-      <LensSteps id={""} />
     </div>
   );
 };

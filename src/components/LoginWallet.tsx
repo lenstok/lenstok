@@ -15,6 +15,7 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 import type { Connector } from "wagmi";
+import { ethers } from "ethers";
 import toast from "react-hot-toast";
 
 const LoginWallet: FC = () => {
@@ -90,6 +91,7 @@ const LoginWallet: FC = () => {
       } else {
         const profiles: any = profilesData?.profiles?.items;
         const currentProfile = profiles[0];
+        console.log("Current Profile", currentProfile);
         setProfiles(profiles);
         setCurrentProfile(currentProfile);
         setProfileId(currentProfile.id);

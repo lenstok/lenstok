@@ -4,10 +4,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST") {
-    //console.log("REQ BODY", req.body);
+  if (req.method === "PATCH") {
     const { id } = req.body;
-
+    console.log("**********************", id);
+    // store vide on ipfs
     try {
       const response = await fetch(`https://livepeer.studio/api/asset/${id}`, {
         method: "PATCH",
@@ -22,10 +22,32 @@ export default async function handler(
         }),
       });
       const data = await response.json();
-      console.log("RESPONSE IPFS", data);
-      return res.status(200).json(data);
+      // wait until ipfs cid is generated
+      for (let i = 1; i < 10; i++) {
+        setTimeout(async function () {
+          const data = await getAsset(id);
+          try {
+            if (data?.storage.ipfs.cid)
+              return res.status(200).json(data?.storage.ipfs.cid);
+          } catch (err) {
+            console.log(err);
+          }
+        }, i * 3000);
+      }
     } catch (err) {
       console.log(err);
     }
   }
+}
+
+async function getAsset(id: string) {
+  const response = await fetch(`https://livepeer.studio/api/asset/${id}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_LIVEPEER_KEY}`,
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
 }
