@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { Profile, ProfileDocument } from "@/types/lens";
 import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 
 
@@ -38,6 +39,7 @@ const Profile: NextPage = () => {
   return (
     <div>
       <div className="xl:w-[1200px] lg:w-[1100px] m-auto overflow-hidden h-[100vh]">
+        <Toaster position="bottom-right" />
         <Navbar />
         <div className="flex gap-6 md:gap-20 ">
           <div className="h-[92vh] overflow-hidden lg:hover:overflow-auto">
