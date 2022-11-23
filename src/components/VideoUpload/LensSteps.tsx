@@ -152,7 +152,7 @@ const LensSteps = ({ id }: Props) => {
       sig,
     };
     console.log("F");
-    const tx = await write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
+    const tx = write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
     console.log(tx);
     console.log("TypedData", typedData);
     console.log("Current user", currentUser);
