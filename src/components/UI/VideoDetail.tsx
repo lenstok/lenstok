@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { MdOutlineCancel } from 'react-icons/md';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
@@ -27,14 +27,7 @@ import { useAppStore } from "src/store/app";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import FollowButton from '../Buttons/FollowButton';
 
-interface Props {
-  // profiles: Profile
-  setFollowing: Dispatch<boolean>
-  following: boolean
-}
-
-
-const VideoDetail: FC<Props> = ({ setFollowing, following }) => {
+const VideoDetail = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
@@ -79,6 +72,7 @@ const VideoDetail: FC<Props> = ({ setFollowing, following }) => {
 
     return (
        <div className="flex flex-col lg:flex-row lg:h-screen items-stretch">
+        <Toaster position="bottom-right" />
         <div className="lg:flex-grow flex justify-center items-center relative bg-emerald-800">
            <video
               className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full"
@@ -125,7 +119,7 @@ const VideoDetail: FC<Props> = ({ setFollowing, following }) => {
               </div>
 
               <div className="flex-shrink-0">
-                              {itsNotMe ? (
+                              {/* {itsNotMe ? (
                              <div>
                             { following ? (
                                 <UnfollowButton setFollowing={ setFollowing } profile={ profile as Profile } />
@@ -137,7 +131,7 @@ const VideoDetail: FC<Props> = ({ setFollowing, following }) => {
                            ) : (
                             null
                            )
-                           } 
+                           }  */}
               </div>
 
 
