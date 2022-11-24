@@ -27,14 +27,8 @@ import { useAppStore } from "src/store/app";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import FollowButton from '../Buttons/FollowButton';
 
-interface Props {
-  // profiles: Profile
-  setFollowing: Dispatch<boolean>
-  following: boolean
-}
 
-
-const VideoDetail: FC<Props> = ({ setFollowing, following }) => {
+const VideoDetail = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
@@ -125,19 +119,12 @@ const VideoDetail: FC<Props> = ({ setFollowing, following }) => {
               </div>
 
               <div className="flex-shrink-0">
-                              {itsNotMe ? (
-                             <div>
-                            { following ? (
-                                <UnfollowButton setFollowing={ setFollowing } profile={ profile as Profile } />
+                            {itsNotMe ? (
+                                <button>Unfollow</button>
                             ) : (
-                               <FollowButton setFollowing={ setFollowing } profile={ profile as Profile }/>
+                              <button>Follow</button>
                             )
                             }
-                            </div>
-                           ) : (
-                            null
-                           )
-                           } 
               </div>
 
 
