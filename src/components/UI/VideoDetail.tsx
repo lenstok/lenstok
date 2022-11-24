@@ -118,22 +118,9 @@ const VideoDetail = () => {
                 </p>
               </div>
 
-              <div className="flex-shrink-0">
-                              {/* {itsNotMe ? (
-                             <div>
-                            { following ? (
-                                <UnfollowButton setFollowing={ setFollowing } profile={ profile as Profile } />
-                            ) : (
-                              <button>Follow</button>
-                            )
-                            }
-                            </div>
-                           ) : (
-                            null
-                           )
-                           }  */}
+              <div className="flex-shrink-0"> 
+                         {/* // follow button goes here */}
               </div>
-
 
             </div>
             <p className="my-3 pb-3 text-lg text-gray-600" style={{ wordWrap: "break-word", overflowWrap: "break-word" }}>
