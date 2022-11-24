@@ -124,7 +124,7 @@ const VideoDetail = () => {
                             { following ? (
                                 <UnfollowButton setFollowing={ setFollowing } profile={ profile as Profile } />
                             ) : (
-                               <FollowButton setFollowing={ setFollowing } profile={ profile as Profile }/>
+                              <button>Follow</button>
                             )
                             }
                             </div>
