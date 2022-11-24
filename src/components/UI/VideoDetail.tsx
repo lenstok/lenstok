@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, FC } from 'react';
+import React, { useEffect, useRef, useState, FC, Dispatch } from 'react';
 import type { NextPage } from "next";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -10,7 +10,7 @@ import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 import Comments from '../Comments';
 import { useQuery } from '@apollo/client';
-import { Publication, PublicationDocument } from '@/types/lens';
+import { Publication, PublicationDocument, Profile } from '@/types/lens';
 import getMedia from '@/lib/getMedia';
 import getAvatar from '@/lib/getAvatar';
 import { copyToClipboard } from "@/utils/clipboard";
@@ -24,7 +24,8 @@ import CommentButton from '../Buttons/CommentButton';
 import CreateComment from '../CreateComment';
 import LoginButton from '../LoginButton';
 import { useAppStore } from "src/store/app";
-
+import UnfollowButton from '../Buttons/UnfollowButton';
+import FollowButton from '../Buttons/FollowButton';
 
 const VideoDetail = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
@@ -50,6 +51,8 @@ const VideoDetail = () => {
 
     const Links = `http://localhost:3000/detail/${publication?.id}`
     const Title = `${profile?.handle} on Lenstok`
+
+    const itsNotMe = profile?.id !== currentProfile?.id
 
     const onVideoClick = () => {
       if (isPlaying) {
@@ -114,11 +117,11 @@ const VideoDetail = () => {
                 {profile?.handle}
                 </p>
               </div>
-              <div className="flex-shrink-0">
-              <button className='py-1 px-3 rounded text-sm mt-2 border border-pink text-pink hover:bg-[#FFF4F5] transition'>
-              Follow button
-              </button>
+
+              <div className="flex-shrink-0"> 
+                         {/* // follow button goes here */}
               </div>
+
             </div>
             <p className="my-3 pb-3 text-lg text-gray-600" style={{ wordWrap: "break-word", overflowWrap: "break-word" }}>
              {publication?.metadata.content.slice(0, 175)}

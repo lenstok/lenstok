@@ -30,7 +30,6 @@ const FollowButton: FC<Props> = ({ setFollowing, profile}) => {
   const onCompleted = () => {
     setFollowing(true)
     toast.success("Followed successfully!")
-    window.location.reload()
   }
 
   const updateCache = (cache: ApolloCache<any>) => {
@@ -164,8 +163,9 @@ const FollowButton: FC<Props> = ({ setFollowing, profile}) => {
 
   return (
     <>
-      <div className="cursor-pointer bg-white text-lg text-[#96de26] border-[1px] border-[#96de26] font-semibold px-6 py-3 rounded-md outline-none w-full mt-3 hover:text-[#25511f] hover:bg-[#96de26]">
-        <button onClick={createFollow} disabled={isLoading}>
+      <div >
+        <button onClick={createFollow} disabled={isLoading} 
+           className='active:bg-violet-600 py-1 px-3 rounded text-sm mt-2 border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-white font-semibold'>
           FOLLOW
         </button>
       </div>
