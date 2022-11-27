@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from "react";
+import { useAppStore } from "@/store/app";
 import Button from "./Button";
 import Asset from "./Asset";
 import LensSteps from "./LensSteps";
@@ -8,7 +9,8 @@ import LoginButton from "@/components/LoginButton";
 const VideoUpload = () => {
   const ref = useRef<HTMLInputElement>(null);
   const [video, setVideo] = useState<File | null>(null);
-  const [assetId, setAssetId] = useState("");
+  const uploadedVideo = useAppStore((state) => state.uploadedVideo);
+  const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
 
   const {
     mutate: createAsset,
@@ -25,6 +27,7 @@ const VideoUpload = () => {
     const response = await createAsset?.();
     if (response) console.log("Mutation response", response);
     if (assets) console.log("Asset ID", assets?.[0].id);
+    if (error) console.log("Error", error);
   };
 
   const progressFormatted = useMemo(
@@ -46,6 +49,7 @@ const VideoUpload = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
+      console.log("File data", file);
       setVideo(file);
     } else {
       return;

@@ -38,10 +38,15 @@ const LensSteps = ({ id }: Props) => {
   const onCompleted = () => {
     console.log("successfully write to contract");
   };
-  const { isLoading: writeLoading, write } = useContractWrite({
+  const {
+    data: writeData,
+    isLoading: writeLoading,
+    isSuccess: writeSuccess,
+    write,
+  } = useContractWrite({
     address: LENSHUB_PROXY,
     abi: LENS_HUB_ABI,
-    functionName: "commentWithSig",
+    functionName: "postWithSig",
     mode: "recklesslyUnprepared",
     onSuccess: onCompleted,
     onError,
@@ -50,7 +55,6 @@ const LensSteps = ({ id }: Props) => {
   const storeToIPFS = async () => {
     const body = { id: id };
     try {
-      console.log("Asset id from Lenssteps", id);
       const response = await fetch(`${LENSTOK_URL}/api/get-ipfs-cid`, {
         method: "PATCH",
         headers: { "Content-type": "application/json" },
@@ -59,7 +63,7 @@ const LensSteps = ({ id }: Props) => {
       if (response.status !== 200) {
         alert("Something wrong while trying getting Ipfs cid");
       } else {
-        console.log("Form successfully submitted!");
+        console.log("Video successfully stored on IPFS from Livepeer!");
         let cid = await response.json();
         const contentURI = `https://infura-ipfs.io/ipfs/${cid}`;
         setUploadedVideo({ videoSource: contentURI });
@@ -71,9 +75,7 @@ const LensSteps = ({ id }: Props) => {
   };
 
   const uploadMetadata = async () => {
-    console.log("Uploaded video before storing", uploadedVideo.videoSource);
     const videoSource = await storeToIPFS();
-    console.log("Uploaded video after storing", videoSource);
     try {
       const metadata: PublicationMetadataV2Input = {
         version: "2.0.0",
@@ -84,12 +86,17 @@ const LensSteps = ({ id }: Props) => {
         locale: "en",
         tags: [""],
         mainContentFocus: PublicationMainFocus.Video,
-        animation_url: videoSource,
+        animation_url: uploadedVideo.videoSource,
         image: uploadedVideo.thumbnail,
         imageMimeType: uploadedVideo.thumbnailType,
-        name: uploadedVideo.title.trim(),
+        name: "First Video",
         attributes: [],
-        media: [{ item: videoSource }],
+        media: [
+          {
+            item: uploadedVideo.videoSource,
+            type: "video/mp4",
+          },
+        ],
         appId: "lenstok",
       };
       const response = await fetch(`${LENSTOK_URL}/api/metaToIpfs`, {
@@ -117,6 +124,7 @@ const LensSteps = ({ id }: Props) => {
 
   const createPublication = async () => {
     const contentUri = await uploadMetadata();
+    console.log("Current User id", currentUser?.id);
 
     const result = await createPostTypedData({
       variables: {
@@ -132,15 +140,12 @@ const LensSteps = ({ id }: Props) => {
         },
       },
     });
-    console.log("A");
     const typedData = result.data?.createPostTypedData.typedData;
-    console.log("B");
+    const deadline = typedData?.value.deadline;
     const signature = await signTypedDataAsync(getSignature(typedData));
-    console.log("C");
     const { v, r, s } = splitSignature(signature);
-    console.log("D");
-    const sig = { v, r, s };
-    console.log("E");
+    const sig = { v, r, s, deadline };
+    console.log("TypedData", typedData);
     const inputStruct = {
       profileId: typedData?.value.profileId,
       contentURI: typedData?.value.contentURI,
@@ -151,15 +156,16 @@ const LensSteps = ({ id }: Props) => {
       referenceModuleInitData: typedData?.value.referenceModuleInitData,
       sig,
     };
-    console.log("F");
-    const tx = write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
-    console.log(tx);
+    console.log("InputStruct", inputStruct);
+    const tx = await write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
+    console.log("TX", tx);
     console.log("TypedData", typedData);
     console.log("Current user", currentUser);
   };
   return (
     <div>
       Uploading to lens<button onClick={createPublication}>send!</button>
+      {writeSuccess && <p>{writeData?.hash}</p>}
     </div>
   );
 };
