@@ -6,8 +6,13 @@ import {
 import type { Publication } from "@/types/lens";
 import { useQuery } from "@apollo/client";
 import VideoCard from "@/components/UI/VideoCard";
+import { useAppStore } from "@/store/app";
 
 const Explore = () => {
+  const currentProfile = useAppStore((state) => state.currentProfile);
+  const reactionRequest = currentProfile ? { profileId: currentProfile?.id } : null
+  const profileId = currentProfile?.id ?? null
+
   const { data, loading, error } = useQuery<{
     explorePublications: ExplorePublicationResult;
   }>(ExplorePublicationsDocument, {
@@ -20,6 +25,8 @@ const Explore = () => {
           mainContentFocus: ["VIDEO"],
         },
       },
+      reactionRequest,
+      profileId
     },
   });
   const publications = data?.explorePublications.items;
