@@ -1,4 +1,3 @@
-import { publicationKeyFields } from '@/lib/keyFields'
 import onError from '@/lib/onError'
 import { useAppStore } from '@/store/app'
 import { useAddReactionMutation, useRemoveReactionMutation } from '@/types/graph'
