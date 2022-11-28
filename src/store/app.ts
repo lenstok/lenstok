@@ -75,7 +75,7 @@ export const useAppPersistStore = create(
       profileId: null,
       setProfileId: (profileId) => set(() => ({ profileId })),
     }),
-    { name: "lenster.store" }
+    { name: "lenstok.store" }
   )
 );
 
