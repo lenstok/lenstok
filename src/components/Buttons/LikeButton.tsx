@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import { HeartIcon } from '@heroicons/react/24/solid';
-import { MdFavorite } from 'react-icons/md';
-import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, Publication, ReactionTypes, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables } from '@/types/lens';
-import { useRouter } from 'next/router';
-import { useAppStore } from '@/store/app';
-import * as Apollo from '@apollo/client'
-import { ApolloCache } from '@apollo/client';
-import { publicationKeyFields } from '@/lib/keyFields';
+import { Publication } from '@/types/lens';
 import Like from '../Like';
-import Unlike from '../Unlike';
 
 //should also add authorisation so user cant like posttwice
 interface Props {

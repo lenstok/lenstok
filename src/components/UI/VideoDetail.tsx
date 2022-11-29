@@ -182,13 +182,12 @@ const VideoDetail = () => {
                 </button>
             </div>
           </div>
-
-          <Comments key={publication?.profile.id} publication={publication as Publication} />
-
-          {
-                currentProfile ? <CreateComment publication={publication as Publication} /> 
-                : <div className='flex-shrink-0 flex pt-1 p-4 border-t'><LoginButton /></div>
-            }
+          { currentProfile ?
+            (<Comments key={publication?.profile.id} publication={publication as Publication} />
+            ) : (
+            <div className='flex-shrink-0 flex pt-1 p-4 border-t'><LoginButton /></div>
+            )
+          }
 
         </div>
        </div>
