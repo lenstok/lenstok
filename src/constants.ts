@@ -4,7 +4,9 @@ export const IS_MAINNET = process.env.NEXT_PUBLIC_NETWORK === "mainnet";
 
 export const APP_ID = "lenstok";
 export const APP_NAME = "Lenstok";
-export const LENSTOK_URL = IS_MAINNET ? "" : "http://localhost:3000";
+export const LENSTOK_URL = IS_MAINNET
+  ? "https://lenstok-gamma.vercel.app"
+  : "http://localhost:3000";
 
 export const CHAIN_ID = IS_MAINNET ? chain.polygon.id : chain.polygonMumbai.id;
 export const API_URL = IS_MAINNET
