@@ -57,6 +57,8 @@ const LensSteps = ({ id, title, description }: Props) => {
   const storeToIPFS = async () => {
     const body = { id: id };
     try {
+      const url = `${LENSTOK_URL}/api/get-ipfs-cid`;
+      console.log("IPFS Fetch url", url);
       const response = await fetch(`${LENSTOK_URL}/api/get-ipfs-cid`, {
         method: "PATCH",
         headers: { "Content-type": "application/json" },
