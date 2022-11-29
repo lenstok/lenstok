@@ -9,6 +9,7 @@ import LoginButton from "@/components/LoginButton";
 const VideoUpload = () => {
   const ref = useRef<HTMLInputElement>(null);
   const [video, setVideo] = useState<File | null>(null);
+  const [previewURL, setPreviewURL] = useState("");
   const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
 
@@ -49,6 +50,8 @@ const VideoUpload = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
+      const previewURL = URL.createObjectURL(file);
+      setPreviewURL(previewURL);
       console.log("File data", file);
       setVideo(file);
     } else {

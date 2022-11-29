@@ -22,9 +22,11 @@ import { LENSTOK_URL } from "@/constants";
 
 interface Props {
   id: string;
+  title: string;
+  description: string;
 }
 
-const LensSteps = ({ id }: Props) => {
+const LensSteps = ({ id, title, description }: Props) => {
   const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
   const currentUser = useAppStore((state) => state.currentProfile);
@@ -51,7 +53,7 @@ const LensSteps = ({ id }: Props) => {
     onSuccess: onCompleted,
     onError,
   });
-
+  console.log("Uploadeed Video State:", uploadedVideo);
   const storeToIPFS = async () => {
     const body = { id: id };
     try {
@@ -66,7 +68,6 @@ const LensSteps = ({ id }: Props) => {
         console.log("Video successfully stored on IPFS from Livepeer!");
         let cid = await response.json();
         const contentURI = `https://infura-ipfs.io/ipfs/${cid}`;
-        console.log("#############ContentURI", contentURI);
         setUploadedVideo({ videoSource: contentURI });
         return contentURI;
       }
@@ -110,13 +111,8 @@ const LensSteps = ({ id }: Props) => {
       if (response.status !== 200) {
         console.log("Something wrong while trying storing to IPFS");
       } else {
-        console.log("Metadata sent successfully to Ipfs...");
         let responseJSON = await response.json();
-        console.log("Metadata  response is", responseJSON);
         const contentURI = `https://infura-ipfs.io/ipfs/${responseJSON.cid}`;
-        console.log("Content URI", contentURI);
-        /* const url = responseJSON.storage.ipfs.url;s
-        console.log("ipfs url:", url); */
         return contentURI;
       }
     } catch (error) {
@@ -158,18 +154,13 @@ const LensSteps = ({ id }: Props) => {
       referenceModuleInitData: typedData?.value.referenceModuleInitData,
       sig,
     };
-    console.log("InputStruct", inputStruct);
     const tx = await write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
-    console.log("TX", tx);
-    console.log("TypedData", typedData);
-    console.log("Current user", currentUser);
+    console.log("TX", writeData?.hash);
   };
   return (
-    <div>
-      Uploading to lens<button onClick={createPublication}>send!</button>
-      {writeSuccess && <p>{writeData?.hash}</p>}
-      {uploadedVideo && <p>{uploadedVideo.videoSource}</p>}
-    </div>
+    <>
+      <div onClick={createPublication}>Post on Lens</div>
+    </>
   );
 };
 

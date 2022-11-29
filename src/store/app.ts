@@ -11,6 +11,7 @@ export const UPLOADED_VIDEO_FORM_DEFAULTS = {
   file: null,
   title: "",
   description: "",
+  category: "",
   thumbnail: "",
   thumbnailType: "",
   videoSource: "",
