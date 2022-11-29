@@ -13,7 +13,7 @@ const nextConfig = {
       "avatar.tobi.sh",
       "statics-mumbai-lens-staging.s3.eu-west-1.amazonaws.com",
       "cdn.stamp.fyi",
-      "avatars.dicebear.com"
+      "avatars.dicebear.com",
     ],
   },
 };

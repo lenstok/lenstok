@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import { Publication } from '@/types/lens';
-import Like from '../Like';
-
-//should also add authorisation so user cant like posttwice
 interface Props {
   publication: Publication
-}
 
 const LikeButton: FC<Props> = ({publication}) => {
   const [liked, setLiked] = useState(false)

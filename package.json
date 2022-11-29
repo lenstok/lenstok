@@ -14,10 +14,8 @@
   "dependencies": {
     "@apollo/client": "^3.7.0",
     "@heroicons/react": "^2.0.13",
-    "@hookform/resolvers": "^2.9.10",
-    "dotenv": "^16.0.3",
+    "@livepeer/react": "^1.5.5",
     "ethers": "^5.7.1",
-    "graphql": "^16.6.0",
     "ipfs-http-client": "^59.0.0",
     "jwt-decode": "^3.1.2",
     "next": "12.3.1",
