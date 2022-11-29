@@ -24,7 +24,6 @@ export const INFURA_RPC = IS_MAINNET
   ? `https://polygon-mainnet.infura.io/v3/${INFURA_ID}`
   : `https://polygon-mumbai.infura.io/v3/${INFURA_ID}`;
 
-export const ERROR_MESSAGE = 'Something went wrong!';
 
 export const LS_KEYS = {
   LENSTTOK_STORE: 'lenstok.store',
@@ -34,6 +33,7 @@ export const LS_KEYS = {
 };
 
 export const RELAY_ON = 'true'
+export const ERROR_MESSAGE = "Something went wrong!";
 
 export const WMATIC_TOKEN_ADDRESS = IS_MAINNET
   ? "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"

@@ -97,7 +97,7 @@ export const useReferenceModuleStore = create<ReferenceModuleState>((set) => ({
   onlyFollowers: false,
   setOnlyFollowers: (onlyFollowers) => set(() => ({ onlyFollowers })),
   degreesOfSeparation: 2,
-  setDegreesOfSeparation: (degreesOfSeparation) =>
+  setDegreesOfSeparation: (degreesOfSeparation) => set(() => ({ degreesOfSeparation }))
 }));
 
 interface TransactionPersistState {
