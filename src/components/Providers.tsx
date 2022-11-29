@@ -2,6 +2,11 @@ import { ApolloProvider } from "@apollo/client";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { INFURA_ID, INFURA_RPC, CHAIN_ID, IS_MAINNET } from "src/constants";
+import {
+  LivepeerConfig,
+  createReactClient,
+  studioProvider,
+} from "@livepeer/react";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
@@ -32,13 +37,19 @@ const wagmiClient = createClient({
   provider,
 });
 
+const livepeerClient = createReactClient({
+  provider: studioProvider({ apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY }),
+});
+
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <WagmiConfig client={wagmiClient}>
       <ApolloProvider client={apolloClient}>
-        <ThemeProvider defaultTheme="light" attribute="class">
-          {children}
-        </ThemeProvider>
+        <LivepeerConfig client={livepeerClient}>
+          <ThemeProvider defaultTheme="light" attribute="class">
+            {children}
+          </ThemeProvider>
+        </LivepeerConfig>
       </ApolloProvider>
     </WagmiConfig>
   );

@@ -14,7 +14,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.0",
     "@heroicons/react": "^2.0.13",
-    "@hookform/resolvers": "^2.9.10",
+    "@livepeer/react": "^1.5.5",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.1",
     "graphql": "^16.6.0",
