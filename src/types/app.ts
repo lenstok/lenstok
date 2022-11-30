@@ -1,3 +1,4 @@
+import type { WebBundlr } from "@bundlr-network/client";
 import type {
   Attribute,
   Comment,
@@ -62,4 +63,13 @@ export type UploadedVideo = {
   durationInSeconds: string | null;
   collectModule: CollectModuleType;
   referenceModule: ReferenceModuleType;
+};
+
+export type BundlrDataState = {
+  instance: WebBundlr | null;
+  balance: string;
+  estimatedPrice: string;
+  deposit: string | null;
+  depositing: boolean;
+  showDeposit: boolean;
 };

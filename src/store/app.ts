@@ -1,5 +1,6 @@
+import { WebBundlr } from "@bundlr-network/client";
 import { Profile, ReferenceModules } from "@/types/lens";
-import { UploadedVideo } from "@/types/app";
+import { BundlrDataState, UploadedVideo } from "@/types/app";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { WMATIC_TOKEN_ADDRESS } from "@/constants";
@@ -40,9 +41,20 @@ export const UPLOADED_VIDEO_FORM_DEFAULTS = {
   },
 };
 
+export const UPLOADED_VIDEO_BUNDLR_DEFAULTS = {
+  balance: "0",
+  estimatedPrice: "0",
+  deposit: null,
+  instance: null,
+  depositing: false,
+  showDeposit: false,
+};
+
 interface AppState {
   uploadedVideo: UploadedVideo;
   setUploadedVideo: (video: { [k: string]: any }) => void;
+  bundlrData: BundlrDataState;
+  setBundlrData: (bundlrData: { [k: string]: any }) => void;
   profiles: Profile[] | [];
   setProfiles: (profiles: Profile[]) => void;
   currentProfile: Profile | null;
@@ -57,12 +69,36 @@ export const useAppStore = create<AppState>((set) => ({
     set((state) => ({
       uploadedVideo: { ...state.uploadedVideo, ...videoData },
     })),
+  bundlrData: UPLOADED_VIDEO_BUNDLR_DEFAULTS,
+  setBundlrData: (bundlrData) =>
+    set((state) => ({ bundlrData: { ...state.bundlrData, ...bundlrData } })),
   profiles: [],
   setProfiles: (profiles) => set(() => ({ profiles })),
   currentProfile: null,
   setCurrentProfile: (currentProfile) => set(() => ({ currentProfile })),
   userSigNonce: 0,
   setUserSigNonce: (userSigNonce) => set(() => ({ userSigNonce })),
+  getBundlrInstance: async (signer) => {
+    try {
+      const bundlr = new WebBundlr(
+        BUNDLR_NODE_URL,
+        BUNDLR_CURRENCY,
+        signer?.provider,
+        {
+          providerUrl: POLYGON_RPC_URL,
+        }
+      );
+      await bundlr.utils.getBundlerAddress(BUNDLR_CURRENCY);
+      await bundlr.ready();
+      return bundlr;
+    } catch (error) {
+      logger.error("[Error Init Bundlr]", error);
+      set((state) => ({
+        uploadedVideo: { ...state.uploadedVideo, loading: false },
+      }));
+      return null;
+    }
+  },
 }));
 
 interface AppPersistState {
