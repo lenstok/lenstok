@@ -38,7 +38,10 @@ const wagmiClient = createClient({
 });
 
 const livepeerClient = createReactClient({
-  provider: studioProvider({ apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY }),
+  provider: studioProvider({
+    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
+    baseUrl: "https://lenstok-gamma.vercel.app",
+  }),
 });
 
 const Providers = ({ children }: { children: ReactNode }) => {

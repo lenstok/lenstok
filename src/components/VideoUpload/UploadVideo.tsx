@@ -44,9 +44,8 @@ const Upload = () => {
   );
 
   const uploadAsset = async () => {
-    console.log("Uploading...", progress);
     const response = await createAsset?.();
-    if (response) console.log("Mutation response", response);
+    console.log("Uploading...", progress);
     if (assets) console.log("Asset ID FROM UPLOAD FUCNTIOJ`N", assets?.[0].id);
     const playbackId = assets?.[0].playbackId;
     setPlaybackId(playbackId);
