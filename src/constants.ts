@@ -35,3 +35,7 @@ export const BUNDLR_NODE_URL = IS_MAINNET
   : "https://devnet.bundlr.network";
 
 export const BUNDLR_CURRENCY = "matic";
+
+export const VIDEO_CDN_URL = "https://cdn.livepeer.com";
+
+export const API_ORIGINS = "";

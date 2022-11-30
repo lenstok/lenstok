@@ -1,9 +1,15 @@
 import { WebBundlr } from "@bundlr-network/client";
 import { Profile, ReferenceModules } from "@/types/lens";
 import { BundlrDataState, UploadedVideo } from "@/types/app";
+import type { FetchSignerResult } from "@wagmi/core";
 import create from "zustand";
 import { persist } from "zustand/middleware";
-import { WMATIC_TOKEN_ADDRESS } from "@/constants";
+import {
+  WMATIC_TOKEN_ADDRESS,
+  BUNDLR_NODE_URL,
+  BUNDLR_CURRENCY,
+  INFURA_RPC,
+} from "@/constants";
 
 export const UPLOADED_VIDEO_FORM_DEFAULTS = {
   stream: null,
@@ -61,6 +67,7 @@ interface AppState {
   setCurrentProfile: (currentProfile: Profile | null) => void;
   userSigNonce: number;
   setUserSigNonce: (userSigNonce: number) => void;
+  getBundlrInstance: (signer: FetchSignerResult) => Promise<WebBundlr | null>;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -85,14 +92,14 @@ export const useAppStore = create<AppState>((set) => ({
         BUNDLR_CURRENCY,
         signer?.provider,
         {
-          providerUrl: POLYGON_RPC_URL,
+          providerUrl: INFURA_RPC,
         }
       );
       await bundlr.utils.getBundlerAddress(BUNDLR_CURRENCY);
       await bundlr.ready();
       return bundlr;
     } catch (error) {
-      logger.error("[Error Init Bundlr]", error);
+      console.log("[Error Init Bundlr]", error);
       set((state) => ({
         uploadedVideo: { ...state.uploadedVideo, loading: false },
       }));

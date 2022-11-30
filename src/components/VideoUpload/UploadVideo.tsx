@@ -1,17 +1,19 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useCreateAsset, useUpdateAsset, Player } from "@livepeer/react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import fileReaderStream from "filereader-stream";
 import { topics } from "@/utils/const";
 import Asset from "@/components/VideoUpload/Asset";
 import LensSteps from "@/components/VideoUpload/LensSteps";
+import BundlrUpload from "@/components/VideoUpload/BundlrUpload";
 import { useAppStore } from "@/store/app";
 
 const Upload = () => {
   const ref = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [videoAsset, setVideoAsset] = useState<File | null>(null);
-  const [playbackId, setPlaybackId] = useState<string | undefined>();
   const [wrongFileType, setWrongFileType] = useState(false);
+  const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
@@ -29,34 +31,23 @@ const Upload = () => {
       : null
   );
 
-  const progressFormatted = useMemo(
-    () =>
-      progress?.[0].phase === "failed"
-        ? "Failed to process video."
-        : progress?.[0].phase === "waiting"
-        ? "Waiting"
-        : progress?.[0].phase === "uploading"
-        ? `Uploading: ${Math.round(progress?.[0]?.progress * 100)}%`
-        : progress?.[0].phase === "processing"
-        ? `Processing: ${Math.round(progress?.[0].progress * 100)}%`
-        : null,
-    [progress]
-  );
-
   const uploadAsset = async () => {
-    console.log("Uploading...", progress);
-    const response = await createAsset?.();
-    if (response) console.log("Mutation response", response);
-    if (assets) console.log("Asset ID FROM UPLOAD FUCNTIOJ`N", assets?.[0].id);
-    const playbackId = assets?.[0].playbackId;
-    setPlaybackId(playbackId);
-    setUploadedVideo({
-      title: title,
-      description: description,
-      category: category,
-    });
+    if (videoAsset) {
+      const preview = URL.createObjectURL(videoAsset);
+      console.log("Preview", preview);
+      const stream = fileReaderStream(videoAsset);
+      console.log("Stream:", stream);
+      setUploadedVideo({
+        stream: stream,
+        preview: preview,
+        title: title,
+        description: description,
+        category: category,
+      });
+    }
     if (error) console.log("Error", error);
   };
+  console.log("Stream from index", uploadedVideo.stream);
 
   const choseFile = () => {
     ref.current?.click();
@@ -68,18 +59,6 @@ const Upload = () => {
       setVideoAsset(file);
     } else {
       return;
-    }
-  };
-  const uploadVideo = async (e: any) => {
-    const selectedFile = e.target.files[0];
-    const fileTypes = ["video/mp4", "video/webm", "video/ogg"];
-
-    if (fileTypes.includes(selectedFile.type)) {
-      setIsLoading(true);
-      setWrongFileType(false);
-    } else {
-      setIsLoading(false);
-      setWrongFileType(true);
     }
   };
 
@@ -97,7 +76,7 @@ const Upload = () => {
             <div>
               {videoAsset ? (
                 <div>
-                  {assets?.[0].playbackId ? (
+                  {!true ? (
                     <div>
                       <Player
                         title={videoAsset.name}
@@ -105,9 +84,7 @@ const Upload = () => {
                       />
                     </div>
                   ) : (
-                    <div>
-                      <Asset asset={videoAsset} progress={progressFormatted} />
-                    </div>
+                    <div>{videoAsset.name}</div>
                   )}
                 </div>
               ) : (
@@ -182,6 +159,7 @@ const Upload = () => {
           </select>
 
           <div className="flex gap-6 mt-10">
+            {uploadedVideo.stream && <BundlrUpload />}
             <button
               onClick={() => {}}
               type="button"

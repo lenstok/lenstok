@@ -5,7 +5,7 @@ import { CHAIN_ID } from "@/constants";
 import toast from "react-hot-toast";
 import { WebBundlr } from "@bundlr-network/client";
 import { utils } from "ethers";
-import { useVideoStore } from "@/store/video";
+import { useAppStore } from "@/store/app";
 
 export default function BundlrUpload() {
   const { address, isConnected } = useAccount();
@@ -18,11 +18,14 @@ export default function BundlrUpload() {
     addressOrName: address,
     chainId: CHAIN_ID,
   });
-  const bundlrData = useVideoStore((state) => state.bundlrData);
-  const setBundlrData = useVideoStore((state) => state.setBundlrData);
-  const getBundlrInstance = useVideoStore((state) => state.getBundlrInstance);
-  const uploadedVideo = useVideoStore((state) => state.uploadedVideo);
+  const bundlrData = useAppStore((state) => state.bundlrData);
+  const setBundlrData = useAppStore((state) => state.setBundlrData);
+  const getBundlrInstance = useAppStore((state) => state.getBundlrInstance);
+  const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const [mounted, setMounted] = useState(false);
+
+  console.log("Stream from bundlr suplaod", uploadedVideo.stream);
+  console.log("Bundlr Data", bundlrData);
 
   const fetchBalance = async (bundlr?: WebBundlr) => {
     const instance = bundlr || bundlrData.instance;
@@ -35,6 +38,7 @@ export default function BundlrUpload() {
   };
 
   const estimatePrice = async (bundlr: WebBundlr) => {
+    console.log("Stream", uploadedVideo.stream);
     if (!uploadedVideo.stream)
       return toast.error("Upload cost estimation failed!");
     const price = await bundlr.getPrice(uploadedVideo.stream?.size);
@@ -61,6 +65,7 @@ export default function BundlrUpload() {
 
   useEffect(() => {
     if (signer?.provider && mounted) {
+      console.log("INIT BUNDLR INSTANCE");
       initBundlr().catch((error) => toast("[Error Init Bundlr]", error));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,6 +82,7 @@ export default function BundlrUpload() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bundlrData.instance]);
+
   const depositToBundlr = async () => {
     if (!bundlrData.instance) return await initBundlr();
     if (!bundlrData.deposit) return toast.error("Enter deposit amount");

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import fileReaderStream from "filereader-stream";
 import { useVideoStore } from "@/store/video";
-import BundlrUpload from "./BundlrUpload";
+import BundlrUpload from "../VideoUpload/BundlrUpload";
 
 const SelectVideo = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
