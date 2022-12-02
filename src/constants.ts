@@ -39,3 +39,5 @@ export const BUNDLR_CURRENCY = "matic";
 export const VIDEO_CDN_URL = "https://cdn.livepeer.com";
 
 export const API_ORIGINS = "";
+
+export const ARWEAVE_WEBSITE_URL = "https://arweave.net";

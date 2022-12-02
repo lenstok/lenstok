@@ -26,6 +26,7 @@ export const UPLOADED_VIDEO_FORM_DEFAULTS = {
   playbackId: "",
   isSensitiveContent: false,
   isUploadToIpfs: false,
+  isUploadToAr: false,
   loading: false,
   uploadingThumbnail: false,
   buttonText: "Post Video",

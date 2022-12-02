@@ -7,12 +7,14 @@ import Asset from "@/components/VideoUpload/Asset";
 import LensSteps from "@/components/VideoUpload/LensSteps";
 import BundlrUpload from "@/components/VideoUpload/BundlrUpload";
 import { useAppStore } from "@/store/app";
+import toast from "react-hot-toast";
 
-const Upload = () => {
+const UploadVideo = () => {
   const ref = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [videoAsset, setVideoAsset] = useState<File | null>(null);
   const [wrongFileType, setWrongFileType] = useState(false);
+  const currentUser = useAppStore((state) => state.currentProfile);
   const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
   const [description, setDescription] = useState("");
@@ -31,6 +33,8 @@ const Upload = () => {
       : null
   );
 
+  console.log("Current User is", currentUser);
+
   const uploadAsset = async () => {
     if (videoAsset) {
       const preview = URL.createObjectURL(videoAsset);
@@ -44,6 +48,9 @@ const Upload = () => {
         description: description,
         category: category,
       });
+      toast.success(
+        "Please sign with your wallet to check you storage balance on Bundlr and if necessary fund it with some Matic."
+      );
     }
     if (error) console.log("Error", error);
   };
@@ -57,6 +64,7 @@ const Upload = () => {
       const file = e.target.files[0];
       const previewURL = URL.createObjectURL(file);
       setVideoAsset(file);
+      setUploadedVideo({ preview: previewURL });
     } else {
       return;
     }
@@ -76,11 +84,11 @@ const Upload = () => {
             <div>
               {videoAsset ? (
                 <div>
-                  {!true ? (
+                  {uploadedVideo.preview ? (
                     <div>
-                      <Player
+                      <video
                         title={videoAsset.name}
-                        playbackId={assets?.[0].playbackId}
+                        src={uploadedVideo.preview}
                       />
                     </div>
                   ) : (
@@ -157,9 +165,8 @@ const Upload = () => {
             ))}
             ;
           </select>
-
+          {uploadedVideo.stream && <BundlrUpload />}
           <div className="flex gap-6 mt-10">
-            {uploadedVideo.stream && <BundlrUpload />}
             <button
               onClick={() => {}}
               type="button"
@@ -168,37 +175,23 @@ const Upload = () => {
               {" "}
               Discard
             </button>
-            {assets?.[0].playbackId ? (
+            {uploadedVideo.isUploadToAr ? (
               <button
                 /*  onClick={handlePost} */
                 type="button"
                 className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
               >
-                <LensSteps
-                  id={assets?.[0].id}
-                  title={title}
-                  description={description}
-                />
+                <LensSteps />
               </button>
             ) : (
               <div>
-                {videoAsset ? (
-                  <button
-                    onClick={uploadAsset}
-                    type="button"
-                    className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
-                  >
-                    Upload to Arweave
-                  </button>
-                ) : (
-                  <button
-                    onClick={choseFile}
-                    type="button"
-                    className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
-                  >
-                    Select a Video
-                  </button>
-                )}
+                <button
+                  onClick={videoAsset ? uploadAsset : choseFile}
+                  type="button"
+                  className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
+                >
+                  {videoAsset ? "Upload to Arweave" : "Select a Video"}
+                </button>
               </div>
             )}
           </div>
@@ -208,4 +201,4 @@ const Upload = () => {
   );
 };
 
-export default Upload;
+export default UploadVideo;

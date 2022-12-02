@@ -56,6 +56,7 @@ export type UploadedVideo = {
   percent: number;
   isSensitiveContent: boolean;
   isUploadToIpfs: boolean;
+  isUploadToAr: boolean;
   loading: boolean;
   uploadingThumbnail: boolean;
   videoSource: string;
