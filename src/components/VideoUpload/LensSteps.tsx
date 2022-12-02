@@ -102,11 +102,14 @@ const LensSteps = () => {
         ],
         appId: "lenstok",
       };
-      const response = await fetch(`${LENSTOK_URL}/api/meta-to-ipfs`, {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(metadata),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_LENSTOK_URL}/api/meta-to-ipfs`,
+        {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(metadata),
+        }
+      );
 
       if (response.status !== 200) {
         console.log("Something wrong while trying storing to IPFS");
