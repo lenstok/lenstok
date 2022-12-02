@@ -52,6 +52,7 @@ const UploadVideo = () => {
         "Please sign with your wallet to check you storage balance on Bundlr and if necessary fund it with some Matic."
       );
     }
+
     if (error) console.log("Error", error);
   };
   console.log("Stream from index", uploadedVideo.stream);
