@@ -7,6 +7,7 @@ import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 
 import { BiSearch } from 'react-icons/bi';
 import { IoMdAdd } from 'react-icons/io';
+import LoginButtonMobile from "../LoginButtonMobile";
 
 const Navbar: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -41,6 +42,7 @@ const Navbar: FC = () => {
 
     <div>
       <div className='flex gap-5 md:gap-10 '>
+      {currentProfile ? (
         <Link href='/upload'>
         <button className=' px-2 py-2 md:px-4 text-md font-semibold flex items-center gap-2 cursor-pointer
          bg-white text-lg border-[1px] border-[#96de26] text-[#25511f] hover:bg-[#96de26]' >
@@ -49,6 +51,9 @@ const Navbar: FC = () => {
          <span className='hidden md:block'>Upload </span>
         </button>  
         </Link>
+        ) : (
+          null
+        )}
 
       <div className="flex">
         {currentProfile ? (
@@ -78,7 +83,9 @@ const Navbar: FC = () => {
            </Link>
              </div>
         ) : (
-          null
+          <div className=''>
+          <LoginButtonMobile  />
+          </div>
         )}
         </div>
       </div>

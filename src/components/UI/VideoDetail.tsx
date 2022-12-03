@@ -49,7 +49,8 @@ const VideoDetail = () => {
     const publication = data?.publication
     console.log("Publication", publication)
 
-    const Links = `http://localhost:3000/detail/${publication?.id}`
+    //CHANGE LINK ON DEPLOYMENT TO NEW DOMAIN!
+    const Links = `https://lenstok-gamma.vercel.app/${publication?.id}`
     const Title = `${profile?.handle} on Lenstok`
 
     const itsNotMe = profile?.id !== currentProfile?.id

@@ -37,7 +37,7 @@ const Video: FC<Props> = ({ publication }) => {
   // }, [isVideoMuted]);
 
   return (
-    <div className="lg:ml-20 flex gap-4 relative">
+    <div className="lg:ml-20 md:flex gap-4 relative">
       <div
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
@@ -77,7 +77,7 @@ const Video: FC<Props> = ({ publication }) => {
           </div>
         )} */}
          </div>
-        <div className="max-w-xs flex flex-col pt-[120px]">
+        <div className="max-w-xs flex flex-row space-x-4 md:space-x-0 md:flex-col lg:pt-[120px] justify-center">
           <LikeButton publication={publication as Publication}/>
           <CommentButton publication={publication as Publication} />
           <MirrorButton publication={publication as Publication}/>
