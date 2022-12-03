@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 
 import Navbar from "@/components/UI/Navbar";
-import Uploads from "@/components/VideoUpload/UploadVideo";
+import UploadVideo from "@/components/VideoUpload";
 
 const Upload: NextPage = () => {
   return (
@@ -10,7 +10,7 @@ const Upload: NextPage = () => {
         <Navbar />
       </div>
       <div className="flex gap-6 md:gap-20 mt-4">
-        <Uploads />
+        <UploadVideo />
       </div>
     </div>
   );

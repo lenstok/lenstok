@@ -38,3 +38,15 @@ export const ERROR_MESSAGE = "Something went wrong!";
 export const WMATIC_TOKEN_ADDRESS = IS_MAINNET
   ? "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
   : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889";
+
+export const BUNDLR_NODE_URL = IS_MAINNET
+  ? "https://node1.bundlr.network"
+  : "https://devnet.bundlr.network";
+
+export const BUNDLR_CURRENCY = "matic";
+
+export const VIDEO_CDN_URL = "https://cdn.livepeer.com";
+
+export const API_ORIGINS = "";
+
+export const ARWEAVE_WEBSITE_URL = "https://arweave.net";

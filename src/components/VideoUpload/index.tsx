@@ -1,17 +1,21 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useCreateAsset, useUpdateAsset, Player } from "@livepeer/react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import fileReaderStream from "filereader-stream";
 import { topics } from "@/utils/const";
 import Asset from "@/components/VideoUpload/Asset";
 import LensSteps from "@/components/VideoUpload/LensSteps";
+import BundlrUpload from "@/components/VideoUpload/BundlrUpload";
 import { useAppStore } from "@/store/app";
+import toast from "react-hot-toast";
 
-const Upload = () => {
+const UploadVideo = () => {
   const ref = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [videoAsset, setVideoAsset] = useState<File | null>(null);
-  const [playbackId, setPlaybackId] = useState<string | undefined>();
   const [wrongFileType, setWrongFileType] = useState(false);
+  const currentUser = useAppStore((state) => state.currentProfile);
+  const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
@@ -29,34 +33,29 @@ const Upload = () => {
       : null
   );
 
-  const progressFormatted = useMemo(
-    () =>
-      progress?.[0].phase === "failed"
-        ? "Failed to process video."
-        : progress?.[0].phase === "waiting"
-        ? "Waiting"
-        : progress?.[0].phase === "uploading"
-        ? `Uploading: ${Math.round(progress?.[0]?.progress * 100)}%`
-        : progress?.[0].phase === "processing"
-        ? `Processing: ${Math.round(progress?.[0].progress * 100)}%`
-        : null,
-    [progress]
-  );
+  console.log("Current User is", currentUser);
 
   const uploadAsset = async () => {
-    console.log("Uploading...", progress);
-    const response = await createAsset?.();
-    if (response) console.log("Mutation response", response);
-    if (assets) console.log("Asset ID FROM UPLOAD FUCNTIOJ`N", assets?.[0].id);
-    const playbackId = assets?.[0].playbackId;
-    setPlaybackId(playbackId);
-    setUploadedVideo({
-      title: title,
-      description: description,
-      category: category,
-    });
+    if (videoAsset) {
+      const preview = URL.createObjectURL(videoAsset);
+      console.log("Preview", preview);
+      const stream = fileReaderStream(videoAsset);
+      console.log("Stream:", stream);
+      setUploadedVideo({
+        stream: stream,
+        preview: preview,
+        title: title,
+        description: description,
+        category: category,
+      });
+      toast.success(
+        "Please sign with your wallet to check you storage balance on Bundlr and if necessary fund it with some Matic."
+      );
+    }
+
     if (error) console.log("Error", error);
   };
+  console.log("Stream from index", uploadedVideo.stream);
 
   const choseFile = () => {
     ref.current?.click();
@@ -66,20 +65,9 @@ const Upload = () => {
       const file = e.target.files[0];
       const previewURL = URL.createObjectURL(file);
       setVideoAsset(file);
+      setUploadedVideo({ preview: previewURL });
     } else {
       return;
-    }
-  };
-  const uploadVideo = async (e: any) => {
-    const selectedFile = e.target.files[0];
-    const fileTypes = ["video/mp4", "video/webm", "video/ogg"];
-
-    if (fileTypes.includes(selectedFile.type)) {
-      setIsLoading(true);
-      setWrongFileType(false);
-    } else {
-      setIsLoading(false);
-      setWrongFileType(true);
     }
   };
 
@@ -97,17 +85,15 @@ const Upload = () => {
             <div>
               {videoAsset ? (
                 <div>
-                  {assets?.[0].playbackId ? (
+                  {uploadedVideo.preview ? (
                     <div>
-                      <Player
+                      <video
                         title={videoAsset.name}
-                        playbackId={assets?.[0].playbackId}
+                        src={uploadedVideo.preview}
                       />
                     </div>
                   ) : (
-                    <div>
-                      <Asset asset={videoAsset} progress={progressFormatted} />
-                    </div>
+                    <div>{videoAsset.name}</div>
                   )}
                 </div>
               ) : (
@@ -180,7 +166,7 @@ const Upload = () => {
             ))}
             ;
           </select>
-
+          {uploadedVideo.stream && <BundlrUpload />}
           <div className="flex gap-6 mt-10">
             <button
               onClick={() => {}}
@@ -190,37 +176,23 @@ const Upload = () => {
               {" "}
               Discard
             </button>
-            {assets?.[0].playbackId ? (
+            {uploadedVideo.isUploadToAr ? (
               <button
                 /*  onClick={handlePost} */
                 type="button"
                 className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
               >
-                <LensSteps
-                  id={assets?.[0].id}
-                  title={title}
-                  description={description}
-                />
+                <LensSteps />
               </button>
             ) : (
               <div>
-                {videoAsset ? (
-                  <button
-                    onClick={uploadAsset}
-                    type="button"
-                    className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
-                  >
-                    Upload to Arweave
-                  </button>
-                ) : (
-                  <button
-                    onClick={choseFile}
-                    type="button"
-                    className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
-                  >
-                    Select a Video
-                  </button>
-                )}
+                <button
+                  onClick={videoAsset ? uploadAsset : choseFile}
+                  type="button"
+                  className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
+                >
+                  {videoAsset ? "Upload to Arweave" : "Select a Video"}
+                </button>
               </div>
             )}
           </div>
@@ -230,4 +202,4 @@ const Upload = () => {
   );
 };
 
-export default Upload;
+export default UploadVideo;

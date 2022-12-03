@@ -20,26 +20,24 @@ import onError from "@/lib/onError";
 import { v4 as uuidv4 } from "uuid";
 import { LENSTOK_URL } from "@/constants";
 
-interface Props {
-  id: string;
-  title: string;
-  description: string;
-}
-
-const LensSteps = ({ id, title, description }: Props) => {
+const LensSteps = () => {
   const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
   const currentUser = useAppStore((state) => state.currentProfile);
+
   const [
     createPostTypedData,
     { error: errorAuthenticate, loading: authLoading },
   ] = useMutation(CreatePostTypedDataDocument);
+
   const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({
     onError,
   });
+
   const onCompleted = () => {
     console.log("successfully write to contract");
   };
+
   const {
     data: writeData,
     isLoading: writeLoading,
@@ -54,7 +52,7 @@ const LensSteps = ({ id, title, description }: Props) => {
     onError,
   });
   console.log("Uploadeed Video State:", uploadedVideo);
-  const storeToIPFS = async () => {
+  /* const storeToIPFS = async () => {
     const body = { id: id };
     try {
       const url = `${LENSTOK_URL}/api/get-ipfs-cid`;
@@ -76,11 +74,11 @@ const LensSteps = ({ id, title, description }: Props) => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }; */
 
   const uploadMetadata = async () => {
-    const videoSource: any = await storeToIPFS();
-    uploadedVideo.videoSource = videoSource;
+    // const videoSource: any = await storeToIPFS();
+    // uploadedVideo.videoSource = videoSource;
     try {
       const metadata: PublicationMetadataV2Input = {
         version: "2.0.0",
@@ -104,11 +102,14 @@ const LensSteps = ({ id, title, description }: Props) => {
         ],
         appId: "lenstok",
       };
-      const response = await fetch(`${LENSTOK_URL}/api/meta-to-ipfs`, {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(metadata),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_LENSTOK_URL}/api/meta-to-ipfs`,
+        {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(metadata),
+        }
+      );
 
       if (response.status !== 200) {
         console.log("Something wrong while trying storing to IPFS");
@@ -125,6 +126,11 @@ const LensSteps = ({ id, title, description }: Props) => {
   const createPublication = async () => {
     const contentUri = await uploadMetadata();
     console.log("Current User id", currentUser?.id);
+    if (errorAuthenticate)
+      console.log("AUTHENTICATION ERROR", errorAuthenticate);
+
+    // Check for currentUserId and throw if it's not connected
+    // then redirect to login page
 
     const result = await createPostTypedData({
       variables: {

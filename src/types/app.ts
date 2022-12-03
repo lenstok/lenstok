@@ -1,3 +1,4 @@
+import type { WebBundlr } from "@bundlr-network/client";
 import type {
   Attribute,
   Comment,
@@ -55,6 +56,7 @@ export type UploadedVideo = {
   percent: number;
   isSensitiveContent: boolean;
   isUploadToIpfs: boolean;
+  isUploadToAr: boolean;
   loading: boolean;
   uploadingThumbnail: boolean;
   videoSource: string;
@@ -62,4 +64,13 @@ export type UploadedVideo = {
   durationInSeconds: string | null;
   collectModule: CollectModuleType;
   referenceModule: ReferenceModuleType;
+};
+
+export type BundlrDataState = {
+  instance: WebBundlr | null;
+  balance: string;
+  estimatedPrice: string;
+  deposit: string | null;
+  depositing: boolean;
+  showDeposit: boolean;
 };
