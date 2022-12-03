@@ -27,11 +27,13 @@
     "omit-deep": "^0.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.39.7",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.6.0",
     "uuid": "^9.0.0",
     "uuidv4": "^6.2.13",
-    "wagmi": "^0.7.5"
+    "wagmi": "^0.7.5",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.13.7",

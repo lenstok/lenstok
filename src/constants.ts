@@ -24,6 +24,15 @@ export const INFURA_RPC = IS_MAINNET
   ? `https://polygon-mainnet.infura.io/v3/${INFURA_ID}`
   : `https://polygon-mumbai.infura.io/v3/${INFURA_ID}`;
 
+
+export const LS_KEYS = {
+  LENSTTOK_STORE: 'lenstok.store',
+  TRANSACTION_STORE: 'transaction.store',
+  TIMELINE_STORE: 'timeline.store',
+  MESSAGE_STORE: 'message.store'
+};
+
+export const RELAY_ON = 'true'
 export const ERROR_MESSAGE = "Something went wrong!";
 
 export const WMATIC_TOKEN_ADDRESS = IS_MAINNET
