@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 
-import Navbar from "@/components/UI/Navbar";
+import Navbar from "@/components/Navbar";
 import UploadVideo from "@/components/VideoUpload";
 
 const Upload: NextPage = () => {

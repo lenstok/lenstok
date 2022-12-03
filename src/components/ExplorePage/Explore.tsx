@@ -5,7 +5,7 @@ import {
 } from "@/types/lens";
 import type { Publication } from "@/types/lens";
 import { useQuery } from "@apollo/client";
-import VideoCard from "@/components/UI/VideoCard";
+import VideoCard from "@/components/ExplorePage/VideoCard";
 import { useAppStore } from "@/store/app";
 
 const Explore = () => {

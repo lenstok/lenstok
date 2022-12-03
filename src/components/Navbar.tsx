@@ -7,7 +7,7 @@ import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 
 import { BiSearch } from 'react-icons/bi';
 import { IoMdAdd } from 'react-icons/io';
-import LoginButtonMobile from "../LoginButtonMobile";
+import LoginButtonMobile from "./Login/LoginButtonMobile";
 
 const Navbar: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);

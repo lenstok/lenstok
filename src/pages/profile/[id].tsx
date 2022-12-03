@@ -1,3 +1,3 @@
-import ProfileRender from "@/components/ProfileRender";
+import ProfileRender from "@/components/ProfilePage/ProfileRender";
 
 export default ProfileRender;

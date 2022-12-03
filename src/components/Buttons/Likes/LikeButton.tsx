@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import Like from '../Like';
+import Like from './Like';
 import { Publication } from '@/types/lens';
 
 //should also add authorisation so user cant like posttwice

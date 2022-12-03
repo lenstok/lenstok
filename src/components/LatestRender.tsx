@@ -6,11 +6,11 @@ import { useAccount, useDisconnect, useNetwork } from 'wagmi';
 import { Profile, ReferenceModules, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from "@/types/lens";
 import { CHAIN_ID } from "@/constants";
 import Loading from "./Loading";
-import ProfileCard from './ProfileCard';
-import Profiles from './Profiles';
+import ProfileCard from './ProfilePage/ProfileCard';
+import Profiles from './ProfilePage/Profiles';
 import Latest from './Latest';
-import Sidebar from './UI/Sidebar';
-import Navbar from './UI/Navbar';
+import Sidebar from './Sidebar/Sidebar';
+import Navbar from './Navbar';
 
 
 const LatestRender = () => {

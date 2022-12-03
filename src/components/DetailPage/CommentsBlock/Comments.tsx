@@ -9,7 +9,7 @@ import { Publication, PublicationsDocument } from '@/types/lens';
 import { useRouter } from 'next/router';
 import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 import CreateComment from './CreateComment';
-import LoginButton from './LoginButton';
+import LoginButton from '../../Login/LoginButton';
 import getComments from '@/lib/getComments';
 
 interface Props {

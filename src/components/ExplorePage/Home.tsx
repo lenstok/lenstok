@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 
-import Navbar from "@/components/UI/Navbar";
-import Sidebar from "@/components/UI/Sidebar";
-import Explore from "@/components/Explore";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import Explore from "@/components/ExplorePage/Explore";
 
 import * as Apollo from '@apollo/client';
 
@@ -11,7 +11,7 @@ import { useAppPersistStore, useAppStore, useReferenceModuleStore } from "@/stor
 import { useAccount, useDisconnect, useNetwork } from 'wagmi';
 import { Profile, ReferenceModules, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from "@/types/lens";
 import { CHAIN_ID } from "@/constants";
-import Loading from "./Loading";
+import Loading from "../Loading";
 import { Toaster } from "react-hot-toast";
 
 
