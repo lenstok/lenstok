@@ -63,6 +63,7 @@ const LensSteps = () => {
     try {
       if (!bundlrData.instance) console.log("Bundlr instance is undefined");
       if (bundlrData.balance > bundlrData.estimatedPrice) {
+        setUploadedVideo({ loading: true, buttonText: "Uploading Video" });
         const uploader = bundlrData.instance?.uploader.chunkedUploader;
         uploader?.setBatchSize(2);
         uploader?.setChunkSize(10_000_000);
@@ -72,7 +73,6 @@ const LensSteps = () => {
             (chunkInfo.totalUploaded * 100) / fileSize
           );
           setUploadedVideo({
-            loading: true,
             percent: percentCompleted,
           });
         });
@@ -160,6 +160,7 @@ const LensSteps = () => {
     // Check for currentUserId and throw if it's not connected
     // then redirect to login page
 
+    setUploadedVideo({ buttonText: "Post on Lens" });
     const result = await createPostTypedData({
       variables: {
         request: {
@@ -174,6 +175,7 @@ const LensSteps = () => {
         },
       },
     });
+    setUploadedVideo({ buttonText: "Posting on Lens" });
     const typedData = result.data?.createPostTypedData.typedData;
     const deadline = typedData?.value.deadline;
     const signature = await signTypedDataAsync(getSignature(typedData));
@@ -191,11 +193,11 @@ const LensSteps = () => {
       sig,
     };
     const tx = await write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
-    console.log("TX", writeData?.hash);
+    if (tx) setUploadedVideo({ buttonText: "Done!", loading: false });
   };
   return (
     <>
-      <div onClick={uploadToBundlr}>Post on Lens</div>
+      <div onClick={uploadToBundlr}>{uploadedVideo.buttonText}</div>
     </>
   );
 };

@@ -7,6 +7,7 @@ import Asset from "@/components/VideoUpload/Asset";
 import LensSteps from "@/components/VideoUpload/LensSteps";
 import BundlrUpload from "@/components/VideoUpload/BundlrUpload";
 import { useAppStore } from "@/store/app";
+import Spinner from "@/components/Spinner";
 import toast from "react-hot-toast";
 
 const UploadVideo = () => {
@@ -37,12 +38,8 @@ const UploadVideo = () => {
 
   const uploadAsset = async () => {
     if (videoAsset) {
-      console.log("Asset", videoAsset);
       const preview = URL.createObjectURL(videoAsset);
-      console.log("Preview", preview);
       const stream = fileReaderStream(videoAsset);
-      console.log("Stream:", stream);
-      console.log("Video Type", videoAsset.type);
       setUploadedVideo({
         stream: stream,
         preview: preview,
@@ -51,7 +48,7 @@ const UploadVideo = () => {
         description: description,
         category: category,
         isUploadToAr: true,
-        buttonText: "Upload to Arweave",
+        buttonText: "Upload Video",
       });
       toast.success(
         "Please sign with your wallet to check you storage balance on Bundlr and if necessary fund it with some Matic."
@@ -183,11 +180,20 @@ const UploadVideo = () => {
             </button>
             {uploadedVideo.isUploadToAr ? (
               <button
-                /*  onClick={handlePost} */
                 type="button"
                 className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
+                disabled={uploadedVideo.loading}
               >
-                <LensSteps />
+                <div className="flex justify-around">
+                  <div>
+                    <LensSteps />
+                  </div>
+                  {uploadedVideo.loading && (
+                    <div>
+                      <Spinner />
+                    </div>
+                  )}
+                </div>
               </button>
             ) : (
               <div>
@@ -196,7 +202,7 @@ const UploadVideo = () => {
                   type="button"
                   className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
                 >
-                  {videoAsset ? "Upload to Arweave" : "Select a Video"}
+                  {videoAsset ? "Upload Video" : "Select a Video"}
                 </button>
               </div>
             )}

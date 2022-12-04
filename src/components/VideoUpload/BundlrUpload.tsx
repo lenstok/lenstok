@@ -128,14 +128,6 @@ export default function BundlrUpload() {
         <div className="inline-flex items-center justify-between text-xs font-semibold rounded opacity-70">
           <span className="flex items-center space-x-1.5">
             <span>Your Storage Balance</span>
-
-            <button
-              type="button"
-              className="focus:outline-none"
-              onClick={() => fetchBalance()}
-            >
-              Refresh balance
-            </button>
           </span>
         </div>
         <div className="flex justify-between">
