@@ -47,7 +47,6 @@ const Video: FC<Props> = ({ publication }) => {
           <video
             loop
             controls
-            autoPlay
             muted
             // ref={videoRef}
             src={getMedia(publication)}

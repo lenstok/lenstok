@@ -10,6 +10,7 @@ import { useAppStore } from "src/store/app";
 import ProfileVideos from "@/components/UI/ProfileVideos";
 import UnfollowButton from './Buttons/UnfollowButton';
 import getAvatar from '@/lib/getAvatar';
+import CollectedVideos from '@/components/UI/CollectedVideos';
 
 interface Props {
     profile: Profile
@@ -78,10 +79,10 @@ interface Props {
                         Videos
                         </span>
                         <span className={`text-xl font-semibold cursor-pointer ${liked} mt-2`} onClick={() => setShowUserVideos(false)}>
-                        Collected 
+                        NFTs
                         </span>
                         </div>
-                    {(showUserVideos) ? <ProfileVideos /> : <h1>Collected Videos Here</h1>}
+                    {(showUserVideos) ? <ProfileVideos /> : <CollectedVideos profile={profile as Profile} />}
                 </div>
             </div>
             )

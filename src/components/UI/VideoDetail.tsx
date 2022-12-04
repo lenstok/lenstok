@@ -32,6 +32,8 @@ const VideoDetail = () => {
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
 
+    const [following, setFollowing] = useState(false)
+
     const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();
     const { id } = router.query
@@ -119,7 +121,7 @@ const VideoDetail = () => {
               </div>
 
               <div className="flex-shrink-0"> 
-                         {/* // follow button goes here */}
+                {following ? <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> : <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />}
               </div>
 
             </div>
