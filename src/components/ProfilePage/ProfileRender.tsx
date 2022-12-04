@@ -5,7 +5,7 @@ import { useAppPersistStore, useAppStore, useReferenceModuleStore } from "@/stor
 import { useAccount, useDisconnect, useNetwork } from 'wagmi';
 import { Profile, ReferenceModules, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from "@/types/lens";
 import { CHAIN_ID } from "@/constants";
-import Loading from "./Loading";
+import Loading from "../Loading";
 import ProfileCard from './ProfileCard';
 import Profiles from './Profiles';
 

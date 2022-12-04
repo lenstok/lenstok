@@ -5,8 +5,8 @@ import Link from "next/link";
 import type { FC } from "react";
 import type { Publication } from "@/types/lens";
 
-import LikeButton from  "@/components/Buttons/LikeButton";
-import MirrorButton from  "@/components/Buttons/MirrorButton";
+import LikeButton from  "@/components/Buttons/Likes/LikeButton";
+import MirrorButton from  "@/components/Buttons/Mirrors/MirrorButton";
 import CommentButton from  "@/components/Buttons/CommentButton";
 import CollectButton from  "@/components/Buttons/CollectButton";
 import getMedia from "@/lib/getMedia";
