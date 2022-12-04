@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import type { FC } from 'react'
 import { FolderPlusIcon } from '@heroicons/react/24/solid';
 import { CollectModules, Publication } from '@/types/lens';
-import CollectModule from '../CollectModule';
-import { Modal } from '../UI/Modal';
+import CollectModule from './CollectModule';
+import { Modal } from '../../UI/Modal';
 import { getModule } from '@/lib/getModule';
 import GetModuleIcon from '@/utils/GetModuleIcon';
 

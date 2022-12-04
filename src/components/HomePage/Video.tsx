@@ -8,7 +8,7 @@ import type { Publication } from "@/types/lens";
 import LikeButton from  "@/components/Buttons/Likes/LikeButton";
 import MirrorButton from  "@/components/Buttons/Mirrors/MirrorButton";
 import CommentButton from  "@/components/Buttons/CommentButton";
-import CollectButton from  "@/components/Buttons/CollectButton";
+import CollectButton from  "@/components/Buttons/Collects/CollectButton";
 import getMedia from "@/lib/getMedia";
 
 interface Props {

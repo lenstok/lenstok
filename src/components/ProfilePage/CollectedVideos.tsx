@@ -6,7 +6,7 @@ import Link from 'next/link';
 import React, { FC, useState } from 'react'
 import { BsPlay } from 'react-icons/bs';
 import { chain } from 'wagmi';
-import NFT from '../NFT';
+import NFT from './NFT';
 
 interface Props {
   profile: Profile

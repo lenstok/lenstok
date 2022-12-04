@@ -10,7 +10,7 @@ import { useAppStore } from "src/store/app";
 import ProfileVideos from "@/components/ProfilePage/ProfileVideos";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import getAvatar from '@/lib/getAvatar';
-import CollectedVideos from '@/components/UI/CollectedVideos';
+import CollectedVideos from '@/components/ProfilePage/CollectedVideos';
 
 interface Props {
     profile: Profile

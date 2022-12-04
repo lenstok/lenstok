@@ -15,8 +15,8 @@ import { defaultAbiCoder, splitSignature } from 'ethers/lib/utils';
 import React, { Dispatch, FC, useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useAccount, useBalance, useContractRead, useContractWrite, useSignTypedData } from 'wagmi';
-import getTokenImage from './getTokenImage';
-import Loader from './UI/Loader';
+import getTokenImage from '../../../lib/getTokenImage';
+import Loader from '../../UI/Loader';
 
 interface Props {
     publication: Publication
