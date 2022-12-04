@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 
-import Navbar from "@/components/UI/Navbar";
-import Sidebar from "@/components/UI/Sidebar";
-import ProfileCard from "@/components/ProfileCard";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import ProfileCard from "@/components/ProfilePage/ProfileCard";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { Profile, ProfileDocument } from "@/types/lens";

@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { topics } from '../utils/const';
+import { topics } from '../../utils/const';
 
 const Discover = () => {
     const router = useRouter();

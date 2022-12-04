@@ -4,9 +4,9 @@ import { AiFillHome, AiOutlineMenu, AiFillCalendar } from "react-icons/ai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import Discover from "@/components/Discover";
-import SuggestedAccounts from "@/components/SuggestedAccounts";
-import FollowingAccounts from "@/components/FollowingAccounts";
+import Discover from "@/components/Sidebar/Discover";
+import SuggestedAccounts from "@/components/Sidebar/SuggestedAccounts";
+import FollowingAccounts from "@/components/Sidebar/FollowingAccounts";
 import Footer from "./Footer";
 import LoginButton from "@/components/LoginButton";
 import { useAppStore } from '@/store/app';
