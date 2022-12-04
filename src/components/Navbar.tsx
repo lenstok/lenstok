@@ -83,7 +83,7 @@ const Navbar: FC = () => {
            </Link>
              </div>
         ) : (
-          <div className=''>
+          <div className='block lg:hidden'>
           <LoginButtonMobile  />
           </div>
         )}

@@ -26,7 +26,7 @@ const CollectButton: FC<Props> = ({publication}) => {
             <FolderPlusIcon className='w-4 h-4 text-white' />
           </div>
         )}
-        <p className="text-xs font-semibold text-gray-400">{publication.stats.totalAmountOfCollects}</p>
+        <p className="text-xs hidden lg:block font-semibold text-gray-400">{publication.stats.totalAmountOfCollects}</p>
         </div>
         </div>
     );

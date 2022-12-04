@@ -60,8 +60,6 @@ import { BsPlay } from "react-icons/bs";
                         src={sanitizeIpfsUrl(pub.metadata.media[0].original.url)}
                         className="absolute inset-0 h-full w-full object-cover rounded"
                         
-
-
                         /> 
                         <BsPlay onClick={onVideoClick} className="absolute left-3 bottom-3 fill-white w-7 h-7" />
                         </a>

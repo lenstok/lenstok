@@ -49,6 +49,12 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
         </div>
       </div>
       <Video publication={publication as Publication} />
+      <div className='flex flex-row space-x-3 pt-2 pl-2'>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalUpvotes} likes</p>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>
+        </div>
     </div>
   );
 };
