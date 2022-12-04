@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { WebBundlr } from "@bundlr-network/client";
 import { utils } from "ethers";
 import { useAppStore } from "@/store/app";
-import { ARWEAVE_WEBSITE_URL } from "@/constants";
 
 export default function BundlrUpload() {
   const { address, isConnected } = useAccount();
@@ -123,50 +122,6 @@ export default function BundlrUpload() {
     }
   };
 
-  const uploadToBundlr = async () => {
-    try {
-      if (!bundlrData.instance) console.log("Bundlr instance is undefined");
-      if (bundlrData.balance > bundlrData.estimatedPrice) {
-        const uploader = bundlrData.instance?.uploader.chunkedUploader;
-        uploader?.setBatchSize(2);
-        uploader?.setChunkSize(10_000_000);
-        uploader?.on("chunkUpload", (chunkInfo) => {
-          const fileSize = uploadedVideo?.file?.size as number;
-          const percentCompleted = Math.round(
-            (chunkInfo.totalUploaded * 100) / fileSize
-          );
-          setUploadedVideo({
-            loading: true,
-            percent: percentCompleted,
-          });
-        });
-        const tags = [
-          {
-            name: "Content-Type",
-            value: uploadedVideo.videoType || "video/mp4",
-          },
-          { name: "App-Name", value: "Lenstok" },
-        ];
-        const upload = uploader?.uploadData(uploadedVideo.stream as any, {
-          tags: tags,
-        });
-        const response = await upload;
-        console.log("Upload", response);
-        setUploadedVideo({
-          videoSource: `${ARWEAVE_WEBSITE_URL}/${response?.data.id}`,
-          isUploadToAr: true,
-        });
-      } else {
-        toast.error(
-          "Insuffisant balance on your account. Please fund it to reach the estimated price."
-        );
-      }
-    } catch (error) {
-      toast.error("Failed to upload video to bundlr.");
-      console.log("Failed to upload video to bundlr: ", error);
-    }
-  };
-
   return (
     <div className="w-full mt-4 space-y-2">
       <div className="flex flex-col">
@@ -233,16 +188,6 @@ export default function BundlrUpload() {
           Estimated Cost to Upload
         </span>
         <div className="text-lg font-medium">{bundlrData.estimatedPrice}</div>
-      </div>
-      <div>
-        <button
-          type="button"
-          disabled={bundlrData.depositing}
-          onClick={() => uploadToBundlr()}
-          className="mb-0.5 !py-1.5"
-        >
-          Upload to Bundlr
-        </button>
       </div>
     </div>
   );

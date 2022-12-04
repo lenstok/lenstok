@@ -141,7 +141,8 @@ export const useReferenceModuleStore = create<ReferenceModuleState>((set) => ({
   onlyFollowers: false,
   setOnlyFollowers: (onlyFollowers) => set(() => ({ onlyFollowers })),
   degreesOfSeparation: 2,
-  setDegreesOfSeparation: (degreesOfSeparation) => set(() => ({ degreesOfSeparation }))
+  setDegreesOfSeparation: (degreesOfSeparation) =>
+    set(() => ({ degreesOfSeparation })),
 }));
 
 interface TransactionPersistState {
@@ -153,7 +154,7 @@ export const useTransactionPersistStore = create(
   persist<TransactionPersistState>(
     (set) => ({
       txnQueue: [],
-      setTxnQueue: (txnQueue) => set(() => ({ txnQueue }))
+      setTxnQueue: (txnQueue) => set(() => ({ txnQueue })),
     }),
     { name: LS_KEYS.TRANSACTION_STORE }
   )

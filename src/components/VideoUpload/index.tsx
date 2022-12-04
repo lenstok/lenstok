@@ -37,16 +37,21 @@ const UploadVideo = () => {
 
   const uploadAsset = async () => {
     if (videoAsset) {
+      console.log("Asset", videoAsset);
       const preview = URL.createObjectURL(videoAsset);
       console.log("Preview", preview);
       const stream = fileReaderStream(videoAsset);
       console.log("Stream:", stream);
+      console.log("Video Type", videoAsset.type);
       setUploadedVideo({
         stream: stream,
         preview: preview,
+        videoType: videoAsset.type || "video/mp4",
         title: title,
         description: description,
         category: category,
+        isUploadToAr: true,
+        buttonText: "Upload to Arweave",
       });
       toast.success(
         "Please sign with your wallet to check you storage balance on Bundlr and if necessary fund it with some Matic."
