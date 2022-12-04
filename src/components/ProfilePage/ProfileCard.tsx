@@ -7,8 +7,8 @@ import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 import FollowButton from  "@/components/Buttons/FollowButton";
 import { useAppStore } from "src/store/app";
 
-import ProfileVideos from "@/components/UI/ProfileVideos";
-import UnfollowButton from './Buttons/UnfollowButton';
+import ProfileVideos from "@/components/ProfilePage/ProfileVideos";
+import UnfollowButton from '../Buttons/UnfollowButton';
 import getAvatar from '@/lib/getAvatar';
 import CollectedVideos from '@/components/UI/CollectedVideos';
 

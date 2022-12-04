@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { Publication } from '@/types/lens';
-import Like from '../Like';
+import Like from './Like';
 
 interface Props {
   publication: Publication
