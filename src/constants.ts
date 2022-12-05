@@ -50,3 +50,20 @@ export const VIDEO_CDN_URL = "https://cdn.livepeer.com";
 export const API_ORIGINS = "";
 
 export const ARWEAVE_WEBSITE_URL = "https://arweave.net";
+  export const OPENSEA_MARKETPLACE_URL = IS_MAINNET
+  ? 'https://opensea.io'
+  : 'https://testnets.opensea.io'
+
+export const IMAGE_CDN_URL = IS_MAINNET
+  ? 'https://ik.imagekit.io/lenstubemain'
+  : ''
+
+export const UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS = IS_MAINNET
+  ? '0x432960b3209686Cc69e2EEC1dBBaB52A1c0Bf938'
+  : '0xA78E4a4D0367f0f4674130F0Bb2653957ab5917e'
+
+export const FREE_COLLECT_MODULE = IS_MAINNET
+  ? '0x23b9467334bEb345aAa6fd1545538F3d54436e96'
+  : '0x0BE6bD7092ee83D44a6eC1D949626FeE48caB30c'
+
+export const MAINNET_DEFAULT_TOKEN = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
