@@ -6,7 +6,11 @@ import { topics } from "@/utils/const";
 import Asset from "@/components/VideoUpload/Asset";
 import LensSteps from "@/components/VideoUpload/LensSteps";
 import BundlrUpload from "@/components/VideoUpload/BundlrUpload";
-import { useAppStore } from "@/store/app";
+import {
+  useAppStore,
+  UPLOADED_VIDEO_FORM_DEFAULTS,
+  UPLOADED_VIDEO_BUNDLR_DEFAULTS,
+} from "@/store/app";
 import Spinner from "@/components/Spinner";
 import toast from "react-hot-toast";
 
@@ -18,6 +22,7 @@ const UploadVideo = () => {
   const currentUser = useAppStore((state) => state.currentProfile);
   const uploadedVideo = useAppStore((state) => state.uploadedVideo);
   const setUploadedVideo = useAppStore((state) => state.setUploadedVideo);
+  const setBundlrData = useAppStore((state) => state.setBundlrData);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState(topics[0].name); //this is a placeholder for now
@@ -35,6 +40,19 @@ const UploadVideo = () => {
   );
 
   console.log("Current User is", currentUser);
+
+  const resetToDefaults = () => {
+    setUploadedVideo(UPLOADED_VIDEO_FORM_DEFAULTS);
+    setBundlrData(UPLOADED_VIDEO_BUNDLR_DEFAULTS);
+    setTitle("");
+    setDescription("");
+  };
+
+  useEffect(() => {
+    if (uploadedVideo.isIndexed) {
+      resetToDefaults();
+    }
+  }, [uploadedVideo.isIndexed]);
 
   const uploadAsset = async () => {
     if (videoAsset) {
@@ -85,17 +103,17 @@ const UploadVideo = () => {
           </div>
           <div className="border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center items-center outline-none mt-10 w-[260px] h-[458px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
             <div>
-              {videoAsset ? (
+              {uploadedVideo.stream ? (
                 <div>
                   {uploadedVideo.preview ? (
                     <div>
                       <video
-                        title={videoAsset.name}
+                        title={videoAsset?.name}
                         src={uploadedVideo.preview}
                       />
                     </div>
                   ) : (
-                    <div>{videoAsset.name}</div>
+                    <div>{videoAsset?.name}</div>
                   )}
                 </div>
               ) : (
@@ -171,7 +189,7 @@ const UploadVideo = () => {
           {uploadedVideo.stream && <BundlrUpload />}
           <div className="flex gap-6 mt-10">
             <button
-              onClick={() => {}}
+              onClick={resetToDefaults}
               type="button"
               className="border-gray-300 border-2 text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
             >

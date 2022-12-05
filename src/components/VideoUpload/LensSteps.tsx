@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppStore } from "@/store/app";
+import { useAppStore, UPLOADED_VIDEO_FORM_DEFAULTS } from "@/store/app";
 import { useMutation } from "@apollo/client";
 import {
   CreatePublicPostRequest,
@@ -31,6 +31,13 @@ const LensSteps = () => {
   const setBundlrData = useAppStore((state) => state.setBundlrData);
   const getBundlrInstance = useAppStore((state) => state.getBundlrInstance);
 
+  useEffect(() => {
+    if (uploadedVideo.videoSource) {
+      setUploadedVideo(UPLOADED_VIDEO_FORM_DEFAULTS);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [
     createPostTypedData,
     { error: errorAuthenticate, loading: authLoading },
@@ -41,7 +48,10 @@ const LensSteps = () => {
   });
 
   const onCompleted = () => {
-    console.log("successfully write to contract");
+    toast.success("Successfully post video");
+    setUploadedVideo({
+      isIndexed: true,
+    });
   };
 
   const {
@@ -55,15 +65,16 @@ const LensSteps = () => {
     functionName: "postWithSig",
     mode: "recklesslyUnprepared",
     onSuccess: onCompleted,
-    onError,
+    onError(error) {
+      toast.error("You should be logged in with your Lens account to Lens");
+    },
   });
-  console.log("Uploadeed Video State:", uploadedVideo);
 
   const uploadToBundlr = async () => {
     try {
       if (!bundlrData.instance) console.log("Bundlr instance is undefined");
       if (bundlrData.balance > bundlrData.estimatedPrice) {
-        setUploadedVideo({ loading: true, buttonText: "Uploading Video" });
+        setUploadedVideo({ loading: true, buttonText: "Uploading to Arweave" });
         const uploader = bundlrData.instance?.uploader.chunkedUploader;
         uploader?.setBatchSize(2);
         uploader?.setChunkSize(10_000_000);
@@ -90,6 +101,7 @@ const LensSteps = () => {
         console.log("Upload", response);
         const arweaveUrl: string = `${ARWEAVE_WEBSITE_URL}/${response?.data.id}`;
         setUploadedVideo({
+          loading: false,
           videoSource: arweaveUrl,
           isUploadToAr: true,
         });
@@ -102,6 +114,10 @@ const LensSteps = () => {
     } catch (error) {
       toast.error("Failed to upload video to bundlr.");
       console.log("Failed to upload video to bundlr: ", error);
+      setUploadedVideo({
+        loading: false,
+        buttonText: "Post Video",
+      });
     }
   };
 
@@ -109,7 +125,10 @@ const LensSteps = () => {
     try {
       console.log("Arweave Url back from uploadToBundlr function", contentUri);
       uploadedVideo.videoSource = contentUri;
-
+      setUploadedVideo({
+        buttonText: "Storing metadata...",
+        loading: true,
+      });
       const metadata: PublicationMetadataV2Input = {
         version: "2.0.0",
         metadata_id: uuidv4(),
@@ -132,7 +151,7 @@ const LensSteps = () => {
         ],
         appId: "lenstok",
       };
-      const response = await fetch(` http://localhost:3001/api/meta-to-ipfs`, {
+      const response = await fetch(` http://localhost:3000/api/meta-to-ipfs`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(metadata),
@@ -151,49 +170,53 @@ const LensSteps = () => {
   };
 
   const createPublication = async (arweaveUri: string) => {
-    const contentUri = await uploadMetadata(arweaveUri);
-    console.log("Metadata content uri ", contentUri);
-    console.log("Current User id", currentUser?.id);
-    if (errorAuthenticate)
-      console.log("AUTHENTICATION ERROR", errorAuthenticate);
+    try {
+      const contentUri = await uploadMetadata(arweaveUri);
+      console.log("Metadata content uri ", contentUri);
+      console.log("Current User id", currentUser?.id);
+      if (errorAuthenticate)
+        console.log("AUTHENTICATION ERROR", errorAuthenticate);
 
-    // Check for currentUserId and throw if it's not connected
-    // then redirect to login page
+      // Check for currentUserId and throw if it's not connected
+      // then redirect to login page
 
-    setUploadedVideo({ buttonText: "Post on Lens" });
-    const result = await createPostTypedData({
-      variables: {
-        request: {
-          profileId: currentUser?.id,
-          contentURI: contentUri,
-          collectModule: {
-            revertCollectModule: true,
-          },
-          referenceModule: {
-            followerOnlyReferenceModule: false,
+      setUploadedVideo({ buttonText: "Post on Lens" });
+      const result = await createPostTypedData({
+        variables: {
+          request: {
+            profileId: currentUser?.id,
+            contentURI: contentUri,
+            collectModule: {
+              revertCollectModule: true,
+            },
+            referenceModule: {
+              followerOnlyReferenceModule: false,
+            },
           },
         },
-      },
-    });
-    setUploadedVideo({ buttonText: "Posting on Lens" });
-    const typedData = result.data?.createPostTypedData.typedData;
-    const deadline = typedData?.value.deadline;
-    const signature = await signTypedDataAsync(getSignature(typedData));
-    const { v, r, s } = splitSignature(signature);
-    const sig = { v, r, s, deadline };
-    console.log("TypedData", typedData);
-    const inputStruct = {
-      profileId: typedData?.value.profileId,
-      contentURI: typedData?.value.contentURI,
-      referenceModuleData: typedData?.value.referenceModule,
-      collectModule: typedData?.value.collectModule,
-      collectModuleInitData: typedData?.value.collectModuleInitData,
-      referenceModule: typedData?.value.referenceModule,
-      referenceModuleInitData: typedData?.value.referenceModuleInitData,
-      sig,
-    };
-    const tx = await write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
-    if (tx) setUploadedVideo({ buttonText: "Done!", loading: false });
+      });
+      setUploadedVideo({ buttonText: "Posting on Lens" });
+      const typedData = result.data?.createPostTypedData.typedData;
+      const deadline = typedData?.value.deadline;
+      const signature = await signTypedDataAsync(getSignature(typedData));
+      const { v, r, s } = splitSignature(signature);
+      const sig = { v, r, s, deadline };
+      console.log("TypedData", typedData);
+      const inputStruct = {
+        profileId: typedData?.value.profileId,
+        contentURI: typedData?.value.contentURI,
+        referenceModuleData: typedData?.value.referenceModule,
+        collectModule: typedData?.value.collectModule,
+        collectModuleInitData: typedData?.value.collectModuleInitData,
+        referenceModule: typedData?.value.referenceModule,
+        referenceModuleInitData: typedData?.value.referenceModuleInitData,
+        sig,
+      };
+      const tx = await write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
+      console.log("TX", tx);
+    } catch (error) {
+      console.log("Error while posting on lens:", error);
+    }
   };
   return (
     <>

@@ -28,6 +28,7 @@ export const UPLOADED_VIDEO_FORM_DEFAULTS = {
   isSensitiveContent: false,
   isUploadToIpfs: false,
   isUploadToAr: false,
+  isIndexed: false,
   loading: false,
   uploadingThumbnail: false,
   buttonText: "Post Video",
