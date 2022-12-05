@@ -13,6 +13,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { apolloClient } from "@/apollo-client";
+
 const { chains, provider } = configureChains(
   [IS_MAINNET ? chain.polygon : chain.polygonMumbai],
   [infuraProvider({ apiKey: INFURA_ID }), publicProvider()]

@@ -28,6 +28,7 @@ export const UPLOADED_VIDEO_FORM_DEFAULTS = {
   isSensitiveContent: false,
   isUploadToIpfs: false,
   isUploadToAr: false,
+  isIndexed: false,
   loading: false,
   uploadingThumbnail: false,
   buttonText: "Post Video",
@@ -141,7 +142,8 @@ export const useReferenceModuleStore = create<ReferenceModuleState>((set) => ({
   onlyFollowers: false,
   setOnlyFollowers: (onlyFollowers) => set(() => ({ onlyFollowers })),
   degreesOfSeparation: 2,
-  setDegreesOfSeparation: (degreesOfSeparation) => set(() => ({ degreesOfSeparation }))
+  setDegreesOfSeparation: (degreesOfSeparation) =>
+    set(() => ({ degreesOfSeparation })),
 }));
 
 interface TransactionPersistState {
@@ -153,7 +155,7 @@ export const useTransactionPersistStore = create(
   persist<TransactionPersistState>(
     (set) => ({
       txnQueue: [],
-      setTxnQueue: (txnQueue) => set(() => ({ txnQueue }))
+      setTxnQueue: (txnQueue) => set(() => ({ txnQueue })),
     }),
     { name: LS_KEYS.TRANSACTION_STORE }
   )
