@@ -15,6 +15,7 @@
     "@apollo/client": "^3.7.0",
     "@bundlr-network/client": "^0.9.6",
     "@headlessui/react": "^1.7.4",
+    "@headlessui/tailwindcss": "^0.1.2",
     "@heroicons/react": "^2.0.13",
     "@livepeer/react": "^1.5.5",
     "dotenv": "^16.0.3",

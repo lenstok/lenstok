@@ -13,6 +13,7 @@ import {
 } from "@/store/app";
 import Spinner from "@/components/Spinner";
 import toast from "react-hot-toast";
+import Collect from "@/components/VideoUpload/Collect";
 
 const UploadVideo = () => {
   const ref = useRef<HTMLInputElement>(null);
@@ -46,6 +47,7 @@ const UploadVideo = () => {
     setBundlrData(UPLOADED_VIDEO_BUNDLR_DEFAULTS);
     setTitle("");
     setDescription("");
+    setVideoAsset(null);
   };
 
   useEffect(() => {
@@ -54,7 +56,24 @@ const UploadVideo = () => {
     }
   }, [uploadedVideo.isIndexed]);
 
-  const uploadAsset = async () => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      const previewURL = URL.createObjectURL(file);
+      setVideoAsset(file);
+      setUploadedVideo({ preview: previewURL });
+    } else {
+      return;
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    console.log("Video File", videoAsset);
+    if (!videoAsset) {
+      toast.error("Please select a video!");
+      return;
+    }
     if (videoAsset) {
       const preview = URL.createObjectURL(videoAsset);
       const stream = fileReaderStream(videoAsset);
@@ -75,45 +94,31 @@ const UploadVideo = () => {
 
     if (error) console.log("Error", error);
   };
-  console.log("Stream from index", uploadedVideo.stream);
-
-  const choseFile = () => {
-    ref.current?.click();
-  };
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const previewURL = URL.createObjectURL(file);
-      setVideoAsset(file);
-      setUploadedVideo({ preview: previewURL });
-    } else {
-      return;
-    }
-  };
 
   return (
     <div className="flex w-full h-full absolute left-0 top-[70px] lg:top-[70px] mb-10 pt-10 lg:pt-5 bg-[#F8F8F8] justify-center">
-      <div className=" bg-white rounded-lg lg:h-[90vh] flex gap-6 flex-wrap justify-center items-center p-14 pt-6">
-        <div>
+      <form
+        onSubmit={handleSubmit}
+        className=" bg-white rounded-lg lg:h-[90vh] flex gap-6 flex-wrap justify-center items-center p-14 pt-6"
+      >
+        <div className=" flex flex-col content-start gap-3 pb-10">
           <div>
             <p className="text-2xl font-bold">Upload Video</p>
             <p className="text-md text-gray-400 mt-1">
               Post a video to your account
             </p>
           </div>
-          <div className="border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center items-center outline-none mt-10 w-[260px] h-[458px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
+          <div className="border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center items-center outline-none mt-10 w-[260px] h-[120px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
             <div>
-              {uploadedVideo.stream ? (
+              {videoAsset ? (
                 <div>
-                  {uploadedVideo.preview ? (
+                  {uploadedVideo.preview && (
                     <div>
                       <video
                         title={videoAsset?.name}
                         src={uploadedVideo.preview}
                       />
                     </div>
-                  ) : (
-                    <div>{videoAsset?.name}</div>
                   )}
                 </div>
               ) : (
@@ -125,16 +130,10 @@ const UploadVideo = () => {
                       </p>
                       <p className="text-xl font-semibold">Upload Video</p>
                     </div>
-
-                    <p className="text-gray-400 text-center mt-10 text-sm leading-10">
-                      MP4 or WebM or ogg <br />
-                      720x1280 resolution or higher <br />
-                      Make it short <br />
-                      Less than 2 GB
-                    </p>
                   </div>
                   <input
                     type="file"
+                    required
                     ref={ref}
                     name="upload-video"
                     className="hidden"
@@ -150,13 +149,14 @@ const UploadVideo = () => {
               </p>
             )}
           </div>
+          <Collect />
         </div>
 
-        {/* //start form// */}
         <div className="flex flex-col gap-3 pb-10">
           <label className="text-md font-medium">Title</label>
           <input
             type="text"
+            required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="rounded lg:after:w-650 outline-none text-md border-2 border-gray-200 p-2"
@@ -165,6 +165,7 @@ const UploadVideo = () => {
           <label className="text-md font-medium">Description</label>
           <input
             type="text"
+            required
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="rounded lg:after:w-650 outline-none text-md border-2 border-gray-200 p-2"
@@ -196,7 +197,9 @@ const UploadVideo = () => {
               {" "}
               Discard
             </button>
-            {uploadedVideo.isUploadToAr ? (
+            {uploadedVideo.title &&
+            uploadedVideo.description &&
+            uploadedVideo.stream ? (
               <button
                 type="button"
                 className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
@@ -216,17 +219,16 @@ const UploadVideo = () => {
             ) : (
               <div>
                 <button
-                  onClick={videoAsset ? uploadAsset : choseFile}
-                  type="button"
+                  type="submit"
                   className="bg-emerald-700 text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
                 >
-                  {videoAsset ? "Upload Video" : "Select a Video"}
+                  Upload
                 </button>
               </div>
             )}
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
