@@ -53,7 +53,7 @@ const Collectors: FC<Props> = ({publicationId}) => {
         >
             <div className="divide-y">
                 {profiles?.map((wallet) => (
-                    <div className="p-5">
+                    <div className="p-5" key={wallet?.address}>
                         {wallet?.defaultProfile ? (
                             <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded items-center">
                                 <div>
