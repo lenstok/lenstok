@@ -4,6 +4,7 @@ import Link from "next/link";
 import { PublicationsDocument, PublicationsQueryRequest, PaginatedPublicationResult} from "@/types/lens";
 import { useQuery } from "@apollo/client";
 import { useRouter } from 'next/router';
+import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
 import { BsPlay } from "react-icons/bs";
 import Loader from '../UI/Loader';
 import { Player } from '@livepeer/react';

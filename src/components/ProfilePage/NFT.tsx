@@ -1,6 +1,6 @@
 import {  IS_MAINNET, OPENSEA_MARKETPLACE_URL } from '@/constants';
 import { Nft } from '@/types/lens'
-import React, { FC } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 import imageCdn from '@/lib/imageCdn';
 
