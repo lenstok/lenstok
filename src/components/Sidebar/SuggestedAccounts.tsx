@@ -1,10 +1,8 @@
 import { useQuery } from "@apollo/client";
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { GoVerified } from "react-icons/go";
 import { RecommendedProfilesDocument } from "@/types/lens";
-import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
 import getAvatar from "@/lib/getAvatar";
 
 const SuggestedAccounts = () => {

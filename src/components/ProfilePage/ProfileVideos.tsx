@@ -4,11 +4,10 @@ import Link from "next/link";
 import { PublicationsDocument, PublicationsQueryRequest, PaginatedPublicationResult} from "@/types/lens";
 import { useQuery } from "@apollo/client";
 import { useRouter } from 'next/router';
-import type { FC } from "react";
-import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
 import { BsPlay } from "react-icons/bs";
-import Loader from './Loader';
-
+import Loader from '../UI/Loader';
+import { Player } from '@livepeer/react';
+import getMedia from '@/lib/getMedia';
 
 const ProfileVideos = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -59,12 +58,16 @@ const ProfileVideos = () => {
             <div key={pub.id}>
               <Link href={`/detail/${pub.id}`} key={pub.id}>
                 <a className="block h-0 relative pb-[131%]">
-                  <video
-                    ref={videoRef}
-                    loop
-                    src={sanitizeIpfsUrl(pub.metadata.media[0].original.url)}
-                    className="absolute inset-0 h-full w-full object-cover rounded"
-                  /> 
+                  <div className="absolute inset-0 h-full w-full object-cover rounded">
+                    <Player
+                      title={`${pub?.metadata?.name}`}
+                      loop
+                      muted
+                      controls={{autohide: 0, hotkeys: false}}
+                      aspectRatio="9to16"
+                      src={getMedia(pub)}
+                    ></Player>
+                  </div>
                   <BsPlay onClick={onVideoClick} className="absolute left-3 bottom-3 fill-white w-7 h-7" />
                 </a>
               </Link>
