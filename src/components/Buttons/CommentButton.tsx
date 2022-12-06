@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ChatBubbleLeftEllipsisIcon } from '@heroicons/react/24/outline';
+import { MdFavorite } from 'react-icons/md';
+import { NextPage } from 'next';
 import Link from "next/link";
 import type { FC } from "react";
 import type { Publication } from "@/types/lens";

@@ -2,7 +2,9 @@ import { CHAIN_ID } from '@/constants';
 import { useAppStore } from '@/store/app';
 import { useNftFeedQuery } from '@/types/graph';
 import { Nft, Profile } from '@/types/lens';
+import Link from 'next/link';
 import React, { FC, useState } from 'react'
+import { BsPlay } from 'react-icons/bs';
 import { chain } from 'wagmi';
 import NFT from './NFT';
 

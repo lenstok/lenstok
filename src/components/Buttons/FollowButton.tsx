@@ -4,11 +4,12 @@ import onError from "@/lib/onError";
 import { Profile } from "@/types/lens";
 import useBroadcast from "@/utils/useBroadcast";
 import { ApolloCache } from "@apollo/client";
-import { Dispatch, FC } from "react";
+import { Dispatch, FC, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useAppStore } from "src/store/app";
 
 import { useAccount, useSignTypedData, useContractWrite } from "wagmi";
+import * as Apollo from "@apollo/client"
 import getSignature from "@/lib/getSignature";
 import splitSignature from "@/lib/splitSignature";
 import { useCreateFollowTypedDataMutation, useProxyActionMutation } from "@/types/graph";

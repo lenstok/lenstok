@@ -1,4 +1,6 @@
 import { useCollectorsQuery } from '@/types/graph'
+import Link from 'next/link'
+import Image from 'next/image'
 import React, { FC } from 'react'
 import Loader from '../UI/Loader'
 import getAvatar from '@/lib/getAvatar'
