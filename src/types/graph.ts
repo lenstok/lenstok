@@ -1,5 +1,5 @@
 import * as Apollo from '@apollo/client';
-import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables } from './lens';
+import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CollectorsDocument, CollectorsQuery, CollectorsQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables } from './lens';
 
 
 export function useAddReactionMutation(
@@ -167,4 +167,12 @@ export function usePublicationRevenueQuery(
   const options = { ...baseOptions }
   return Apollo.useQuery<PublicationRevenueQuery, PublicationRevenueQueryVariables>
   (PublicationRevenueDocument, options)
+}
+
+export function useCollectorsQuery(
+  baseOptions?: Apollo.QueryHookOptions<CollectorsQuery, CollectorsQueryVariables>
+) {
+  const options = { ...baseOptions }
+  return Apollo.useQuery<CollectorsQuery, CollectorsQueryVariables>
+  (CollectorsDocument, options)
 }

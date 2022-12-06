@@ -50,7 +50,7 @@ const CollectButton: FC<Props> = ({publication}) => {
               : getModule(publication?.collectModule?.type).name
           }
           icon={
-            <div className="text-brand">
+            <div className="text-[#96de26]">
               <GetModuleIcon
                 module={isFreeCollect ? CollectModules.FreeCollectModule : publication?.collectModule?.type}
                 size={5}

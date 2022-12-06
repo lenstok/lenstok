@@ -1,5 +1,8 @@
 import { LENS_HUB_ABI } from '@/abi/abi';
 import { UpdateOwnableFeeCollectModule } from '@/abi/UpdateOwnableFeeCollectModule';
+import Collectors from '@/components/ProfilePage/Collectors';
+import { Button } from '@/components/UI/Button';
+import { Modal } from '@/components/UI/Modal';
 import { LENSHUB_PROXY, RELAY_ON, UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS } from '@/constants';
 import getAssetAddress from '@/lib/getAssetAddress';
 import getCoingeckoPrice from '@/lib/getCoingeckoPrice';
@@ -32,6 +35,7 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
     const { address } = useAccount();
     const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
     const [hasCollectedByMe, setHasCollectedByMe] = useState(publication?.hasCollectedByMe);
+    const [showCollectorsModal, setShowCollectorsModal] = useState(false);
     const [allowed, setAllowed] = useState(true)
     const [revenue, setRevenue] = useState(0);
     const [usdPrice, setUsdPrice] = useState(0);
@@ -237,7 +241,21 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
             <div className="block space-y-1 sm:flex sm:space-x-5 item-center">
                 <div className='flex items-center space-x-2'>
                     <UsersIcon className="w-4 h-4 text-gray-500" />
-                    {count} collectors
+                    <div 
+                      className="font-bold cursor-pointer"
+                      onClick={() => {
+                        setShowCollectorsModal(!showCollectorsModal)
+                      }}
+                    >
+                      {count} collectors
+                    </div>
+                    <Modal
+                      title="Collected by"
+                      show={showCollectorsModal}
+                      onClose={() => setShowCollectorsModal(false)}
+                    >
+                      <Collectors publicationId={publication?.id} />
+                    </Modal>
                 </div>
                 {collectModule?.collectLimit && (
                     <div className="flex items-center space-x-2">
@@ -252,11 +270,12 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
                         <div className="w-28 rounded-lg h-[34px] shimmer" />
                     ) : allowed ? (
                         hasAmount ? (
-                            <button onClick={createCollect}
+                            <Button onClick={createCollect}
                             disabled={isLoading}
+                            variant="primary"
                             >
-                                Collect now
-                            </button>
+                                Collect Now
+                            </Button>
                         ) : (
                             null
                         )
