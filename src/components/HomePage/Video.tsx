@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
-import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import type { FC } from "react";
 import type { Publication } from "@/types/lens";
+import { Player } from '@livepeer/react';
 
 import LikeButton from  "@/components/Buttons/Likes/LikeButton";
 import MirrorButton from  "@/components/Buttons/Mirrors/MirrorButton";
@@ -44,14 +43,15 @@ const Video: FC<Props> = ({ publication }) => {
         className="rounded-3xl"
       >
         <Link href={`/detail/${publication.id}`} key={publication.id}>
-          <video
+          <div className='lg:w-[400px] rounded-2xl cursor-pointer bg-gray-100'>
+          <Player
+            title={`${publication?.metadata?.name}`}
             loop
-            controls
             muted
-            // ref={videoRef}
+            aspectRatio="9to16"
             src={getMedia(publication)}
-            className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
-          ></video>
+          ></Player>
+          </div>
         </Link>
         {/* {isHover && (
           <div className="absolute bottom-6 cursor-pointer left-8 md:left-14 lg:left-0 flex gap-10 lg:justify-between w-[100px] md:w-[50px] lg:w-[300px] p-3">

@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState, FC, Dispatch } from 'react';
-import type { NextPage } from "next";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Toaster } from "react-hot-toast";
-import { MdOutlineCancel } from 'react-icons/md';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 import Comments from './CommentsBlock/Comments';
 import { useQuery } from '@apollo/client';
@@ -16,16 +12,12 @@ import getAvatar from '@/lib/getAvatar';
 import { copyToClipboard } from "@/utils/clipboard";
 
 import { AiFillHeart, AiFillTwitterCircle } from "react-icons/ai";
-import { BsFacebook, BsReddit } from "react-icons/bs";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
-import LikeButton from '../Buttons/Likes/LikeButton';
-import MirrorButton from '../Buttons/Mirrors/MirrorButton';
-import CommentButton from '../Buttons/CommentButton';
-import CreateComment from './CommentsBlock/CreateComment';
 import LoginButton from '../LoginButton';
 import { useAppStore } from "src/store/app";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import FollowButton from '../Buttons/FollowButton';
+import { Player } from '@livepeer/react';
 
 const VideoDetail = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
@@ -56,42 +48,18 @@ const VideoDetail = () => {
 
     const itsNotMe = profile?.id !== currentProfile?.id
 
-    const onVideoClick = () => {
-      if (isPlaying) {
-        videoRef?.current?.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef?.current?.play();
-        setIsPlaying(true);
-      }
-    };
-
-    useEffect(() => {
-      if (videoRef?.current) {
-        videoRef.current.muted = isVideoMuted;
-      }
-    }, [isVideoMuted]);
-
     return (
        <div className="flex flex-col lg:flex-row lg:h-screen items-stretch">
         <Toaster position="bottom-right" />
         <div className="lg:flex-grow flex justify-center items-center relative bg-emerald-800">
-           <video
-              className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full"
-              ref={videoRef}
-               onClick={onVideoClick}
-               loop
-               src={getMedia(publication)}
-              // poster={video.coverURL}
-              controls
-              playsInline
-            ></video>
-         <div className="absolute top-5 left-5 flex gap-3">
-           <button
-             onClick={() => router.back()}
-             className="bg-[#3D3C3D] w-[40px] h-[40px] rounded-full flex justify-center items-center">
-             <FaTimes className="w-5 h-5 fill-white cursor-pointer" />
-            </button>
+          <div className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full">
+            <Player
+              title={`${publication?.metadata?.name}`}
+              loop
+              muted
+              aspectRatio="9to16"
+              src={getMedia(publication)}
+            ></Player>
           </div>
         </div>
 
