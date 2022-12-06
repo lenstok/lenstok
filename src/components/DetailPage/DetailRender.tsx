@@ -6,8 +6,6 @@ import { useAccount, useDisconnect, useNetwork } from 'wagmi';
 import { Profile, ReferenceModules, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from "@/types/lens";
 import { CHAIN_ID } from "@/constants";
 import Loading from "../Loading";
-import ProfileCard from '../ProfilePage/ProfileCard';
-import Profiles from '../ProfilePage/Profiles';
 import VideoDetail from './VideoDetail';
 
 

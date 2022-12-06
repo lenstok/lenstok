@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import type { FC } from 'react'
 import { ArrowsRightLeftIcon } from '@heroicons/react/24/outline';
-import { MdFavorite } from 'react-icons/md';
-import { NextPage } from 'next';
 import type { Publication } from '@/types/lens';
 
 //should also add authorisation so user cant like posttwice

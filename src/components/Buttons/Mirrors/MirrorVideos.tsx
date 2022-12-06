@@ -1,9 +1,8 @@
 import React, { useRef, useState } from 'react';
 import Link from "next/link";
-import { PublicationsDocument, PublicationsQueryRequest, PaginatedPublicationResult} from "@/types/lens";
+import { PublicationsDocument, PaginatedPublicationResult} from "@/types/lens";
 import { useQuery } from "@apollo/client";
 import { useRouter } from 'next/router';
-import type { FC } from "react";
 import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
 import { BsPlay } from "react-icons/bs";
 

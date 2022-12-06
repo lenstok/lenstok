@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, FC, Dispatch } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,12 +21,9 @@ import { Player } from '@livepeer/react';
 
 const VideoDetail = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
 
     const [following, setFollowing] = useState(false)
 
-    const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();
     const { id } = router.query
     

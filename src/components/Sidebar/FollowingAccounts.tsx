@@ -1,9 +1,7 @@
 import { useQuery } from "@apollo/client";
-import { useState, useEffect, FC, Key } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FollowingDocument, PaginatedFollowingResult, FollowingRequest, Profile } from "@/types/lens";
-import { sanitizeIpfsUrl } from "@/utils/sanitizeIpfsUrl";
+import { FollowingDocument, PaginatedFollowingResult } from "@/types/lens";
 import getAvatar from "@/lib/getAvatar";
 import { useAppStore } from "@/store/app";
 import { useAccount } from "wagmi";
