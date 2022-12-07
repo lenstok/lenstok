@@ -35,7 +35,6 @@ export const UPLOADED_VIDEO_FORM_DEFAULTS = {
   durationInSeconds: null,
   /* videoCategory: CREATOR_VIDEO_CATEGORIES[0], */
   collectModule: {
-    type: "freeCollectModule",
     followerOnlyCollect: false,
     amount: { currency: WMATIC_TOKEN_ADDRESS, value: "" },
     referralFee: 0,
