@@ -16,7 +16,6 @@ import { FaCommentDots, FaTimes } from "react-icons/fa";
 import LikeButton from '../Buttons/Likes/LikeButton';
 import MirrorButton from '../Buttons/Mirrors/MirrorButton';
 import CommentButton from '../Buttons/CommentButton';
-import CreateComment from './CommentsBlock/CreateComment';
 import LoginButton from '../Login/LoginButton';
 import { useAppStore } from "src/store/app";
 import UnfollowButton from '../Buttons/UnfollowButton';
@@ -118,6 +117,9 @@ const VideoDetail = () => {
 
               <div className="flex-shrink-0"> 
                          {/* // follow button goes here */}
+                {following ? 
+                <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> 
+                : <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />}
               </div>
 
             </div>
@@ -129,11 +131,9 @@ const VideoDetail = () => {
             <div className="flex justify-between items-center">
               <div className="flex gap-5">
                 <div className="flex items-center gap-1">
-                  <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full"
-                    >
-                      <AiFillHeart
-                        className='w-5 h-5'
-                      />
+                  <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
+                     {/* // Like button goes here
+                      <AiFillHeart className='w-5 h-5' /> */}
                   </button>
                   <span className="text-center text-xs font-semibold">
                       {publication?.stats.totalUpvotes}
@@ -141,7 +141,8 @@ const VideoDetail = () => {
                 </div>
                 <div className="flex items-center gap-1">
                   <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
-                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" />
+                    {/* // comments button goes here
+                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" /> */}
                   </button>
                   <p className="text-center text-xs font-semibold">
                       {publication?.stats.totalAmountOfComments}
