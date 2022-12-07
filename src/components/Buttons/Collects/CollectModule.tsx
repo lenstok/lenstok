@@ -21,6 +21,7 @@ import { useAccount, useBalance, useContractRead, useContractWrite, useSignTyped
 import getTokenImage from '../../../lib/getTokenImage';
 import Loader from '../../UI/Loader';
 import Image from 'next/image'
+import AllowanceButton from './AllowanceButton';
 
 interface Props {
     publication: Publication
@@ -281,7 +282,12 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
                             null
                         )
                     ) : (
-                        "Collected"
+                      <AllowanceButton
+                        title="Allow collect module"
+                        module={allowanceData?.approvedModuleAllowanceAmount[0]}
+                        allowed={allowed}
+                        setAllowed={setAllowed}
+                      />
                     )
                 ) : null}
             </div>
