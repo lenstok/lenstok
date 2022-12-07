@@ -1,84 +1,72 @@
-import { CommentFieldsFragmentDoc, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreatePublicCommentRequest, Publication, PublicationMainFocus } from '@/types/lens';
-import React, { Dispatch, FC, useState } from 'react'
+import { CreatePublicCommentRequest, Publication, PublicationMainFocus } from '@/types/lens';
+import React, { Dispatch, FC, useRef, useState } from 'react'
 import { LENS_HUB_ABI } from '@/abi/abi';
-import { useAppStore } from "src/store/app";
+import { useAppStore, useTransactionPersistStore } from "src/store/app";
 import { useContractWrite, useSignTypedData } from 'wagmi';
 import onError from '@/lib/onError';
 import toast from 'react-hot-toast';
-import { LENSHUB_PROXY } from '@/constants';
-import * as Apollo from '@apollo/client';
+import { APP_NAME, LENSHUB_PROXY, RELAY_ON } from '@/constants';
 import getSignature from '@/lib/getSignature';
 import { splitSignature } from 'ethers/lib/utils';
 import { uploadIpfs } from '@/utils/ipfs';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import useBroadcast from '@/utils/useBroadcast';
-import { ApolloCache } from '@apollo/client';
-import { publicationKeyFields } from '@/lib/keyFields';
+import { useCreateCommentTypedDataMutation, useCreateCommentViaDispatcherMutation } from '@/types/graph';
+
 
 interface Props {
   publication: Publication
+  refetchComments: () => void
 }
 
-const CreateComment: FC<Props> = ({ publication }) => {
+const CreateComment: FC<Props> = ({ publication, refetchComments }) => {
   const [comment, setComment] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const userSigNonce = useAppStore((state) => state.userSigNonce);
   const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
-  
   const currentProfile = useAppStore((state) => state.currentProfile);
+  const txnQueue = useTransactionPersistStore((state) => state.txnQueue);
+  const setTxnQueue = useTransactionPersistStore((state) => state.setTxnQueue);
 
-  const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
+  const { signTypedDataAsync } = useSignTypedData({ onError });
 
-  const [commented, setCommented] = useState(false);
-
-  function useCreateCommentTypedDataMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-      CreateCommentTypedDataMutation,
-      CreateCommentTypedDataMutationVariables
-    >
-  ){
-    const options = {...baseOptions}
-    return Apollo.useMutation<
-      CreateCommentTypedDataMutation,
-      CreateCommentTypedDataMutationVariables
-    >(
-      CreateCommentTypedDataDocument,
-      options
-    )
-  }
-
-  function useCreateCommentViaDispatcherMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-      CreateCommentViaDispatcherMutation,
-      CreateCommentViaDispatcherMutationVariables
-    >
-  ){
-    const options = {...baseOptions}
-    return Apollo.useMutation<
-      CreateCommentViaDispatcherMutation,
-      CreateCommentViaDispatcherMutationVariables
-    >(
-      CreateCommentViaDispatcherDocument,
-      options
-    )
-  }
-
-  
   const onCompleted = () => {
-    setCommented(true);
     toast.success('Post has been commented!');
+    setComment("")
   };
 
-  const { isLoading: writeLoading, write } = useContractWrite({
+  
+
+  const generateOpitimisticComment = ({ txHash, txId }: { txHash?: string; txId?: string }) => {
+    return {
+      id: uuid(),
+      parent: publication.id,
+      type: 'NEW_COMMENT',
+      content: comment,
+      txHash,
+      txId,
+    }
+  }
+
+  const { error, write } = useContractWrite({
     address: LENSHUB_PROXY,
     abi: LENS_HUB_ABI,
     functionName: 'commentWithSig',
     mode: 'recklesslyUnprepared',
-    onSuccess: onCompleted,
+    onSuccess: ({ hash }) => {
+      onCompleted();
+      setTxnQueue([generateOpitimisticComment({ txHash: hash }), ...txnQueue])
+    },
     onError
   });
 
-  const { broadcast, loading: broadcastLoading } = useBroadcast({ onCompleted })
-  const [createCommentTypedData, { loading: typedDataLoading }] = useCreateCommentTypedDataMutation({
+  const { broadcast } = useBroadcast({ onCompleted: (data) => {
+    onCompleted();
+    setTxnQueue([generateOpitimisticComment({ txId: data?.broadcast?.txId }), ...txnQueue])
+  } })
+
+  const [createCommentTypedData] = useCreateCommentTypedDataMutation({
     onCompleted: async ({ createCommentTypedData }) => {
       try {
         const { id, typedData } = createCommentTypedData
@@ -110,20 +98,29 @@ const CreateComment: FC<Props> = ({ publication }) => {
           sig
         };
 
-        const tx =  write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
-        console.log(tx)
+        setUserSigNonce(userSigNonce + 1)
+        if (!RELAY_ON) {
+          return write?.({ recklesslySetUnpreparedArgs: [inputStruct] })
+        }
 
+        const {
+          data: { broadcast: result }
+        } = await broadcast({ request: { id, signature } })
+
+        if ('reason' in result) {
+          write?.({ recklesslySetUnpreparedArgs: [inputStruct] })
+        }
       } catch {}
     },
     onError
   })
 
-  const [createCommentViaDispatcher, { loading: dispatcherLoading }] = useCreateCommentViaDispatcherMutation({
+  const [createCommentViaDispatcher] = useCreateCommentViaDispatcherMutation({
     onCompleted,
     onError
   })
 
-  const createViaDispatcher = async (request: CreatePublicCommentRequest) => {
+  const createViaDispatcher = async (request: any) => {
     const { data } = await createCommentViaDispatcher({
       variables: { request }
     })
@@ -137,71 +134,74 @@ const CreateComment: FC<Props> = ({ publication }) => {
     }
   }
 
-  const isLoading = typedDataLoading || dispatcherLoading || signLoading || writeLoading || broadcastLoading
-
-    async function createComment (e: React.FormEvent) {
-      if (!isLoading) {
-        e.preventDefault()
+  async function createComment () {
+    
+      if (!currentProfile) {
+        return toast.error("Please connect your Wallet!")
       }
       
-      const ipfsResult = await uploadIpfs({
-        version: '2.0.0',
-        mainContentFocus: PublicationMainFocus.TextOnly,
-        metadata_id: uuidv4(),
-        description: 'Description',
-        locale: 'en-US',
-        content: comment,
-        external_url: null,
-        image: null,
-        imageMimeType: null,
-        name: 'Name',
-        attributes: [],
-        tags: ['using_api_examples'],
-        appId: 'api_examples_github',
-      });
-      console.log('create comment: ipfs result', ipfsResult); 
+      try {
+        setIsSubmitting(true)
+        
+        const ipfsResult = await uploadIpfs({
+          version: '2.0.0',
+          mainContentFocus: PublicationMainFocus.TextOnly,
+          metadata_id: uuid(),
+          description: 'Description',
+          locale: 'en-US',
+          content: comment,
+          external_url: null,
+          image: null,
+          imageMimeType: null,
+          name: 'Name',
+          attributes: [],
+          tags: [],
+          appId: APP_NAME,
+          })
 
-      const request = {
-        profileId: currentProfile?.id,
-        publicationId: publication.id,
-        contentURI: `ipfs://${ipfsResult.path}`,
-        collectModule: {
-          revertCollectModule: true,
-        },
-        referenceModule: {
-          followerOnlyReferenceModule: false
-        }
-      }
-
-      if (currentProfile?.dispatcher?.canUseRelay) {
-        createViaDispatcher(request)
-      } else {
-        createCommentTypedData({
-          variables: {
-            options: { overrideSigNonce: userSigNonce },
-            request
+        const request = {
+          profileId: currentProfile?.id,
+          publicationId: publication.id,
+          contentURI: `ipfs://${ipfsResult.path}`,
+          collectModule: {
+            revertCollectModule: true,
+          },
+          referenceModule: {
+            followerOnlyReferenceModule: false
           }
-        })
+        }
+        if (currentProfile?.dispatcher?.canUseRelay) {
+          await createViaDispatcher(request)
+        } else {
+          await createCommentTypedData({
+            variables: {
+              options: { overrideSigNonce: userSigNonce },
+              request: request as CreatePublicCommentRequest
+            }
+          })
+        }
+      } catch {
+      } finally {
+        setIsSubmitting(false)
       }
     }
 
   return (
    
-      <form onSubmit={createComment} className="flex-shrink-0 flex p-5 gap-3 border-t">
-        <input
-          type="text"
+      <div className="flex-shrink-0 flex p-5 gap-3 border-t">
+        <textarea
           value={comment}
           onChange={(e) =>
             setComment(e.target.value)}
             className="bg-[#F1F1F2] rounded-md p-2 flex-grow text-sm outline-none placeholder:text-gray-500 border border-transparent focus:border-gray-300 transition"
             placeholder='Add comment..'
         />
-        <button className="text-md text-gray-400 border-gray-100" onClick={ createComment} disabled={isLoading}>
-          {isLoading ? 'Commenting...' 
+        <button className="text-md text-gray-400 border-gray-100" onClick={createComment} disabled={isSubmitting}>
+          {isSubmitting ? 'Commenting...' 
           :
           'Comment'}
         </button>
-      </form>
+      </div>
   
   )
 }

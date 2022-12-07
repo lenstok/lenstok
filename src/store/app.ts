@@ -1,3 +1,4 @@
+import { LS_KEYS } from "@/constants";
 import { WebBundlr } from "@bundlr-network/client";
 import { Profile, ReferenceModules } from "@/types/lens";
 import { BundlrDataState, UploadedVideo } from "@/types/app";
@@ -140,6 +141,20 @@ export const useReferenceModuleStore = create<ReferenceModuleState>((set) => ({
   onlyFollowers: false,
   setOnlyFollowers: (onlyFollowers) => set(() => ({ onlyFollowers })),
   degreesOfSeparation: 2,
-  setDegreesOfSeparation: (degreesOfSeparation) =>
-    set(() => ({ degreesOfSeparation })),
+  setDegreesOfSeparation: (degreesOfSeparation) => set(() => ({ degreesOfSeparation }))
 }));
+
+interface TransactionPersistState {
+  txnQueue: any[];
+  setTxnQueue: (txnQueue: any[]) => void;
+}
+
+export const useTransactionPersistStore = create(
+  persist<TransactionPersistState>(
+    (set) => ({
+      txnQueue: [],
+      setTxnQueue: (txnQueue) => set(() => ({ txnQueue }))
+    }),
+    { name: LS_KEYS.TRANSACTION_STORE }
+  )
+);

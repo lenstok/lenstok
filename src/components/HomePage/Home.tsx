@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import Explore from "@/components/ExplorePage/Explore";
+import Explore from "@/components/HomePage/Explore";
 
 import * as Apollo from '@apollo/client';
 

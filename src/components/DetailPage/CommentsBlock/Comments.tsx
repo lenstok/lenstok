@@ -1,7 +1,7 @@
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useAppStore } from "src/store/app";
+import { useAppStore, useTransactionPersistStore } from "src/store/app";
 
 import NoResults from './NoResults';
 import { useQuery } from '@apollo/client';
@@ -9,84 +9,60 @@ import { Publication, PublicationsDocument } from '@/types/lens';
 import { useRouter } from 'next/router';
 import { sanitizeIpfsUrl } from '@/utils/sanitizeIpfsUrl';
 import CreateComment from './CreateComment';
-import LoginButton from '../../Login/LoginButton';
-import getComments from '@/lib/getComments';
+import getAvatar from '@/lib/getAvatar';
+import CommentData from './CommentData';
+import QueuedData from '../../QueuedData';
 
 interface Props {
     publication: Publication;
 }
 
 const Comments: FC<Props> = ({ publication }) => {
-    const currentProfile = useAppStore((state) => state.currentProfile)
+    const currentProfile = useAppStore((state) => state.currentProfile);
+    const txnQueue = useTransactionPersistStore((state) => state.txnQueue);
 
     const router = useRouter()
     const { id } = router.query
-
-    const { data, loading, error } = useQuery(PublicationsDocument, {
-        variables: { 
-          request: {
+    const variables = {
+        request: {
             commentsOf: id,
-            limit: 10
-          }
-         },
+        }
+    }
+
+    const { data, loading, error, refetch } = useQuery(PublicationsDocument, {
+        variables
       });
-    const comments = data?.publications.items
+    const comments = data?.publications?.items ?? []
     console.log("Comments", comments);
 
+    const refetchComments = () => {
+        refetch({
+            ...variables
+        })
+    }
 
     return (
+    <>
     <div className="overflow-y-auto">
         <div className=" h-screen flex-grow flex flex-col items-stretch gap-3 overflow-y-auto bg-[#F8F8F8] p-5">
-            { comments?.length ? (
+            {txnQueue.map((txn) =>
+                txn?.type === 'NEW_COMMENT' &&
+                txn?.parent === publication?.id && (
+                    <div key={txn.id}>
+                        <QueuedData txn={txn} />
+                    </div>
+                )
+            )}
+            {
               comments?.map((comment) => 
                 <>
-                <div className="flex gap-2">
-                    <Link href={`/profile/${comment.profile.id}`} key={comment.profile.id}>
-                        <div className="flex-shrink-0 rounded-full">
-                        {comment.profile.picture?.__typename === "MediaSet" ? (
-                          comment.profile.picture.original.url.includes("ipfs") ? (
-                                            <Image
-                                            width={40}
-                                            height={40}
-                                            className="rounded-full cursor-pointer"
-                                            src={sanitizeIpfsUrl(comment.profile.picture.original.url)}
-                                            alt={comment.profile.handle}
-                                            />
-                                        ) : (
-                                            <Image
-                                            width={48}
-                                            height={48}
-                                            className="rounded-full cursor-pointer"
-                                            src={comment.profile.picture.original.url}
-                                            alt={comment.profile.handle}
-                                            />
-                                        )
-                                        ) : null}
-                         </div>
-                    </Link>
-                    <div className="flex-grow">
-                        <p className="font-bold hover:underline">
-                        {comment.profile.handle}
-                        </p>
-                        <p
-                         style={{
-                         wordWrap: "break-word",
-                         overflowWrap: "break-word",
-                         }}
-                        >
-                        {comment.metadata.content}
-                        </p>
-                    </div>
-                    </div>
-                    </>
-              )
- ) : (
-     <NoResults text='No Comments Yet! Be the first...' />
- ) }
-</div>
-
-</div>
-
+                <CommentData comment={comment as Publication} />
+                </>
+            )}
+        </div>
+    </div>
+        <CreateComment publication={publication as Publication} refetchComments={() => refetchComments()}/> 
+    </>
 );
 }
 

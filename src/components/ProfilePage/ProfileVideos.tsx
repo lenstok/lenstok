@@ -64,9 +64,9 @@ import { BsPlay } from "react-icons/bs";
                         <BsPlay onClick={onVideoClick} className="absolute left-3 bottom-3 fill-white w-7 h-7" />
                         </a>
                      </Link>
-                    <p className="whitespace-nowrap overflow-hidden text-ellipsis">
+                    {/* <p className="whitespace-nowrap overflow-hidden text-ellipsis">
                     {pub.metadata.name}
-                    </p>
+                    </p> */}
                 </div>
              ))}
              </div>

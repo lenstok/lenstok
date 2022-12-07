@@ -22,8 +22,9 @@ const CollectButton: FC<Props> = ({publication}) => {
          <FolderPlusIcon className="w-4 h-4 text-[#96de26]" />
           </div>
         ) : (
-          <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3 hover:bg-[#96de26]">
+          <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3 hover:bg-[#96de26] group relative w-max">
             <FolderPlusIcon className='w-4 h-4 text-white' />
+            <span className="pointer-events-none absolute -bottom-7 left-7 w-max shadow px-2 py-1 text-xs text-emerald-700 opacity-0 group-hover:opacity-100"> Collect </span>
           </div>
         )}
         <p className="text-xs hidden lg:block font-semibold text-gray-400">{publication.stats.totalAmountOfCollects}</p>

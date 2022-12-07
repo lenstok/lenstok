@@ -1,3 +1,3 @@
-import Home from "@/components/ExplorePage/Home";
+import Home from "@/components/HomePage/Home";
 
 export default Home;
