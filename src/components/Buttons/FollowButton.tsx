@@ -1,7 +1,7 @@
 import { LENS_HUB_ABI } from "@/abi/abi";
 import { LENSHUB_PROXY } from "@/constants";
 import onError from "@/lib/onError";
-import { CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, Profile, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables } from "@/types/lens";
+import { Profile } from "@/types/lens";
 import useBroadcast from "@/utils/useBroadcast";
 import { ApolloCache } from "@apollo/client";
 import { Dispatch, FC, useEffect } from "react";
@@ -12,6 +12,7 @@ import { useAccount, useSignTypedData, useContractWrite } from "wagmi";
 import * as Apollo from "@apollo/client"
 import getSignature from "@/lib/getSignature";
 import splitSignature from "@/lib/splitSignature";
+import { useCreateFollowTypedDataMutation, useProxyActionMutation } from "@/types/graph";
 
 interface Props {
   setFollowing: Dispatch<boolean>
@@ -49,26 +50,6 @@ const FollowButton: FC<Props> = ({ setFollowing, profile}) => {
     onSuccess: onCompleted,
     onError
   })
-
-  function useCreateFollowTypedDataMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-      CreateFollowTypedDataMutation,
-      CreateFollowTypedDataMutationVariables
-    >
-  ) {
-    const options = { ...baseOptions }
-    return Apollo.useMutation<CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables>(
-      CreateFollowTypedDataDocument,
-      options
-    )
-  }
-
-  function useProxyActionMutation(
-    baseOptions?: Apollo.MutationHookOptions<ProxyActionMutation, ProxyActionMutationVariables>
-  ) {
-    const options = { ...baseOptions };
-    return Apollo.useMutation<ProxyActionMutation, ProxyActionMutationVariables>(ProxyActionDocument, options);
-  }
 
   const { broadcast, loading: broadcastLoading } = useBroadcast({ onCompleted })
   const [createFollowTypedData, { loading: typedDataLoading }] = useCreateFollowTypedDataMutation({

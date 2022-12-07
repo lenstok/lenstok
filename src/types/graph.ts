@@ -1,5 +1,5 @@
 import * as Apollo from '@apollo/client';
-import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, CommentFeedDocument, CommentFeedQuery, CommentFeedQueryVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables } from './lens';
+import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CollectorsDocument, CollectorsQuery, CollectorsQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables } from './lens';
 
 
 export function useAddReactionMutation(
@@ -51,6 +51,52 @@ export function useCreateCommentViaDispatcherMutation(
   )
 }
 
+export function useCreateCollectTypedDataMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateCollectTypedDataMutation,
+    CreateCollectTypedDataMutationVariables
+  >
+) {
+  const options = { ...baseOptions };
+  return Apollo.useMutation<CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables>(
+    CreateCollectTypedDataDocument,
+    options
+  );
+}
+
+export function useProxyActionMutation(
+  baseOptions?: Apollo.MutationHookOptions<ProxyActionMutation, ProxyActionMutationVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useMutation<ProxyActionMutation, ProxyActionMutationVariables>(ProxyActionDocument, options);
+}
+
+export function useCreateFollowTypedDataMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateFollowTypedDataMutation,
+    CreateFollowTypedDataMutationVariables
+  >
+) {
+  const options = { ...baseOptions }
+  return Apollo.useMutation<CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables>(
+    CreateFollowTypedDataDocument,
+    options
+  )
+}
+
+export function useCreateUnfollowTypedDataMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateUnfollowTypedDataMutation,
+    CreateUnfollowTypedDataMutationVariables
+  >
+) {
+  const options = { ...baseOptions };
+  return Apollo.useMutation<CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables>(
+    CreateUnfollowTypedDataDocument,
+    options
+  );
+}
+
 export function usePublicationLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<PublicationQuery, PublicationQueryVariables>
 ) {
@@ -76,4 +122,57 @@ export function useHasTxHashBeenIndexedLazyQuery(
     HasTxHashBeenIndexedDocument,
     options
   );
+}
+
+export function useTimelineQuery(
+  baseOptions?: Apollo.QueryHookOptions<TimelineQuery, TimelineQueryVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useQuery<TimelineQuery, TimelineQueryVariables>(
+    TimelineDocument,
+    options
+  )
+}
+
+export function useNftFeedQuery(baseOptions: Apollo.QueryHookOptions<NftFeedQuery, NftFeedQueryVariables>) {
+  const options = { ...baseOptions };
+  return Apollo.useQuery<NftFeedQuery, NftFeedQueryVariables>(NftFeedDocument, options);
+}
+export function useNftFeedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<NftFeedQuery, NftFeedQueryVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useLazyQuery<NftFeedQuery, NftFeedQueryVariables>(NftFeedDocument, options);
+}
+
+export function useCollectModuleQuery(
+  baseOptions?: Apollo.QueryHookOptions<CollectModuleQuery, CollectModuleQueryVariables>
+) {
+  const options = { ...baseOptions }
+  return Apollo.useQuery<CollectModuleQuery, CollectModuleQueryVariables>
+  (CollectModuleDocument, options)
+}
+
+export function useApprovedModuleAllowanceAmountQuery(
+  baseOptions?: Apollo.QueryHookOptions<ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables>
+) {
+  const options = { ...baseOptions }
+  return Apollo.useQuery<ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables>
+  (ApprovedModuleAllowanceAmountDocument, options)
+}
+
+export function usePublicationRevenueQuery(
+  baseOptions?: Apollo.QueryHookOptions<PublicationRevenueQuery, PublicationRevenueQueryVariables>
+) {
+  const options = { ...baseOptions }
+  return Apollo.useQuery<PublicationRevenueQuery, PublicationRevenueQueryVariables>
+  (PublicationRevenueDocument, options)
+}
+
+export function useCollectorsQuery(
+  baseOptions?: Apollo.QueryHookOptions<CollectorsQuery, CollectorsQueryVariables>
+) {
+  const options = { ...baseOptions }
+  return Apollo.useQuery<CollectorsQuery, CollectorsQueryVariables>
+  (CollectorsDocument, options)
 }

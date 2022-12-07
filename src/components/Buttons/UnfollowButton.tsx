@@ -2,14 +2,14 @@ import { FollowNFT } from '@/abi/FollowNFT'
 import onError from '@/lib/onError'
 import splitSignature from '@/lib/splitSignature'
 import { useAppStore } from '@/store/app'
-import { CreateBurnEip712TypedData, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, Profile } from '@/types/lens'
+import { CreateBurnEip712TypedData, Profile } from '@/types/lens'
 import useBroadcast from '@/utils/useBroadcast'
 import { Contract, Signer } from 'ethers'
 import React, { Dispatch, FC, useState } from 'react'
 import { useSigner, useSignTypedData } from 'wagmi'
-import * as Apollo from '@apollo/client';
 import getSignature from '@/lib/getSignature'
 import { toast } from 'react-hot-toast'
+import { useCreateUnfollowTypedDataMutation } from '@/types/graph'
 
 interface Props {
   setFollowing: Dispatch<boolean>
@@ -37,19 +37,6 @@ const UnfollowButton: FC<Props> = ({ setFollowing, profile }) => {
       setFollowing(false)
     }
   })
-
-  function useCreateUnfollowTypedDataMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-      CreateUnfollowTypedDataMutation,
-      CreateUnfollowTypedDataMutationVariables
-    >
-  ) {
-    const options = { ...baseOptions };
-    return Apollo.useMutation<CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables>(
-      CreateUnfollowTypedDataDocument,
-      options
-    );
-  }
 
   const [createUnfollowTypedData, { loading: typedDataLoading }] = useCreateUnfollowTypedDataMutation({
     onCompleted: async ({ createUnfollowTypedData }) => {
@@ -85,6 +72,7 @@ const UnfollowButton: FC<Props> = ({ setFollowing, profile }) => {
       }
     })
   }
+
   return (
     <div>
       <button onClick={createUnfollow} 

@@ -13,7 +13,6 @@ import { v4 as uuid } from 'uuid';
 import useBroadcast from '@/utils/useBroadcast';
 import { useCreateCommentTypedDataMutation, useCreateCommentViaDispatcherMutation } from '@/types/graph';
 
-
 interface Props {
   publication: Publication
   refetchComments: () => void
@@ -197,9 +196,9 @@ const CreateComment: FC<Props> = ({ publication, refetchComments }) => {
             placeholder='Add comment..'
         />
         <button className="text-md text-gray-400 border-gray-100" onClick={createComment} disabled={isSubmitting}>
-          {isSubmitting ? 'Commenting...' 
-          :
-          'Comment'}
+          {isSubmitting ? ('Commenting...' 
+          ) : (
+          'Comment')}
         </button>
       </div>
   

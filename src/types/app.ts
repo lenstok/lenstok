@@ -57,6 +57,7 @@ export type UploadedVideo = {
   isSensitiveContent: boolean;
   isUploadToIpfs: boolean;
   isUploadToAr: boolean;
+  isIndexed: boolean;
   loading: boolean;
   uploadingThumbnail: boolean;
   videoSource: string;

@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState, FC, Dispatch } from 'react';
-import type { NextPage } from "next";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Toaster } from "react-hot-toast";
-import { MdOutlineCancel } from 'react-icons/md';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 import Comments from './CommentsBlock/Comments';
 import { useQuery } from '@apollo/client';
@@ -16,7 +12,6 @@ import getAvatar from '@/lib/getAvatar';
 import { copyToClipboard } from "@/utils/clipboard";
 
 import { AiFillHeart, AiFillTwitterCircle } from "react-icons/ai";
-import { BsFacebook, BsReddit } from "react-icons/bs";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
 import LikeButton from '../Buttons/Likes/LikeButton';
 import MirrorButton from '../Buttons/Mirrors/MirrorButton';
@@ -31,6 +26,8 @@ const VideoDetail = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
+
+    const [following, setFollowing] = useState(false)
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();

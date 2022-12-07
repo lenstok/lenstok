@@ -84,7 +84,13 @@ const Layout = ({ children }: Props) => {
   }, []);
 
   if (loading || !mounted) return <div>Loading...</div>;
-  return <div>{children}</div>;
+  return (
+    <div>
+      {" "}
+      <Toaster position="bottom-right" />
+      {children}
+    </div>
+  );
 };
 
 export default Layout;
