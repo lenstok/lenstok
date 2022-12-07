@@ -22,11 +22,12 @@ const MirrorButton: FC<Props> = ({publication}) => {
          <ArrowsRightLeftIcon className="w-4 h-4 text-[#96de26]" />
           </div>
         ) : (
-          <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3 hover:bg-[#96de26]">
+          <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3 hover:bg-[#96de26] group relative w-max">
             <ArrowsRightLeftIcon className='w-4 h-4 text-white' />
+            <span className="pointer-events-none absolute -bottom-7 left-7 w-max shadow px-2 py-1 text-xs text-emerald-700 opacity-0 group-hover:opacity-100"> Mirror </span>
           </div>
         )}
-        <p className="text-xs font-semibold text-gray-400">{publication.stats.totalAmountOfMirrors}</p>
+        <p className="text-xs hidden lg:block font-semibold text-gray-400">{publication.stats.totalAmountOfMirrors}</p>
         </div>
         </div>
     );

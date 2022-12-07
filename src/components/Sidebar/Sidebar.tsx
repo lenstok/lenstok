@@ -8,7 +8,7 @@ import Discover from "@/components/Sidebar/Discover";
 import SuggestedAccounts from "@/components/Sidebar/SuggestedAccounts";
 import FollowingAccounts from "@/components/Sidebar/FollowingAccounts";
 import Footer from "./Footer";
-import LoginButton from "@/components/LoginButton";
+import LoginButton from "@/components/Login/LoginButton";
 import { useAppStore } from '@/store/app';
 
 const Sidebar = () => {

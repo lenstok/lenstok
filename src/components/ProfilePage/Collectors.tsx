@@ -52,14 +52,14 @@ const Collectors: FC<Props> = ({publicationId}) => {
             next={loadMore}
             loader={<InfiniteLoader />}
             scrollableTarget="scrollableDiv"
-        >
+        > 
             <div className="divide-y">
                 {profiles?.map((wallet) => (
                     <div className="p-5" key={wallet?.address}>
                         {wallet?.defaultProfile ? (
                             <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded items-center">
                                 <div>
-                                    <img
+                                    <Image
                                         width={40}
                                         height={40}
                                         className="rounded-full cursor-pointer"

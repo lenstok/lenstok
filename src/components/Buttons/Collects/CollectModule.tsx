@@ -20,6 +20,7 @@ import toast from 'react-hot-toast';
 import { useAccount, useBalance, useContractRead, useContractWrite, useSignTypedData } from 'wagmi';
 import getTokenImage from '../../../lib/getTokenImage';
 import Loader from '../../UI/Loader';
+import Image from 'next/image'
 
 interface Props {
     publication: Publication
@@ -227,7 +228,7 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
         </div>
         {collectModule?.amount && (
             <div className="flex items-center py-2 space-x-1.5">
-                <img 
+                <Image 
                     src={getTokenImage(collectModule?.amount?.asset?.symbol)}
                     className="w-5 h-5"
                     height={20}

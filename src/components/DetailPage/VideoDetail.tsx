@@ -13,11 +13,13 @@ import { copyToClipboard } from "@/utils/clipboard";
 
 import { AiFillHeart, AiFillTwitterCircle } from "react-icons/ai";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
-import LoginButton from '../LoginButton';
+import LikeButton from '../Buttons/Likes/LikeButton';
+import MirrorButton from '../Buttons/Mirrors/MirrorButton';
+import CommentButton from '../Buttons/CommentButton';
+import LoginButton from '../Login/LoginButton';
 import { useAppStore } from "src/store/app";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import FollowButton from '../Buttons/FollowButton';
-import { Player } from '@livepeer/react';
 
 const VideoDetail = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
@@ -43,23 +45,48 @@ const VideoDetail = () => {
     const publication = data?.publication
     console.log("Publication", publication)
 
-    const Links = `http://localhost:3000/detail/${publication?.id}`
+    //CHANGE LINK ON DEPLOYMENT TO NEW DOMAIN!
+    const Links = `https://lenstok-gamma.vercel.app/${publication?.id}`
     const Title = `${profile?.handle} on Lenstok`
 
     const itsNotMe = profile?.id !== currentProfile?.id
+
+    const onVideoClick = () => {
+      if (isPlaying) {
+        videoRef?.current?.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef?.current?.play();
+        setIsPlaying(true);
+      }
+    };
+
+    useEffect(() => {
+      if (videoRef?.current) {
+        videoRef.current.muted = isVideoMuted;
+      }
+    }, [isVideoMuted]);
 
     return (
        <div className="flex flex-col lg:flex-row lg:h-screen items-stretch">
         <Toaster position="bottom-right" />
         <div className="lg:flex-grow flex justify-center items-center relative bg-emerald-800">
-          <div className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full">
-            <Player
-              title={`${publication?.metadata?.name}`}
-              loop
-              muted
-              aspectRatio="9to16"
-              src={getMedia(publication)}
-            ></Player>
+           <video
+              className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full"
+              ref={videoRef}
+               onClick={onVideoClick}
+               loop
+               src={getMedia(publication)}
+              // poster={video.coverURL}
+              controls
+              playsInline
+            ></video>
+         <div className="absolute top-5 left-5 flex gap-3">
+           <button
+             onClick={() => router.back()}
+             className="bg-[#3D3C3D] w-[40px] h-[40px] rounded-full flex justify-center items-center">
+             <FaTimes className="w-5 h-5 fill-white cursor-pointer" />
+            </button>
           </div>
         </div>
 
@@ -89,7 +116,10 @@ const VideoDetail = () => {
               </div>
 
               <div className="flex-shrink-0"> 
-                {following ? <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> : <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />}
+                         {/* // follow button goes here */}
+                {following ? 
+                <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> 
+                : <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />}
               </div>
 
             </div>
@@ -101,11 +131,9 @@ const VideoDetail = () => {
             <div className="flex justify-between items-center">
               <div className="flex gap-5">
                 <div className="flex items-center gap-1">
-                  <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full"
-                    >
-                      <AiFillHeart
-                        className='w-5 h-5'
-                      />
+                  <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
+                     {/* // Like button goes here
+                      <AiFillHeart className='w-5 h-5' /> */}
                   </button>
                   <span className="text-center text-xs font-semibold">
                       {publication?.stats.totalUpvotes}
@@ -113,7 +141,8 @@ const VideoDetail = () => {
                 </div>
                 <div className="flex items-center gap-1">
                   <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
-                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" />
+                    {/* // comments button goes here
+                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" /> */}
                   </button>
                   <p className="text-center text-xs font-semibold">
                       {publication?.stats.totalAmountOfComments}
