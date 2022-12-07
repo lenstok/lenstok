@@ -14,6 +14,7 @@ import {
 import Spinner from "@/components/Spinner";
 import toast from "react-hot-toast";
 import Collect from "@/components/VideoUpload/Collect";
+import { getCollectModule } from "@/utils/getCollectModule";
 
 const UploadVideo = () => {
   const ref = useRef<HTMLInputElement>(null);
@@ -42,6 +43,10 @@ const UploadVideo = () => {
 
   console.log("Current User is", currentUser);
 
+  console.log("COLLECT MODULE", uploadedVideo.collectModule);
+  useEffect(() => {
+    console.log(getCollectModule(uploadedVideo.collectModule));
+  });
   const resetToDefaults = () => {
     setUploadedVideo(UPLOADED_VIDEO_FORM_DEFAULTS);
     setBundlrData(UPLOADED_VIDEO_BUNDLR_DEFAULTS);
@@ -99,16 +104,13 @@ const UploadVideo = () => {
     <div className="flex w-full h-full absolute left-0 top-[70px] lg:top-[70px] mb-10 pt-10 lg:pt-5 bg-[#F8F8F8] justify-center">
       <form
         onSubmit={handleSubmit}
-        className=" bg-white rounded-lg lg:h-[90vh] flex gap-6 flex-wrap justify-center items-center p-14 pt-6"
+        className=" bg-white rounded-lg lg:h-[90vh] flex gap-6 flex-wrap  p-14 pt-6"
       >
-        <div className=" flex flex-col content-start gap-3 pb-10">
+        <div className=" flex flex-col  gap-3  pb-10">
           <div>
             <p className="text-2xl font-bold">Upload Video</p>
-            <p className="text-md text-gray-400 mt-1">
-              Post a video to your account
-            </p>
           </div>
-          <div className="border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center items-center outline-none mt-10 w-[260px] h-[120px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
+          <div className="border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center items-center outline-none  w-[260px] h-[120px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
             <div>
               {videoAsset ? (
                 <div>
@@ -128,7 +130,7 @@ const UploadVideo = () => {
                       <p className="font-bold text-xl">
                         <FaCloudUploadAlt className="text-gray-300 text-6xl" />
                       </p>
-                      <p className="text-xl font-semibold">Upload Video</p>
+                      <p className="text-xl font-semibold">Select a Video</p>
                     </div>
                   </div>
                   <input

@@ -22,6 +22,7 @@ import onError from "@/lib/onError";
 import { v4 as uuidv4 } from "uuid";
 import { ARWEAVE_WEBSITE_URL } from "@/constants";
 import { LENSTOK_URL } from "@/constants";
+import { getCollectModule } from "@/utils/getCollectModule";
 
 const LensSteps = () => {
   const uploadedVideo = useAppStore((state) => state.uploadedVideo);
@@ -186,9 +187,7 @@ const LensSteps = () => {
           request: {
             profileId: currentUser?.id,
             contentURI: contentUri,
-            collectModule: {
-              revertCollectModule: true,
-            },
+            collectModule: getCollectModule(uploadedVideo.collectModule),
             referenceModule: {
               followerOnlyReferenceModule: false,
             },

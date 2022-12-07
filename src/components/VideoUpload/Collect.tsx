@@ -1,28 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RadioGroup } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/20/solid";
+import clsx from "clsx";
+import { useAppStore } from "@/store/app";
 
 const Collect = () => {
-  const canCollects = ["Anyone", "Followers", "None"];
+  const currentProfile = useAppStore((state) => state.currentProfile);
+  const uploadedVideo = useAppStore((state) => state.uploadedVideo);
+  const canCollects = ["Anyone", "Followers"];
   const prizes = ["Free", "1", "5", "10"];
   const [canCollect, setCanCollect] = useState(canCollects[0]);
   const [prize, setPrize] = useState(prizes[0]);
 
+  useEffect(() => {
+    uploadedVideo.collectModule.recipient = currentProfile?.ownedBy;
+    if (prize === "Free") {
+      uploadedVideo.collectModule.isFreeCollect = true;
+      uploadedVideo.collectModule.isFeeCollect = false;
+      uploadedVideo.collectModule.amount!.value = "0";
+      if (canCollect === "Anyone") {
+        uploadedVideo.collectModule.followerOnlyCollect = false;
+      } else {
+        uploadedVideo.collectModule.followerOnlyCollect = true;
+      }
+    } else {
+      uploadedVideo.collectModule.isFreeCollect = false;
+      uploadedVideo.collectModule.isFeeCollect = true;
+      uploadedVideo.collectModule.amount!.value = prize;
+      if (canCollect === "Anyone") {
+        uploadedVideo.collectModule.followerOnlyCollect = false;
+      } else {
+        uploadedVideo.collectModule.followerOnlyCollect = true;
+      }
+    }
+  }, [canCollect, prize]);
   console.log("Collect value", canCollect);
+  console.log("Prize", prize);
 
   return (
     <div className="space-y-2">
       {" "}
       <RadioGroup value={canCollect} onChange={setCanCollect}>
         <RadioGroup.Label>Who can collect your video?</RadioGroup.Label>
-        <div className="flex">
+        <div className="flex justify-center">
           {canCollects.map((canCollect) => (
             <RadioGroup.Option key={canCollect} value={canCollect}>
               {({ active, checked }) => (
                 <div
-                  className={`${
-                    active ? "bg-blue-500 text-white" : "bg-white text-black"
-                  }`}
+                  className={clsx("p-2", {
+                    "bg-blue-500 text-white": active,
+                    "bg-white text-black": !active,
+                  })}
                 >
                   {canCollect}
                 </div>
@@ -33,14 +60,15 @@ const Collect = () => {
       </RadioGroup>
       <RadioGroup value={prize} onChange={setPrize}>
         <RadioGroup.Label>Prize (wMatic):</RadioGroup.Label>
-        <div className="flex">
+        <div className="flex justify-center">
           {prizes.map((prize) => (
             <RadioGroup.Option key={prize} value={prize}>
               {({ active, checked }) => (
                 <div
-                  className={`${
-                    active ? "bg-blue-500 text-white" : "bg-white text-black"
-                  }`}
+                  className={clsx("p-2", {
+                    "bg-blue-500 text-white": active,
+                    "bg-white text-black": !active,
+                  })}
                 >
                   {prize}
                 </div>
