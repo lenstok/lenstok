@@ -15,30 +15,31 @@ interface Props {
 }
 
 const CollectButton: FC<Props> = ({publication}) => {
-    const [alreadyCollected, setAlreadyCollected] = useState(false);
-    const [count, setCount] = useState(publication.stats.totalAmountOfCollects)
-    const [showCollectModal, setShowCollectModal] = useState(false);
-    const isFreeCollect = publication?.collectModule.__typename === 'FreeCollectModuleSettings';
-    const isUnknownCollect = publication?.collectModule.__typename === 'UnknownCollectModuleSettings';
+  const [alreadyCollected, setAlreadyCollected] = useState(false);
+  const [count, setCount] = useState(publication.stats.totalAmountOfCollects)
+  const [showCollectModal, setShowCollectModal] = useState(false);
+  const isFreeCollect = publication?.collectModule.__typename === 'FreeCollectModuleSettings';
+  const isUnknownCollect = publication?.collectModule.__typename === 'UnknownCollectModuleSettings';
 
-    useEffect(() => {
-      if (publication?.hasCollectedByMe === true) {
-        setAlreadyCollected(true)
-      } else {
-        setAlreadyCollected(false)
-      }
-    }, [publication?.hasCollectedByMe])
+  useEffect(() => {
+    if (publication?.hasCollectedByMe === true) {
+      setAlreadyCollected(true)
+    } else {
+      setAlreadyCollected(false)
+    }
+  }, [publication?.hasCollectedByMe])
 
     return (
-       <div className="flex gap-6">
-        <div className="mt-4 flex flex-col justify-center items-center cursor-pointer">
-        {alreadyCollected ? (
-         <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3">
-         <FolderPlusIcon className="w-4 h-4 text-[#96de26]" onClick={() =>{setShowCollectModal(true)}} />
-          </div>
-        ) : (
-          <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3 hover:bg-[#96de26]">
+      <div className="flex gap-6">
+      <div className="mt-4 flex flex-col justify-center items-center cursor-pointer">
+      {alreadyCollected ? (
+       <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3">
+       <FolderPlusIcon className="w-4 h-4 text-[#96de26]" onClick={() =>{setShowCollectModal(true)}} />
+        </div>
+      ) : (
+          <div className="flex items-center bg-emerald-700 rounded-full p-2 md:p-3 hover:bg-[#96de26] group relative w-max">
             <FolderPlusIcon className='w-4 h-4 text-white' onClick={() => {setShowCollectModal(true)}} />
+            <span className="pointer-events-none absolute -bottom-7 left-7 w-max shadow px-2 py-1 text-xs text-emerald-700 opacity-0 group-hover:opacity-100"> Collect </span>
           </div>
         )}
         <Modal
@@ -50,7 +51,7 @@ const CollectButton: FC<Props> = ({publication}) => {
               : getModule(publication?.collectModule?.type).name
           }
           icon={
-            <div className="text-brand">
+            <div className="text-[#96de26]">
               <GetModuleIcon
                 module={isFreeCollect ? CollectModules.FreeCollectModule : publication?.collectModule?.type}
                 size={5}
@@ -67,7 +68,7 @@ const CollectButton: FC<Props> = ({publication}) => {
           count={count} 
         />
       </Modal>
-        <p className="text-xs font-semibold text-gray-400">{count}</p>
+        <p className="text-xs hidden lg:block font-semibold text-gray-400">{count}</p>
         </div>
         </div>
     );

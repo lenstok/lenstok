@@ -12,8 +12,6 @@ import { uploadIpfs } from '@/utils/ipfs';
 import { v4 as uuid } from 'uuid';
 import useBroadcast from '@/utils/useBroadcast';
 import { useCreateCommentTypedDataMutation, useCreateCommentViaDispatcherMutation } from '@/types/graph';
-import { Spinner } from './UI/Spinner';
-
 
 interface Props {
   publication: Publication

@@ -11,10 +11,13 @@ import {
   UPLOADED_VIDEO_FORM_DEFAULTS,
   UPLOADED_VIDEO_BUNDLR_DEFAULTS,
 } from "@/store/app";
-import Spinner from "@/components/Spinner";
+
 import toast from "react-hot-toast";
+
 import Collect from "@/components/VideoUpload/Collect";
 import { getCollectModule } from "@/utils/getCollectModule";
+
+import { Spinner } from "../UI/Spinner";
 
 const UploadVideo = () => {
   const ref = useRef<HTMLInputElement>(null);

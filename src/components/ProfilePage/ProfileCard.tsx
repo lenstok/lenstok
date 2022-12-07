@@ -79,7 +79,7 @@ interface Props {
                         Videos
                         </span>
                         <span className={`text-xl font-semibold cursor-pointer ${liked} mt-2`} onClick={() => setShowUserVideos(false)}>
-                        NFTs
+                        Collected
                         </span>
                         </div>
                     {(showUserVideos) ? <ProfileVideos /> : <CollectedVideos profile={profile as Profile} />}

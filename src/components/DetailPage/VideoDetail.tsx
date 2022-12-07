@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState, FC, Dispatch } from 'react';
-import type { NextPage } from "next";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Toaster } from "react-hot-toast";
-import { MdOutlineCancel } from 'react-icons/md';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 import Comments from './CommentsBlock/Comments';
 import { useQuery } from '@apollo/client';
@@ -16,13 +12,11 @@ import getAvatar from '@/lib/getAvatar';
 import { copyToClipboard } from "@/utils/clipboard";
 
 import { AiFillHeart, AiFillTwitterCircle } from "react-icons/ai";
-import { BsFacebook, BsReddit } from "react-icons/bs";
 import { FaCommentDots, FaTimes } from "react-icons/fa";
 import LikeButton from '../Buttons/Likes/LikeButton';
 import MirrorButton from '../Buttons/Mirrors/MirrorButton';
 import CommentButton from '../Buttons/CommentButton';
-import CreateComment from './CommentsBlock/CreateComment';
-import LoginButton from '../LoginButton';
+import LoginButton from '../Login/LoginButton';
 import { useAppStore } from "src/store/app";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import FollowButton from '../Buttons/FollowButton';
@@ -51,7 +45,8 @@ const VideoDetail = () => {
     const publication = data?.publication
     console.log("Publication", publication)
 
-    const Links = `http://localhost:3000/detail/${publication?.id}`
+    //CHANGE LINK ON DEPLOYMENT TO NEW DOMAIN!
+    const Links = `https://lenstok-gamma.vercel.app/${publication?.id}`
     const Title = `${profile?.handle} on Lenstok`
 
     const itsNotMe = profile?.id !== currentProfile?.id
@@ -121,7 +116,10 @@ const VideoDetail = () => {
               </div>
 
               <div className="flex-shrink-0"> 
-                {following ? <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> : <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />}
+                         {/* // follow button goes here */}
+                {following ? 
+                <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> 
+                : <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />}
               </div>
 
             </div>
@@ -133,11 +131,9 @@ const VideoDetail = () => {
             <div className="flex justify-between items-center">
               <div className="flex gap-5">
                 <div className="flex items-center gap-1">
-                  <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full"
-                    >
-                      <AiFillHeart
-                        className='w-5 h-5'
-                      />
+                  <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
+                     {/* // Like button goes here
+                      <AiFillHeart className='w-5 h-5' /> */}
                   </button>
                   <span className="text-center text-xs font-semibold">
                       {publication?.stats.totalUpvotes}
@@ -145,7 +141,8 @@ const VideoDetail = () => {
                 </div>
                 <div className="flex items-center gap-1">
                   <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
-                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" />
+                    {/* // comments button goes here
+                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" /> */}
                   </button>
                   <p className="text-center text-xs font-semibold">
                       {publication?.stats.totalAmountOfComments}
