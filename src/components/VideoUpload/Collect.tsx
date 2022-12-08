@@ -40,15 +40,17 @@ const Collect = () => {
     <div className="space-y-2">
       {" "}
       <RadioGroup value={canCollect} onChange={setCanCollect}>
-        <RadioGroup.Label>Who can collect your video?</RadioGroup.Label>
+        <RadioGroup.Label as="div" className="my-2">
+          Who can collect your video?
+        </RadioGroup.Label>
         <div className="flex justify-center">
           {canCollects.map((canCollect) => (
             <RadioGroup.Option key={canCollect} value={canCollect}>
               {({ active, checked }) => (
                 <div
-                  className={clsx("p-2", {
-                    "bg-blue-500 text-white": active,
-                    "bg-white text-black": !active,
+                  className={clsx("p-2 cursor-pointer rounded", {
+                    "bg-emerald-700 text-white": checked,
+                    "bg-white text-black": !checked,
                   })}
                 >
                   {canCollect}
@@ -59,15 +61,17 @@ const Collect = () => {
         </div>
       </RadioGroup>
       <RadioGroup value={prize} onChange={setPrize}>
-        <RadioGroup.Label>Prize (wMatic):</RadioGroup.Label>
+        <RadioGroup.Label as="div" className="my-2">
+          Prize (in wMatic):
+        </RadioGroup.Label>
         <div className="flex justify-center">
           {prizes.map((prize) => (
             <RadioGroup.Option key={prize} value={prize}>
               {({ active, checked }) => (
                 <div
-                  className={clsx("p-2", {
-                    "bg-blue-500 text-white": active,
-                    "bg-white text-black": !active,
+                  className={clsx("p-2 cursor-pointer rounded", {
+                    "bg-emerald-700 text-white": checked,
+                    "bg-white text-black": !checked,
                   })}
                 >
                   {prize}
