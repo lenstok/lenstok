@@ -292,6 +292,11 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
                 ) : null}
             </div>
         </div>
+        {publication?.hasCollectedByMe && (
+          <div className="mt-3 font-bold text-green-500 flex items-center space-x-1.5">
+            <div>You already collected this</div>
+          </div>
+        )}
     </div>
   )
 }

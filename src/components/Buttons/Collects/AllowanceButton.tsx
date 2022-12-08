@@ -3,22 +3,22 @@ import { Spinner } from '@/components/UI/Spinner';
 import { getModule } from '@/lib/getModule';
 import onError from '@/lib/onError'
 import { useGenerateModuleCurrencyApprovalDataLazyQuery } from '@/types/graph';
-import { ApprovedAllowanceAmount } from '@/types/lens';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid';
-import React, { FC, useState } from 'react'
+import React, { Dispatch, FC, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useSendTransaction, useWaitForTransaction } from 'wagmi'
 
 interface Props {
     title?: string;
-    module: ApprovedAllowanceAmount;
+    module: any;
+    allowed: boolean;
+    setAllowed: Dispatch<boolean>;
 }
 
 const AllowanceButton: FC<Props> = ({ module, title }) => {
     const [allowed, setAllowed] = useState(module?.allowance !== '0x00');
     const [generateAllowanceQuery, { loading: queryLoading }] =
     useGenerateModuleCurrencyApprovalDataLazyQuery();
-
 
     const {
         data: txData,
