@@ -41,8 +41,7 @@ const Video: FC<Props> = ({ publication }) => {
           ></video>
         </Link>
         </div>
-         {/* <div className='absolute right-8 md:relative md:flex-col m-2 mb-10 md:m-0 md:pt-[120px]'> */}
-        <div className='absolute md:relative md:flex md:flex-col top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[120px]'>
+        <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'>
           <LikeButton publication={publication as Publication}/>
           <CommentButton publication={publication as Publication} />
           <MirrorButton publication={publication as Publication}/>
