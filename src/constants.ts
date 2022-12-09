@@ -67,3 +67,5 @@ export const FREE_COLLECT_MODULE = IS_MAINNET
   : '0x0BE6bD7092ee83D44a6eC1D949626FeE48caB30c'
 
 export const MAINNET_DEFAULT_TOKEN = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
+
+export const POLYGONSCAN_URL = IS_MAINNET ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com';

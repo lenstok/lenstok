@@ -63,7 +63,6 @@ const CollectButton: FC<Props> = ({publication}) => {
       >
         <CollectModule 
           publication={ publication as Publication }
-          setAlreadyCollected={setAlreadyCollected}
           setCount={setCount}
           count={count} 
         />

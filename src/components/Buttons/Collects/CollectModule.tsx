@@ -3,7 +3,7 @@ import { UpdateOwnableFeeCollectModule } from '@/abi/UpdateOwnableFeeCollectModu
 import Collectors from '@/components/ProfilePage/Collectors';
 import { Button } from '@/components/UI/Button';
 import { Modal } from '@/components/UI/Modal';
-import { LENSHUB_PROXY, RELAY_ON, UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS } from '@/constants';
+import { IS_MAINNET, LENSHUB_PROXY, RELAY_ON, UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS } from '@/constants';
 import getAssetAddress from '@/lib/getAssetAddress';
 import getCoingeckoPrice from '@/lib/getCoingeckoPrice';
 import getSignature from '@/lib/getSignature';
@@ -12,7 +12,7 @@ import { useAppStore } from '@/store/app';
 import { useApprovedModuleAllowanceAmountQuery, useCollectModuleQuery, useCreateCollectTypedDataMutation, useProxyActionMutation, usePublicationRevenueQuery } from '@/types/graph';
 import { CollectModules, Publication } from '@/types/lens';
 import useBroadcast from '@/utils/useBroadcast';
-import { CameraIcon, UsersIcon } from '@heroicons/react/24/outline';
+import { CameraIcon, CheckCircleIcon, ClockIcon, CurrencyDollarIcon, FolderPlusIcon, PuzzlePieceIcon, UsersIcon } from '@heroicons/react/24/outline';
 import { BigNumber } from 'ethers';
 import { defaultAbiCoder, splitSignature } from 'ethers/lib/utils';
 import React, { Dispatch, FC, useEffect, useState } from 'react'
@@ -22,25 +22,27 @@ import getTokenImage from '../../../lib/getTokenImage';
 import Loader from '../../UI/Loader';
 import Image from 'next/image'
 import AllowanceButton from './AllowanceButton';
+import dayjs from 'dayjs';
+import { Spinner } from '@/components/UI/Spinner';
+import IndexStatus from '@/components/UI/IndexStatus';
 
 interface Props {
     publication: Publication
-    setAlreadyCollected: Dispatch<boolean>
     setCount: Dispatch<number>
     count: number
 }
 
-const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, count }) => {
+const CollectModule: FC<Props> = ({publication, setCount, count }) => {
     const userSigNonce = useAppStore((state) => state.userSigNonce);
     const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
     const currentProfile = useAppStore((state) => state.currentProfile);
-    const { address } = useAccount();
-    const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
     const [hasCollectedByMe, setHasCollectedByMe] = useState(publication?.hasCollectedByMe);
     const [showCollectorsModal, setShowCollectorsModal] = useState(false);
     const [allowed, setAllowed] = useState(true)
     const [revenue, setRevenue] = useState(0);
     const [usdPrice, setUsdPrice] = useState(0);
+    const { address } = useAccount()
+    const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
 
     const { data, loading } = useCollectModuleQuery({
         variables: { request: { publicationId: publication?.id } }
@@ -49,8 +51,9 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
       const collectModule: any = data?.publication?.collectModule
   
       const onCompleted = () => {
+        setRevenue(revenue + parseFloat(collectModule?.amount?.value))
         toast.success('Collect Susccessfully!')
-        setAlreadyCollected(true)
+        setHasCollectedByMe(true)
         setCount(count + 1)
       }
   
@@ -62,9 +65,11 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
         enabled: false
       })
   
-      const {  data: writeData,
+      const {  
+        data: writeData,
         isLoading: writeLoading,
-        write } = useContractWrite({
+        write 
+      } = useContractWrite({
         address: LENSHUB_PROXY,
         abi: LENS_HUB_ABI,
         functionName: 'collectWithSig',
@@ -72,6 +77,8 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
         onSuccess: onCompleted,
         onError
       })
+
+      const percentageCollected = (count / parseInt(collectModule?.collectLimit)) * 100
 
       const { data: allowanceData, loading: allowanceLoading } = useApprovedModuleAllowanceAmountQuery({
         variables: {
@@ -208,96 +215,156 @@ const CollectModule: FC<Props> = ({publication, setAlreadyCollected, setCount, c
         }
       }
   
-      if (loading) {
+      if (loading || revenueLoading) {
         return <Loader message="Loading collect" />;
       }
   
       const isLoading =
-      typedDataLoading || proxyActionLoading || signLoading || isFetching || writeLoading || broadcastLoading;
+      typedDataLoading || proxyActionLoading || signLoading || isFetching || writeLoading || broadcastLoading
 
   return (
-    <div className="p-5">
-        <div className="pb-2 space-y-1.5">
-            <div className="flex items-center space-x-2">
-                {publication?.metadata?.name && (
-                    <div className="text-xl font-bold">{publication?.metadata?.name}</div>
-                )}
-            </div>
-            {publication?.metadata?.description && (
-                <div className="text-gray-500 line-clamp-2">{publication?.metadata?.description}</div>
-            )}
-        </div>
-        {collectModule?.amount && (
-            <div className="flex items-center py-2 space-x-1.5">
-                <Image 
-                    src={getTokenImage(collectModule?.amount?.asset?.symbol)}
-                    className="w-5 h-5"
-                    height={20}
-                    width={20}
-                    alt={collectModule?.amount?.asset?.symbol}
-                    title={collectModule?.amount?.asset?.symbol}
-                />
-            </div>
-        )}
-        <div className="space-y-1.5">
-            <div className="block space-y-1 sm:flex sm:space-x-5 item-center">
-                <div className='flex items-center space-x-2'>
-                    <UsersIcon className="w-4 h-4 text-gray-500" />
-                    <div 
-                      className="font-bold cursor-pointer"
-                      onClick={() => {
-                        setShowCollectorsModal(!showCollectorsModal)
-                      }}
-                    >
-                      {count} collectors
-                    </div>
-                    <Modal
-                      title="Collected by"
-                      show={showCollectorsModal}
-                      onClose={() => setShowCollectorsModal(false)}
-                    >
-                      <Collectors publicationId={publication?.id} />
-                    </Modal>
-                </div>
-                {collectModule?.collectLimit && (
-                    <div className="flex items-center space-x-2">
-                        <CameraIcon className="w-4 h-4 text-gray-500" />
-                        <div className="font-bold">{parseInt(collectModule?.collectLimit) - count} avaliable</div>
-                    </div>
-                )}
-            </div>
-            <div className="flex items-center space-x-2 mt-5">
-                {currentProfile && !hasCollectedByMe ? (
-                    allowanceLoading || balanceLoading ? (
-                        <div className="w-28 rounded-lg h-[34px] shimmer" />
-                    ) : allowed ? (
-                        hasAmount ? (
-                            <Button onClick={createCollect}
-                            disabled={isLoading}
-                            variant="primary"
-                            >
-                                Collect Now
-                            </Button>
-                        ) : (
-                            null
-                        )
-                    ) : (
-                      <AllowanceButton
-                        title="Allow collect module"
-                        module={allowanceData?.approvedModuleAllowanceAmount[0]}
-                        allowed={allowed}
-                        setAllowed={setAllowed}
-                      />
-                    )
-                ) : null}
-            </div>
-        </div>
-        {publication?.hasCollectedByMe && (
-          <div className="mt-3 font-bold text-green-500 flex items-center space-x-1.5">
-            <div>You already collected this</div>
+    <>
+      <>
+      {(collectModule?.type === CollectModules.LimitedFeeCollectModule ||
+        collectModule?.type === CollectModules.LimitedTimedFeeCollectModule) && (
+          <div className="w-full h-2.5 bg-gray-200">
+            <div className="h-2.5 bg-brand-500" style={{ width: `${percentageCollected}%` }} />
           </div>
         )}
-    </div>
+        <div className="p-5">
+          {collectModule?.followerOnly && (
+            <div className="pb-5">
+              test
+            </div>
+          )}
+          <div className="pb-2 space-y-1.5">
+            <div className="flex items-center space-x-2">
+              {publication?.metadata?.name && (
+                <div className="text-xl font-bold">{publication?.metadata?.name}</div>
+              )}
+            </div>
+            {publication?.metadata?.description && (
+              <span className="text-gray-500 line-clamp-2">{publication?.metadata?.description}</span>
+            )}
+          </div>
+          {collectModule?.amount && (
+            <div className="flex items-center py-2 space-x-1.5">
+              <Image 
+                className="w-7 h-7"
+                height={28}
+                width={28}
+                src={getTokenImage(collectModule?.amount?.asset?.symbol)}
+                alt={collectModule?.amount?.asset?.symbol}
+                title={collectModule?.amount?.asset?.symbol}
+              />
+              <span className="space-x-1">
+                <span className="text-2x1 font-bold">{collectModule.amount.value}</span>
+                <span className="text-xs">{collectModule?.amount?.asset?.symbol}</span>
+                {usdPrice ? (
+                  <>
+                    <span className="text-gray-500 px-0.5">.</span>
+                    <span>
+                      ${(collectModule.amount.value * usdPrice).toFixed(2)}
+                    </span>
+                  </>
+                ) : null}
+              </span>
+            </div>
+          )}
+          <div className="space-y-1.5">
+            <div className="block space-y-1 sm:flex sm:space-x-5 item-center">
+              <div className="flex items-center space-x-2">
+                <UsersIcon className="w-4 h-4 text-gray-500" />
+                <span className="font-bold cursor-pointer"
+                  onClick={() => {setShowCollectorsModal(!showCollectorsModal)}}
+                >
+                  {count} collectors
+                </span>
+                <Modal
+                  title="Collected by"
+                  show={showCollectorsModal}
+                  onClose={() => setShowCollectorsModal(false)}
+                >
+                  <Collectors
+                    publicationId={publication?.id}
+                  />
+                </Modal>
+              </div>
+              {collectModule?.collectLimit && (
+                <div className="flex items-center space-x-2">
+                  <CameraIcon className="w-4 h-4 text-gray-500" />
+                  <div className="font-bold">{parseInt(collectModule?.collectLimit) - count} avaliable</div>
+                </div>
+              )}
+              {collectModule?.referralFee ? (
+                <div className="flex items-center space-x-2">
+                  <CurrencyDollarIcon className="w-4 h-4 text-gray-500" />
+                  <div className="font-bold">{collectModule.referralFee}% referral fee</div>
+                </div>
+              ) : null}
+            </div>
+            {revenueData?.publicationRevenue && (
+              <div>
+
+              </div>
+            )}
+            {collectModule?.endTimestamp && (
+              <div className="flex items-center space-x-2">
+                <ClockIcon className="w-4 h-4 text-gray-500" />
+                <div className="space-x-1.5">
+                  <span>Sale Ends:</span>
+                  <span className="font-bold text-gray-600">
+                    {dayjs(collectModule.endTimestamp).format('MMMM DD, YYYY')} at{' '}
+                    {dayjs(collectModule.endTimestamp).format('hh:mm a')}
+                  </span>
+                </div>
+              </div>
+            )}
+            {data?.publication?.collectNftAddress && (
+              <div></div>
+            )}
+          </div>
+          {writeData?.hash ?? broadcastData?.broadcast?.txHash ? (
+            <div>
+              <IndexStatus txHash={writeData?.hash ?? broadcastData?.broadcast?.txHash} />
+            </div>
+          ) : null}
+          <div className="flex items-center space-x-2 mt-5">
+            {currentProfile && !hasCollectedByMe ? (
+              allowanceLoading || balanceLoading ? (
+                <div className="w-28 round-lg h-[34px] shimmer"
+                />
+              ) : allowed ? (
+                hasAmount ? (
+                  <Button
+                    onClick={createCollect}
+                    disabled={isLoading}
+                    icon={isLoading ? <Spinner size="xs" /> : <FolderPlusIcon className="w-4 h-4" />}
+                  >
+                    Collect now
+                  </Button>
+                ) : (
+                  "Not enough money"
+                )
+              ) : (
+                <AllowanceButton 
+                  title="Allow collect module"
+                  module={allowanceData?.approvedModuleAllowanceAmount[0]}
+                  allowed={allowed}
+                  setAllowed={setAllowed}
+                />
+              )
+            ) : null}
+          </div>
+          {publication?.hasCollectedByMe && (
+            <div className="mt-3 font-bold text-green-500 flex items-center space-x-1.5">
+              <CheckCircleIcon className="h-5 w-5" />
+              <div>You already collected this</div>
+            </div>
+          )}
+        </div>
+      </>
+    </>
   )
 }
 
