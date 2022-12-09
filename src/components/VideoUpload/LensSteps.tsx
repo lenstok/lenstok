@@ -152,7 +152,7 @@ const LensSteps = () => {
         ],
         appId: "lenstok",
       };
-      const response = await fetch(` http://${LENSTOK_URL}/api/meta-to-ipfs`, {
+      const response = await fetch(`${LENSTOK_URL}/api/meta-to-ipfs`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(metadata),
