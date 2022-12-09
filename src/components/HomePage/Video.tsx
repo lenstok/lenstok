@@ -36,13 +36,13 @@ const Video: FC<Props> = ({ publication }) => {
             // ref={videoRef}
             src={getMedia(publication)}
             // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
-            className='lg:w-[400px] lg:h-[500px] md:h-[400px] md:w-[400px] h-[300px] w-full
+            className='lg:w-[400px] lg:h-[500px] md:h-[400px] md:w-[400px] h-[400px] w-full
             object-contain rounded cursor-pointer bg-black lg:bg-gray-100'
           ></video>
         </Link>
         </div>
-        
-        <div className='absolute md:relative md:flex md:flex-col bottom-0 right-0 p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[120px]'>
+         {/* <div className='absolute right-8 md:relative md:flex-col m-2 mb-10 md:m-0 md:pt-[120px]'> */}
+        <div className='absolute md:relative md:flex md:flex-col top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[120px]'>
           <LikeButton publication={publication as Publication}/>
           <CommentButton publication={publication as Publication} />
           <MirrorButton publication={publication as Publication}/>
