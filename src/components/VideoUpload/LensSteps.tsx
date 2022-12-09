@@ -178,9 +178,6 @@ const LensSteps = () => {
       if (errorAuthenticate)
         console.log("AUTHENTICATION ERROR", errorAuthenticate);
 
-      // Check for currentUserId and throw if it's not connected
-      // then redirect to login page
-
       setUploadedVideo({ buttonText: "Post on Lens" });
       const result = await createPostTypedData({
         variables: {
