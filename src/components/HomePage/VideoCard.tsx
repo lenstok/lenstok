@@ -13,7 +13,7 @@ interface Props {
 const VideoCard: FC<Props> = ({ publication, profile }) => {
 
   return (
-    <div className="flex flex-col border-b-2 border-gray-200 pb-6">
+    <div className="flex flex-col border-b-2 border-gray-200 pb-0 md:pb-6">
       <div>
         <div className="flex gap-3 p-2 mt-4 cursor-pointer font-semibold rounded ">
         <Link href={`/profile/${profile.id}`} key={profile.id}>
@@ -41,7 +41,7 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
             </div>
           </Link>
           <Link href="/">
-            <p className="mt-2 font-normal hidden md:block">
+            <p className="mt-2 font-normal">
               {publication.metadata.description.slice(0, 105)} {""}
             </p>
           </Link>
