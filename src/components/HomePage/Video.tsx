@@ -36,21 +36,27 @@ const Video: FC<Props> = ({ publication }) => {
             // ref={videoRef}
             src={getMedia(publication)}
             // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
-            className='lg:w-[400px] lg:h-[500px] md:h-[400px] md:w-[400px] h-[300px] w-full
+            className='lg:w-[400px] lg:h-[500px] md:h-[400px] md:w-[400px] h-[400px] w-full
             object-contain rounded cursor-pointer bg-black lg:bg-gray-100'
           ></video>
         </Link>
         </div>
         
-        <div className='absolute md:relative md:flex md:flex-col bottom-0 right-0 p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[120px]'>
-          <LikeButton publication={publication as Publication}/>
-          <CommentButton publication={publication as Publication} />
-          <MirrorButton publication={publication as Publication}/>
-          <CollectButton publication={publication as Publication}/>
+        <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'>
+        <div className="dropdown inline-block relative">
+           <button className="bg-gray-300 text-gray-700 md:hidden font-semibold py-2 px-2 rounded inline-flex items-center">
+               <span className="mr-1">\/</span>
+           </button>
+          <ul className="dropdown-menu absolute hidden md:block text-gray-700 pt-1">
+            <li><LikeButton publication={publication as Publication}/></li>
+            <li><CommentButton publication={publication as Publication} /></li>
+            <li> <MirrorButton publication={publication as Publication}/></li>
+            <li><CollectButton publication={publication as Publication}/></li>
+        </ul>
         </div>
-     
-    </div>
-    
+        </div>
+
+        </div>
   );
 };
 
