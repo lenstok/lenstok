@@ -34,3 +34,8 @@ a {
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  z-index: 9999;
+}

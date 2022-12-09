@@ -48,6 +48,8 @@ const Video: FC<Props> = ({ publication }) => {
                <span className="mr-1">Dropdown</span>
            </button>
           <ul className="dropdown-menu absolute hidden text-gray-700 pt-1">
+            <li>1</li>
+            <li>2</li>
             <li><LikeButton publication={publication as Publication}/></li>
             <li><CommentButton publication={publication as Publication} /></li>
             <li> <MirrorButton publication={publication as Publication}/></li>
