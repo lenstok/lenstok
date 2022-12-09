@@ -152,7 +152,7 @@ const LensSteps = () => {
         ],
         appId: "lenstok",
       };
-      const response = await fetch(` http://localhost:3000/api/meta-to-ipfs`, {
+      const response = await fetch(`${LENSTOK_URL}/api/meta-to-ipfs`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(metadata),
@@ -177,9 +177,6 @@ const LensSteps = () => {
       console.log("Current User id", currentUser?.id);
       if (errorAuthenticate)
         console.log("AUTHENTICATION ERROR", errorAuthenticate);
-
-      // Check for currentUserId and throw if it's not connected
-      // then redirect to login page
 
       setUploadedVideo({ buttonText: "Post on Lens" });
       const result = await createPostTypedData({
