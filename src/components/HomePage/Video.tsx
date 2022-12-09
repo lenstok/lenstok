@@ -31,8 +31,8 @@ const Video: FC<Props> = ({ publication }) => {
         <Link href={`/detail/${publication.id}`} key={publication.id}>
           <video
             loop
-            // controls
-            // autoPlay
+            controls
+            autoPlay
             muted
             // ref={videoRef}
             src={getMedia(publication)}
