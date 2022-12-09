@@ -42,7 +42,7 @@ const Video: FC<Props> = ({ publication }) => {
         </Link>
         </div>
         
-        <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'>
+        {/* <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'> */}
         <div className="dropdown inline-block relative">
            <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
                <span className="mr-1">Dropdown</span>
@@ -54,7 +54,7 @@ const Video: FC<Props> = ({ publication }) => {
             <li><CollectButton publication={publication as Publication}/></li>
         </ul>
         </div>
-        </div>
+        {/* </div> */}
 
 
         </div>
