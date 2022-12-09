@@ -36,6 +36,8 @@ a {
 }
 
 .dropdown:hover .dropdown-menu {
+  align-items: center;
   display: block;
   z-index: 9999;
+  top: 50px;
 }
