@@ -10,6 +10,7 @@ import MirrorButton from  "@/components/Buttons/Mirrors/MirrorButton";
 import CommentButton from  "@/components/Buttons/CommentButton";
 import CollectButton from  "@/components/Buttons/Collects/CollectButton";
 import getMedia from "@/lib/getMedia";
+import { ChevronDoubleUpIcon } from '@heroicons/react/24/solid';
 
 interface Props {
   publication: Publication;
@@ -42,10 +43,10 @@ const Video: FC<Props> = ({ publication }) => {
         </Link>
         </div>
         
-        <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'>
-        <div className="dropdown inline-block relative">
-           <button className="bg-gray-300 text-gray-700 md:hidden font-semibold py-2 px-2 rounded inline-flex items-center">
-               <span className="mr-1">\/</span>
+        <div className='absolute md:relative md:flex md:flex-col z-50 bottom-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'>
+        <div className="dropdown inline-block relative z-20">
+           <button className="bg-black-100 md:hidden py-1 px-1 rounded inline-flex items-center ">
+            <ChevronDoubleUpIcon className="w-8 h-8 m-1 text-[#96de26] font-bold" />
            </button>
           <ul className="dropdown-menu absolute hidden md:block text-gray-700 pt-1">
             <li><LikeButton publication={publication as Publication}/></li>

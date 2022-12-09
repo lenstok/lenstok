@@ -38,4 +38,5 @@ a {
 .dropdown:hover .dropdown-menu {
   display: block;
   z-index: 9999;
+  bottom: 50px;
 }
