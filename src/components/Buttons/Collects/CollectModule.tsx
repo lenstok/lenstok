@@ -25,6 +25,7 @@ import AllowanceButton from './AllowanceButton';
 import dayjs from 'dayjs';
 import { Spinner } from '@/components/UI/Spinner';
 import IndexStatus from '@/components/UI/IndexStatus';
+import { encode } from 'punycode';
 
 interface Props {
     publication: Publication
@@ -33,194 +34,192 @@ interface Props {
 }
 
 const CollectModule: FC<Props> = ({publication, setCount, count }) => {
-    const userSigNonce = useAppStore((state) => state.userSigNonce);
-    const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
-    const currentProfile = useAppStore((state) => state.currentProfile);
-    const [hasCollectedByMe, setHasCollectedByMe] = useState(publication?.hasCollectedByMe);
-    const [showCollectorsModal, setShowCollectorsModal] = useState(false);
-    const [allowed, setAllowed] = useState(true)
-    const [revenue, setRevenue] = useState(0);
-    const [usdPrice, setUsdPrice] = useState(0);
-    const { address } = useAccount()
-    const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
+  const userSigNonce = useAppStore((state) => state.userSigNonce);
+  const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
+  const currentProfile = useAppStore((state) => state.currentProfile);
+  const [revenue, setRevenue] = useState(0);
+  const [hasCollectedByMe, setHasCollectedByMe] = useState(publication?.hasCollectedByMe);
+  const [showCollectorsModal, setShowCollectorsModal] = useState(false);
+  const [allowed, setAllowed] = useState(true);
+  const [usdPrice, setUsdPrice] = useState(0);
+  const { address } = useAccount();
+  const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({ onError });
 
-    const { data, loading } = useCollectModuleQuery({
-        variables: { request: { publicationId: publication?.id } }
-      });
-  
-      const collectModule: any = data?.publication?.collectModule
-  
-      const onCompleted = () => {
-        setRevenue(revenue + parseFloat(collectModule?.amount?.value))
-        toast.success('Collect Susccessfully!')
-        setHasCollectedByMe(true)
-        setCount(count + 1)
+  const { data, loading } = useCollectModuleQuery({
+    variables: { request: { publicationId: publication?.id } }
+  })
+
+  const collectModule: any = data?.publication?.collectModule
+
+  const onCompleted = () => {
+    setRevenue(revenue + parseFloat(collectModule?.amount?.value))
+    setCount(count + 1)
+    setHasCollectedByMe(true)
+    toast.success('Collect Successfully')
+  }
+
+  const { isFetching, refetch } = useContractRead({
+    address: UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
+    abi: UpdateOwnableFeeCollectModule,
+    functionName: 'getPublicationData',
+    args: [parseInt(publication.profile?.id), parseInt(publication?.id.split('-')[1])],
+    enabled: false
+  })
+
+  const {
+    data: writeData,
+    isLoading: writeLoading,
+    write
+  } = useContractWrite({
+    address: LENSHUB_PROXY,
+    abi: LENS_HUB_ABI,
+    functionName: 'collectWithSig',
+    mode: 'recklesslyUnprepared',
+    onSuccess: onCompleted,
+    onError
+  })
+
+  const percentageCollected = (count / parseInt(collectModule?.collectLimit)) * 100
+
+  const { data: allowanceData, loading: allowanceLoading } = useApprovedModuleAllowanceAmountQuery({
+    variables: {
+      request: {
+        currencies: collectModule?.amount?.asset?.address,
+        followModules: [],
+        collectModules: collectModule?.type,
+        referenceModules: []
       }
-  
-      const { isFetching, refetch } = useContractRead({
-        address: UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
-        abi: UpdateOwnableFeeCollectModule,
-        functionName: 'getPublicationData',
-        args: [parseInt(publication.profile?.id), parseInt(publication?.id.split('-')[1])],
-        enabled: false
-      })
-  
-      const {  
-        data: writeData,
-        isLoading: writeLoading,
-        write 
-      } = useContractWrite({
-        address: LENSHUB_PROXY,
-        abi: LENS_HUB_ABI,
-        functionName: 'collectWithSig',
-        mode: 'recklesslyUnprepared',
-        onSuccess: onCompleted,
-        onError
-      })
+    },
+    skip: !collectModule?.amount?.asset?.address || !currentProfile,
+    onCompleted: (data) => {
+      setAllowed(data?.approvedModuleAllowanceAmount[0]?.allowance !== '0x00')
+    }
+  })
 
-      const percentageCollected = (count / parseInt(collectModule?.collectLimit)) * 100
-
-      const { data: allowanceData, loading: allowanceLoading } = useApprovedModuleAllowanceAmountQuery({
-        variables: {
-          request: {
-            currencies: collectModule?.amount?.asset?.address,
-            followModules: [],
-            collectModules: collectModule?.type,
-            referenceModules: []
-          }
-        },
-        skip: !collectModule?.amount?.asset?.address || !currentProfile,
-        onCompleted: (data) => {
-          setAllowed(data?.approvedModuleAllowanceAmount[0]?.allowance !== '0x00');
-        }
-      })
-
-      const { data: revenueData, loading: revenueLoading } = usePublicationRevenueQuery({
-        variables: {
-          request: {
-            publicationId: publication?.id
-          }
-        },
-        pollInterval: 5000,
-        skip: !publication?.id
-      });
-
-      useEffect(() => {
-        setRevenue(parseFloat((revenueData?.publicationRevenue?.revenue?.total?.value as any) ?? 0));
-        if (collectModule?.amount) {
-          getCoingeckoPrice(getAssetAddress(collectModule?.amount?.asset?.symbol)).then((data) => {
-            setUsdPrice(data);
-          });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [revenueData]);
-
-      const { data: balanceData, isLoading: balanceLoading } = useBalance({
-        addressOrName: address,
-        token: collectModule?.amount?.asset?.address,
-        formatUnits: collectModule?.amount?.asset?.decimals,
-        watch: true
-      });
-
-      let hasAmount = false;
-        if (balanceData && parseFloat(balanceData?.formatted) < parseFloat(collectModule?.amount?.value)) {
-            hasAmount = false;
-        } else {
-            hasAmount = true;
-        }
-  
-      const { broadcast, data: broadcastData, loading: broadcastLoading } = useBroadcast({ onCompleted });
-      const [createCollectTypedData, { loading: typedDataLoading }] = useCreateCollectTypedDataMutation({
-        onCompleted: async ({ createCollectTypedData }) => {
-          try {
-            const { id, typedData } = createCollectTypedData
-            const { profileId, pubId, data: collectData, deadline } = typedData.value
-            const signature = await signTypedDataAsync(getSignature(typedData.value))
-            const { v, r, s } = splitSignature(signature)
-            const sig = { v, r, s, deadline }
-            const inputStruct = {
-              collector: address,
-              profileId,
-              pubId,
-              data: collectData,
-              sig
-            }
-  
-            setUserSigNonce(userSigNonce +1)
-            if (!RELAY_ON) {
-              return write?.({ recklesslySetUnpreparedArgs: [inputStruct] })
-            }
-  
-            const {
-              data: { broadcast: result }
-            } = await broadcast({ request: { id, signature } })
-  
-            if ('reason' in result) {
-              write?.({ recklesslySetUnpreparedArgs: [inputStruct] })
-            }
-          } catch {}
-        },
-        onError
-      })
-  
-      const [createCollectProxyAction, { loading: proxyActionLoading }] = useProxyActionMutation({
-        onCompleted,
-        onError
-      })
-  
-      const createViaProxyAction = async (variables: any) => {
-        const { data } = await createCollectProxyAction({ variables })
-        if (!data?.proxyAction) {
-          createCollectTypedData({
-            variables: {
-              request: { publicationId: publication?.id },
-              options: { overrideSigNonce: userSigNonce }
-            }
-          })
-        }
+  const { data: revenueData, loading: revenueLoading } = usePublicationRevenueQuery({
+    variables: {
+      request: {
+        publicationId: publication?.id
       }
-  
-      const createCollect = () => {
-        if (!currentProfile) {
-          return toast.error("Please connect your wallet!")
+    },
+    pollInterval: 5000,
+    skip: !publication?.id
+  })
+
+  useEffect(() => {
+    setRevenue(parseFloat((revenueData?.publicationRevenue?.revenue?.total?.value as any) ?? 0))
+    if (collectModule?.amount) {
+      getCoingeckoPrice(getAssetAddress(collectModule?.amount?.asset?.symbol)).then((data) => {
+        setUsdPrice(data)
+      })
+    }
+  }, [revenueData])
+
+  const { data: balanceData, isLoading: balanceLoading } = useBalance({
+    addressOrName: address,
+    token: collectModule?.amount?.asset?.address,
+    formatUnits: collectModule?.amount?.asset?.decimals,
+    watch: true
+  })
+
+  let hasAmount = false
+  if (balanceData && parseFloat(balanceData?.formatted) < parseFloat(collectModule?.amount?.value)) {
+    hasAmount = false
+  } else {
+    hasAmount = true
+  }
+
+  const { broadcast, data: broadcastData, loading: broadcastLoading } = useBroadcast({ onCompleted })
+  const [createCollectTypedData, { loading: typedDataLoading }] = useCreateCollectTypedDataMutation({
+    onCompleted: async ({ createCollectTypedData }) => {
+      try {
+        const { id, typedData } = createCollectTypedData
+        const { profileId, pubId, data: collectData, deadline } = typedData.value
+        const signature = await signTypedDataAsync(getSignature(typedData))
+        const { v, r, s } = splitSignature(signature)
+        const sig = { v, r, s, deadline }
+        const inputStruct = {
+          collector: address,
+          profileId,
+          pubId,
+          data: collectData,
+          sig
         }
-  
-        if (collectModule?.type === CollectModules.FreeCollectModule) {
-          createViaProxyAction({
-            request: { collect: { freeCollect: { publicationId: publication?.id } }}
-          })
-        } else if (collectModule?.__typename === 'UnknownCollectModuleSettings') {
-          refetch().then(({ data }) => {
-            if (data) {
-              const decodedData: any = data
-              const encodedData = defaultAbiCoder.encode(
-                ['address', 'uint256'],
-                [decodedData?.[2] as string, decodedData?.[1] as BigNumber]
-              )
-              createCollectTypedData({
-                variables: {
-                  options: { overrideSigNonce: userSigNonce},
-                  request: { publicationId: publication?.id, unknownModuleData: encodedData }
-                }
-              })
-            }
-          })
-        } else {
-          createCollectTypedData({
+
+        setUserSigNonce(userSigNonce + 1)
+        if (!RELAY_ON) {
+          return write?.({ recklesslySetUnpreparedArgs: [inputStruct] })
+        }
+
+        const {
+          data: { broadcast: result }
+        } = await broadcast({ request: { id, signature } })
+
+        if ('reason' in result) {
+          write?.({ recklesslySetUnpreparedArgs: [inputStruct] })
+        }
+      } catch {}
+    },
+    onError
+  })
+
+  const [createCollectProxyAction, { loading: proxyActionLoading }] = useProxyActionMutation({
+    onCompleted,
+    onError
+  })
+
+  const createViaProxyAction = async (variables: any) => {
+    const { data } = await createCollectProxyAction({ variables })
+    if (!data?.proxyAction) {
+      createCollectTypedData({
+        variables: {
+          request: { publicationId: publication?.id },
+          options: { overrideSigNonce: userSigNonce }
+        }
+      })
+    }
+  }
+
+  const createCollect = () => {
+    if(!currentProfile) {
+      return toast.error("Please connect your Wallet")
+    }
+
+    if (collectModule?.type === CollectModules.FeeCollectModule) {
+      createViaProxyAction({
+        request: { collect: { freeCollect: { publicationId: publication?.id } } }
+      })
+    } else if (collectModule?.__typename === 'UnknownCollectModuleSettings') {
+      refetch().then(({ data }) => {
+        if (data) {
+          const decodedData: any = data
+          const encodedData = defaultAbiCoder.encode(
+            ['address', 'uint256'],
+            [decodedData?.[2] as string, decodedData?.[1] as BigNumber]
+          )
+          createCollectTypedData ({
             variables: {
               options: { overrideSigNonce: userSigNonce },
-              request: { publicationId: publication?.id }
+              request: { publicationId: publication?.id, unknownModuleData: encode }
             }
           })
         }
-      }
-  
-      if (loading || revenueLoading) {
-        return <Loader message="Loading collect" />;
-      }
-  
-      const isLoading =
-      typedDataLoading || proxyActionLoading || signLoading || isFetching || writeLoading || broadcastLoading
+      })
+    } else {
+      createCollectTypedData({
+        variables: {
+          options: { overrideSigNonce: userSigNonce },
+          request: { publicationId: publication?.id }
+        }
+      })
+    }
+  }
+
+  if (loading || revenueLoading) {
+    return <Loader message="Loading collect" />
+  }
+
+  const isLoading = typedDataLoading || proxyActionLoading || signLoading || isFetching || writeLoading || broadcastLoading
 
   return (
     <>
@@ -228,7 +227,7 @@ const CollectModule: FC<Props> = ({publication, setCount, count }) => {
       {(collectModule?.type === CollectModules.LimitedFeeCollectModule ||
         collectModule?.type === CollectModules.LimitedTimedFeeCollectModule) && (
           <div className="w-full h-2.5 bg-gray-200">
-            <div className="h-2.5 bg-brand-500" style={{ width: `${percentageCollected}%` }} />
+            <div className="h-2.5 bg-emerald-500" style={{ width: `${percentageCollected}%` }} />
           </div>
         )}
         <div className="p-5">
@@ -304,8 +303,33 @@ const CollectModule: FC<Props> = ({publication, setCount, count }) => {
               ) : null}
             </div>
             {revenueData?.publicationRevenue && (
-              <div>
-
+              <div className="flex items-center space-x-2">
+                <CurrencyDollarIcon className="w-4 h-4 text-gray-500" />
+                <div className="flex items-center space-x-1.5">
+                  <span>Revenue:</span>
+                  <span className="flex items-center space-x-1">
+                    <Image 
+                      src={getTokenImage(collectModule?.amount?.asset?.symbol)}
+                      className="w-5 h-5"
+                      height={20}
+                      width={20}
+                      alt={collectModule?.amount?.asset?.symbol}
+                      title={collectModule?.amount?.asset?.symbol}
+                    />
+                    <div className="flex items-baseline space-x-1.5">
+                      <div className="font-bold">{revenue}</div>
+                      <div className="text-[10px]">{collectModule?.amount?.asset?.symbol}</div>
+                      {usdPrice ? (
+                        <>
+                          <span className="text-gray-500">.</span>
+                          <span className="text-xs font-bold text-gray-500">
+                            ${(revenue * usdPrice).toFixed(2)}
+                          </span>
+                        </>
+                      ) : null}
+                    </div>
+                  </span>
+                </div>
               </div>
             )}
             {collectModule?.endTimestamp && (
