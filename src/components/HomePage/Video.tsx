@@ -10,6 +10,7 @@ import MirrorButton from  "@/components/Buttons/Mirrors/MirrorButton";
 import CommentButton from  "@/components/Buttons/CommentButton";
 import CollectButton from  "@/components/Buttons/Collects/CollectButton";
 import getMedia from "@/lib/getMedia";
+import { ChevronDoubleDownIcon } from '@heroicons/react/24/solid';
 
 interface Props {
   publication: Publication;
@@ -30,27 +31,35 @@ const Video: FC<Props> = ({ publication }) => {
         <Link href={`/detail/${publication.id}`} key={publication.id}>
           <video
             loop
-            // controls
-            // autoPlay
+            controls
+            autoPlay
             muted
             // ref={videoRef}
             src={getMedia(publication)}
             // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
-            className='lg:w-[400px] lg:h-[500px] md:h-[400px] md:w-[400px] h-[300px] w-full
+            className='lg:w-[400px] lg:h-[500px] md:h-[400px] md:w-[400px] h-[500px] w-full
             object-contain rounded cursor-pointer bg-black lg:bg-gray-100'
           ></video>
         </Link>
         </div>
         
-        <div className='absolute md:relative md:flex md:flex-col bottom-0 right-0 p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[120px]'>
-          <LikeButton publication={publication as Publication}/>
-          <CommentButton publication={publication as Publication} />
-          <MirrorButton publication={publication as Publication}/>
-          <CollectButton publication={publication as Publication}/>
+        <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'>
+        <div className="dropdown inline-block relative">
+           <button className="bg-black text-[#96de26] md:hidden font-semibold py-2 px-2 rounded inline-flex items-center border-2 border-gray-800">
+               <span>
+                <ChevronDoubleDownIcon className='w-4 h-4'/>
+               </span>
+           </button>
+          <ul className="dropdown-menu absolute hidden md:block text-gray-700 pt-1">
+            <li><LikeButton publication={publication as Publication}/></li>
+            <li><CommentButton publication={publication as Publication} /></li>
+            <li> <MirrorButton publication={publication as Publication}/></li>
+            <li><CollectButton publication={publication as Publication}/></li>
+        </ul>
         </div>
-     
-    </div>
-    
+        </div>
+
+        </div>
   );
 };
 
