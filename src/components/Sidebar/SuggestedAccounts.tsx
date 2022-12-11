@@ -32,11 +32,11 @@ const SuggestedAccounts = () => {
               </div>
               <div/>
               <div className="hidden lg:block">
-                <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
+              <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
                   {profile.handle}
                   <GoVerified className="text-blue-400" />
                 </p>
-                <p className="cpaitalize text-gray-400 text-xs">
+                <p className="capaitalize text-gray-400 text-xs">
                   {profile.name} {""}
                 </p>
               </div>

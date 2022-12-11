@@ -11,6 +11,9 @@ import ProfileVideos from "@/components/ProfilePage/ProfileVideos";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import getAvatar from '@/lib/getAvatar';
 import CollectedVideos from '@/components/ProfilePage/CollectedVideos';
+import { Modal } from '../UI/Modal';
+import Followers from './Followers';
+import Following from './Following';
 
 interface Props {
     profile: Profile
@@ -20,6 +23,8 @@ interface Props {
     const ProfileCard: FC<Props> = ({ profile, setFollowing, following }) => {
         const currentProfile = useAppStore((state) => state.currentProfile);
         const [showUserVideos, setShowUserVideos] = useState<Boolean>(true);
+        const [showFollowersModal, setShowFollowersModal] = useState(false);
+        const [showFollowingModal, setShowFollowingModal] = useState(false);
 
         const itsNotMe = profile?.id !== currentProfile?.id
         const videos = showUserVideos ? 'border-b-2 border-black' : 'text-gray-400';
@@ -64,14 +69,28 @@ interface Props {
                             </div>
                         </div>
     
-                        <div className="flex gap-4 mt-3">
+                        <div className="flex gap-4 mt-3 cursor-pointer" onClick={() => { setShowFollowingModal(!showFollowingModal) }}>
                             <div className="flex items-center gap-2">
                                 <span className="font-bold text-lg"> {profile?.stats.totalFollowing} </span>
                                 <span>Following</span>
+                                <Modal
+                                title="Following"
+                                show={showFollowingModal}
+                                onClose={() => setShowFollowingModal(false)}
+                                >
+                                    <Following profile={profile as Profile} />
+                                </Modal>
                             </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setShowFollowersModal(!showFollowersModal) }}>
                             <span className="font-bold text-lg">{profile?.stats.totalFollowers}</span>
                             <span>Followers</span>
+                            <Modal
+                                title="Followers"
+                                show={showFollowersModal}
+                                onClose={() => setShowFollowersModal(false)}
+                            >
+                                <Followers profileId={profile?.id} />
+                            </Modal>
                         </div>
                         </div>
                         <div className='flex gap-10 p-5 border-b mb-5 mt-5  border-gray-200 bg-white w-full'>

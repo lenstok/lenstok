@@ -75,3 +75,12 @@ export type BundlrDataState = {
   depositing: boolean;
   showDeposit: boolean;
 };
+
+export type HLSData = {
+  hrn: string
+  url: string
+  type: string
+}
+
+export type LenstokPublication = Post & Comment & Mirror & { hls: HLSData }
+

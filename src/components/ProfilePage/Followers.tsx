@@ -1,28 +1,28 @@
-import { useCollectorsQuery } from '@/types/graph'
-import Image from 'next/image'
-import React, { FC } from 'react'
-import Loader from '../UI/Loader'
 import getAvatar from '@/lib/getAvatar'
-import { GoVerified } from 'react-icons/go'
-import InfiniteLoader from '../UI/InfiniteLoader'
+import { useFollowersQuery } from '@/types/graph'
+import React, { FC } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import InfiniteLoader from '../UI/InfiniteLoader'
+import Loader from '../UI/Loader'
+import Image from 'next/image'
+import { GoVerified } from 'react-icons/go'
 
 interface Props {
-    publicationId: string
+    profileId: string
 }
 
-const Collectors: FC<Props> = ({publicationId}) => {
+const Followers: FC<Props> = ({profileId}) => {
 
-    const request = { publicationId: publicationId, limit: 10 }
+    const request = { profileId: profileId, limit: 10 }
 
-    const { data, loading, error, fetchMore } = useCollectorsQuery({
+    const { data, loading, error, fetchMore } = useFollowersQuery({
         variables: { request },
-        skip: !publicationId
+        skip: !profileId
     })
 
-    const profiles = data?.whoCollectedPublication?.items
-    const pageInfo = data?.whoCollectedPublication?.pageInfo
-    const hasMore = pageInfo?.next && profiles?.length !== pageInfo.totalCount
+    const followers = data?.followers?.items
+    const pageInfo = data?.followers?.pageInfo
+    const hasMore = pageInfo?.next && followers?.length !== pageInfo.totalCount
 
     const loadMore = async () => {
         await fetchMore({
@@ -31,13 +31,13 @@ const Collectors: FC<Props> = ({publicationId}) => {
     }
 
     if (loading) {
-        return <Loader message="Loading collectors" />
+        return <Loader message="Loading followers" />
     }
 
-    if (profiles?.length === 0) {
+    if (followers?.length === 0) {
         return (
         <div className="p-5">
-            No Collectors
+            No Followers
         </div>
         )
     }
@@ -45,7 +45,7 @@ const Collectors: FC<Props> = ({publicationId}) => {
   return (
     <div className="overflow-y-auto max-h-[80vh]" id="scrollableDiv">
         <InfiniteScroll
-            dataLength={profiles?.length ?? 0}
+            dataLength={followers?.length ?? 0}
             scrollThreshold={0.5}
             hasMore={hasMore}
             next={loadMore}
@@ -53,25 +53,25 @@ const Collectors: FC<Props> = ({publicationId}) => {
             scrollableTarget="scrollableDiv"
         > 
             <div className="divide-y">
-                {profiles?.map((wallet) => (
-                    <div className="p-5" key={wallet?.address}>
-                        {wallet?.defaultProfile ? (
+                {followers?.map((follow) => (
+                    <div className="p-5" key={follow?.wallet?.defaultProfile?.id}>
+                        {follow?.wallet?.defaultProfile ? (
                             <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded items-center">
                                 <div>
-                                    <Image
+                                    <img
                                         width={40}
                                         height={40}
                                         className="rounded-full cursor-pointer"
-                                        src={getAvatar(wallet?.defaultProfile)}
-                                        alt={wallet?.defaultProfile?.handle}
+                                        src={getAvatar(follow?.wallet?.defaultProfile)}
+                                        alt={follow?.wallet?.defaultProfile?.handle}
                                     />
                                 </div>
                                 <div className="hidden lg:block">
                                     <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
-                                        {wallet?.defaultProfile?.handle}
+                                        {follow?.wallet?.defaultProfile?.handle}
                                         <GoVerified className="text-blue-400" />
                                         <p className="cpaitalize text-gray-400 text-xs">
-                                            {wallet?.defaultProfile?.name} {""}
+                                            {follow?.wallet?.defaultProfile?.name} {""}
                                         </p>
                                     </p>
                                 </div>
@@ -88,4 +88,4 @@ const Collectors: FC<Props> = ({publicationId}) => {
   )
 }
 
-export default Collectors
+export default Followers
