@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, FC, Dispatch } from 'react';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Toaster } from "react-hot-toast";
@@ -20,67 +20,62 @@ import LoginButton from '../Login/LoginButton';
 import { useAppStore } from "src/store/app";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import FollowButton from '../Buttons/FollowButton';
+import { getPermanentVideoUrl, getVideoUrl } from '@/lib/getVideoUrl';
+import axios from 'axios'
+import { LenstokPublication } from '@/types/app';
+import dynamic from 'next/dynamic';
+import Loader from '../UI/Loader';
 
-const VideoDetail = () => {
+const VideoPlayer = dynamic(() => import('../UI/VideoPlayer'), {
+  loading: () => <Loader />,
+  ssr: false
+})
+
+interface Props {
+  publication: Publication
+  profile: Profile
+  video: LenstokPublication
+}
+
+const VideoDetail: FC<Props> = ({publication, profile, video}) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
 
     const [following, setFollowing] = useState(false)
 
     const videoRef = useRef<HTMLVideoElement>(null);
-    const router = useRouter();
-    const { id } = router.query
-    
-    const { data, loading, error } = useQuery(PublicationDocument, {
-      variables: { 
-        request: {
-          publicationId: id
-        }
-       },
-    });
-    const profile = data?.publication?.profile
-    console.log("Profile", profile);
-
-    const publication = data?.publication
-    console.log("Publication", publication)
 
     //CHANGE LINK ON DEPLOYMENT TO NEW DOMAIN!
     const Links = `https://lenstok-gamma.vercel.app/${publication?.id}`
     const Title = `${profile?.handle} on Lenstok`
 
-    const itsNotMe = profile?.id !== currentProfile?.id
+    const [videoUrl, setVideoUrl] = useState(getVideoUrl(video))
 
-    const onVideoClick = () => {
-      if (isPlaying) {
-        videoRef?.current?.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef?.current?.play();
-        setIsPlaying(true);
+    const checkVideoResource = async () => {
+      try {
+        await axios.get(videoUrl)
+      } catch {
+        setVideoUrl(getPermanentVideoUrl(video))
       }
-    };
-
+    }
+  
     useEffect(() => {
-      if (videoRef?.current) {
-        videoRef.current.muted = isVideoMuted;
+      if (!video.hls) {
+        checkVideoResource().catch((error) =>
+          error
+        )
       }
-    }, [isVideoMuted]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
        <div className="flex flex-col lg:flex-row lg:h-screen items-stretch">
         <Toaster position="bottom-right" />
         <div className="lg:flex-grow flex justify-center items-center relative bg-emerald-800">
-           <video
-              className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full"
-              ref={videoRef}
-               onClick={onVideoClick}
-               loop
-               src={getMedia(publication)}
-              // poster={video.coverURL}
-              controls
-              playsInline
-            ></video>
+          <VideoPlayer
+            source={videoUrl}
+            hls={video.hls}
+            className="w-auto h-auto max-w-full max-h-[450px] lg:max-h-full"
+          />
          <div className="absolute top-5 left-5 flex gap-3">
            <button
              onClick={() => router.back()}
