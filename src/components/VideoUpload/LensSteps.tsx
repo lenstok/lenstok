@@ -75,6 +75,11 @@ const LensSteps = () => {
     try {
       if (!bundlrData.instance) console.log("Bundlr instance is undefined");
       if (bundlrData.balance > bundlrData.estimatedPrice) {
+        console.log(
+          "BUNDLR INSTANCE",
+          bundlrData.instance?.uploader.chunkedUploader
+        );
+        console.log("VIIIIIIIIIIDEOOOOO", uploadedVideo.stream);
         setUploadedVideo({ loading: true, buttonText: "Uploading to Arweave" });
         const uploader = bundlrData.instance?.uploader.chunkedUploader;
         uploader?.setBatchSize(2);
@@ -88,6 +93,7 @@ const LensSteps = () => {
             percent: percentCompleted,
           });
         });
+        console.log("UPLOADER ", uploader);
         const tags = [
           {
             name: "Content-Type",
@@ -95,12 +101,12 @@ const LensSteps = () => {
           },
           { name: "App-Name", value: "Lenstok" },
         ];
-        const upload = uploader?.uploadData(uploadedVideo.stream as any, {
+        const upload = await uploader?.uploadData(uploadedVideo.stream as any, {
           tags: tags,
         });
-        const response = await upload;
-        console.log("Upload", response);
-        const arweaveUrl: string = `${ARWEAVE_WEBSITE_URL}/${response?.data.id}`;
+
+        console.log("Upload", upload);
+        const arweaveUrl: string = `${ARWEAVE_WEBSITE_URL}/${upload?.data.id}`;
         setUploadedVideo({
           loading: false,
           videoSource: arweaveUrl,
@@ -152,7 +158,7 @@ const LensSteps = () => {
         ],
         appId: "lenstok",
       };
-      const response = await fetch(` http://${LENSTOK_URL}/api/meta-to-ipfs`, {
+      const response = await fetch(`${LENSTOK_URL}/api/meta-to-ipfs`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(metadata),

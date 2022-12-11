@@ -4,7 +4,7 @@ export const IS_MAINNET = process.env.NEXT_PUBLIC_NETWORK === "mainnet";
 
 export const APP_ID = "lenstok";
 export const APP_NAME = "Lenstok";
-export const LENSTOK_URL = "https://lenstokxyz.vercel.app"
+export const LENSTOK_URL = process.env.NEXT_PUBLIC_LENSTOK_URL;
 
 export const CHAIN_ID = IS_MAINNET ? chain.polygon.id : chain.polygonMumbai.id;
 export const API_URL = IS_MAINNET
@@ -22,15 +22,14 @@ export const INFURA_RPC = IS_MAINNET
   ? `https://polygon-mainnet.infura.io/v3/${INFURA_ID}`
   : `https://polygon-mumbai.infura.io/v3/${INFURA_ID}`;
 
-
 export const LS_KEYS = {
-  LENSTTOK_STORE: 'lenstok.store',
-  TRANSACTION_STORE: 'transaction.store',
-  TIMELINE_STORE: 'timeline.store',
-  MESSAGE_STORE: 'message.store'
+  LENSTTOK_STORE: "lenstok.store",
+  TRANSACTION_STORE: "transaction.store",
+  TIMELINE_STORE: "timeline.store",
+  MESSAGE_STORE: "message.store",
 };
 
-export const RELAY_ON = 'true'
+export const RELAY_ON = "true";
 export const ERROR_MESSAGE = "Something went wrong!";
 
 export const WMATIC_TOKEN_ADDRESS = IS_MAINNET
@@ -48,20 +47,21 @@ export const VIDEO_CDN_URL = "https://cdn.livepeer.com";
 export const API_ORIGINS = "";
 
 export const ARWEAVE_WEBSITE_URL = "https://arweave.net";
-  export const OPENSEA_MARKETPLACE_URL = IS_MAINNET
-  ? 'https://opensea.io'
-  : 'https://testnets.opensea.io'
+export const OPENSEA_MARKETPLACE_URL = IS_MAINNET
+  ? "https://opensea.io"
+  : "https://testnets.opensea.io";
 
 export const IMAGE_CDN_URL = IS_MAINNET
-  ? 'https://ik.imagekit.io/lenstubemain'
-  : ''
+  ? "https://ik.imagekit.io/lenstubemain"
+  : "";
 
 export const UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS = IS_MAINNET
-  ? '0x432960b3209686Cc69e2EEC1dBBaB52A1c0Bf938'
-  : '0xA78E4a4D0367f0f4674130F0Bb2653957ab5917e'
+  ? "0x432960b3209686Cc69e2EEC1dBBaB52A1c0Bf938"
+  : "0xA78E4a4D0367f0f4674130F0Bb2653957ab5917e";
 
 export const FREE_COLLECT_MODULE = IS_MAINNET
-  ? '0x23b9467334bEb345aAa6fd1545538F3d54436e96'
-  : '0x0BE6bD7092ee83D44a6eC1D949626FeE48caB30c'
+  ? "0x23b9467334bEb345aAa6fd1545538F3d54436e96"
+  : "0x0BE6bD7092ee83D44a6eC1D949626FeE48caB30c";
 
-export const MAINNET_DEFAULT_TOKEN = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
+export const MAINNET_DEFAULT_TOKEN =
+  "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270";
