@@ -30,6 +30,7 @@ const Video: FC<Props> = ({ publication, video }) => {
   const [isHover, setIsHover] = useState(false);
   const [isVideoMuted, setIsVideoMuted] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [showButtons, setShowButtons] = useState(true);
   const videoRef = useRef(publication?.metadata?.media[0]?.original?.url);
   const [videoUrl, setVideoUrl] = useState(getVideoUrl(video))
   
@@ -71,17 +72,21 @@ const Video: FC<Props> = ({ publication, video }) => {
         
         <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'>
         <div className="dropdown inline-block relative">
-           <button className="bg-black text-[#96de26] md:hidden font-semibold py-2 px-2 rounded inline-flex items-center border-2 border-gray-800">
+           <button 
+           onClick={() => setShowButtons(!showButtons)}
+           className="bg-black text-[#96de26] md:invisible font-semibold py-2 px-2 rounded inline-flex overflow-auto items-center border-2 border-gray-800">
                <span>
                 <ChevronDoubleDownIcon className='w-4 h-4'/>
                </span>
            </button>
-          <ul className="dropdown-menu absolute hidden md:block text-gray-700 pt-1">
+           {showButtons && (
+          <ul className="dropdown-menu hidden md:block pt-1">
             <li><LikeButton publication={publication as Publication}/></li>
             <li><CommentButton publication={publication as Publication} /></li>
             <li> <MirrorButton publication={publication as Publication}/></li>
             <li><CollectButton publication={publication as Publication}/></li>
         </ul>
+          )}
         </div>
         </div>
 
