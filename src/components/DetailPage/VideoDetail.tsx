@@ -25,6 +25,7 @@ import axios from 'axios'
 import { LenstokPublication } from '@/types/app';
 import dynamic from 'next/dynamic';
 import Loader from '../UI/Loader';
+import Like from '../Buttons/Likes/Like';
 
 const VideoPlayer = dynamic(() => import('../UI/VideoPlayer'), {
   loading: () => <Loader />,
@@ -35,12 +36,13 @@ interface Props {
   publication: Publication
   profile: Profile
   video: LenstokPublication
+  setFollowing: Dispatch<boolean>
+  following: boolean
 }
 
-const VideoDetail: FC<Props> = ({publication, profile, video}) => {
-    const currentProfile = useAppStore((state) => state.currentProfile);
-
-    const [following, setFollowing] = useState(false)
+const VideoDetail: FC<Props> = ({publication, profile, video, setFollowing, following}) => {
+    const currentProfile = useAppStore((state) => state.currentProfile);  const [liked, setLiked] = useState(false)
+    const [count, setCount] = useState(publication?.stats?.totalUpvotes)
 
     const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -113,8 +115,9 @@ const VideoDetail: FC<Props> = ({publication, profile, video}) => {
               <div className="flex-shrink-0"> 
                          {/* // follow button goes here */}
                 {following ? 
-                <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> 
-                : <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />}
+                  <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />
+                  : <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> 
+                }
               </div>
 
             </div>
@@ -127,17 +130,15 @@ const VideoDetail: FC<Props> = ({publication, profile, video}) => {
               <div className="flex gap-5">
                 <div className="flex items-center gap-1">
                   <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
-                     {/* // Like button goes here
-                      <AiFillHeart className='w-5 h-5' /> */}
+                    <Like publication={publication} setCount={setCount} setLiked={setLiked} count={count} liked={liked} />
                   </button>
                   <span className="text-center text-xs font-semibold">
-                      {publication?.stats.totalUpvotes}
+                      {count}
                     </span>
                 </div>
                 <div className="flex items-center gap-1">
                   <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
-                    {/* // comments button goes here
-                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" /> */}
+                      <FaCommentDots className="w-5 h-5 scale-x-[-1]" />
                   </button>
                   <p className="text-center text-xs font-semibold">
                       {publication?.stats.totalAmountOfComments}

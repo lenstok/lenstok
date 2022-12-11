@@ -7,7 +7,7 @@ interface Props {
   publication: Publication
 }
 
-const LikeButton: FC<Props> = ({publication}) => {
+const LikeButton: FC<Props> = ({publication }) => {
   const [liked, setLiked] = useState(false)
   const [count, setCount] = useState(publication.stats.totalUpvotes)
 

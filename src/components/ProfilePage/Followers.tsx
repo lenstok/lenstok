@@ -22,7 +22,7 @@ const Followers: FC<Props> = ({profileId}) => {
 
     const followers = data?.followers?.items
     const pageInfo = data?.followers?.pageInfo
-    const hasMore = pageInfo?.next && followers?.length !== pageInfo.totalCount
+    ctons hasMore = pageInfo?.next && followers?.length !== pageInfo.totalCount
 
     const loadMore = async () => {
         await fetchMore({

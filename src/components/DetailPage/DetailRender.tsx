@@ -24,6 +24,7 @@ const ProfileRender = () => {
     const currentProfile = useAppStore((state) => state.currentProfile)
     const router = useRouter()
     const { id } = router.query
+    const [following, setFollowing] = useState(false)
 
     useEffect(() => {
       setMounted(true);
@@ -72,10 +73,18 @@ const ProfileRender = () => {
   const publication = data?.publication
   const profile = data?.publication?.profile
 
+  useEffect(() => {
+    if(profile?.isFollowedByMe === true) {
+    setFollowing(true) 
+  } else {
+    setFollowing(false)
+  }
+    }, [profile?.isFollowedByMe])
+
   return (
     <div>
       {!loading && !error && video ? (
-        <VideoDetail publication={publication as Publication} profile={profile as Profile} video={video}/>
+        <VideoDetail publication={publication as Publication} profile={profile as Profile} video={video} setFollowing={setFollowing} following={following}/>
       ) : null}
     </div>
   )
