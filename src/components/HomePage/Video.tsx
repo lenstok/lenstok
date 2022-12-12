@@ -43,7 +43,7 @@ const Video: FC<Props> = ({ publication }) => {
         </Link>
         </div>
         
-        <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[115px]'>
+        <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[135px]'>
         <div className="dropdown inline-block relative">
            <button 
            onClick={() => setShowButtons(!showButtons)}
