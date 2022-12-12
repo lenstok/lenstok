@@ -44,8 +44,6 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
           <Link href="/">
             <p className="mt-2 font-normal">
               {publication.metadata.description.slice(0, 105)} {""}
-              {publication.createdAt}
-             
             </p>
           </Link>
         </div>
@@ -66,6 +64,9 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>
+      <div>
+      <p className="text-xs block font-semibold text-gray-400"> {publication.createdAt}</p>
+      </div>
         </div>
     </div>
   );
