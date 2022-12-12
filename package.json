@@ -28,6 +28,7 @@
     "heroicons": "^2.0.13",
     "ipfs-http-client": "^59.0.0",
     "jwt-decode": "^3.1.2",
+    "lit-js-sdk": "^1.1.238",
     "next": "12.3.1",
     "next-themes": "^0.2.1",
     "omit-deep": "^0.3.0",
