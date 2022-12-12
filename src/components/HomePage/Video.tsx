@@ -32,8 +32,9 @@ const Video: FC<Props> = ({ publication }) => {
         <Link href={`/detail/${publication.id}`} key={publication.id}>
           <video
             loop
-            controls
+            // controls
             muted
+            autoPlay
             // ref={videoRef}
             src={getMedia(publication)}
             // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
