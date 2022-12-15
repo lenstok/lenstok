@@ -42,8 +42,8 @@ const Video: FC<Props> = ({ publication }) => {
             // ref={videoRef}
             src={getMedia(publication)}
             // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
-            className='lg:w-[400px] lg:h-[500px] md:h-[400px] md:w-[400px] h-[500px] w-full
-            object-contain rounded cursor-pointer bg-black lg:bg-gray-100'
+            className='lg:w-[410px] lg:h-[547px] md:h-[400px] md:w-[400px] h-[500px] w-full
+            object-contain rounded-lg cursor-pointer bg-black lg:bg-gray-100 shadow-inner'
           ></video>
         </Link>
         </div>

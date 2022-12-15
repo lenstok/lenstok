@@ -35,7 +35,7 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
         <div>
           <Link href={`/profile/${profile.id}`} key={profile.id}>
             <div className="flex items-center gap-2">
-              <p className="flex gap-2 items-center md:text-md font-bold text-primary">
+              <p className="capitalize flex gap-2 items-center md:text-md font-bold text-primary">
                 {profile.handle}{' '}
                 <GoVerified className="text-blue-400 text-md"/>
               </p>
