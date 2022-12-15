@@ -85,6 +85,7 @@ const UploadVideo = () => {
     if (videoAsset) {
       const preview = URL.createObjectURL(videoAsset);
       const stream = fileReaderStream(videoAsset);
+      console.log("Stream", stream);
       setUploadedVideo({
         stream: stream,
         preview: preview,

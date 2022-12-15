@@ -69,3 +69,7 @@ export const MAINNET_DEFAULT_TOKEN =
   export const POLYGONSCAN_URL = IS_MAINNET
   ? "https://polygonscan.com"
   : "https://mumbai.polygonscan.com";
+
+  export const ANKR_RPC = IS_MAINNET
+  ? "https://rpc.ankr.com/polygon"
+  : "https://rpc.ankr.com/polygon_mumbai";
