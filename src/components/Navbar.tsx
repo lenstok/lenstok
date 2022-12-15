@@ -1,4 +1,4 @@
-import logo from "@/images/Lenstoklogo.png";
+import logo from "@/images/Lenstoknewlogo.png";
 import Link from "next/link";
 import Image from "next/image";
 import type { FC } from "react";

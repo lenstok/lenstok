@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import Link from "next/link";
 import type { FC } from "react";
 import type { Publication } from "@/types/lens";
 
+import { Player } from '@livepeer/react';
+import { parseArweaveTxId, parseCid } from 'livepeer/media';
+ 
 import LikeButton from  "@/components/Buttons/Likes/LikeButton";
 import MirrorButton from  "@/components/Buttons/Mirrors/MirrorButton";
 import CommentButton from  "@/components/Buttons/CommentButton";
@@ -21,6 +24,8 @@ const Video: FC<Props> = ({ publication }) => {
   const [playing, setPlaying] = useState(false);
   const [showButtons, setShowButtons] = useState(true);
   const videoRef = useRef(publication?.metadata?.media[0]?.original?.url);
+  const [url, setUrl] = useState<string>('');
+  const idParsed = useMemo(() => parseCid(url) ?? parseArweaveTxId(url), [url]);
 
   return (
     <div className="lg:ml-20 md:flex gap-4 relative">
@@ -32,7 +37,7 @@ const Video: FC<Props> = ({ publication }) => {
         <Link href={`/detail/${publication.id}`} key={publication.id}>
           <video
             loop
-            // controls
+            controls
             muted
             autoPlay
             // ref={videoRef}
@@ -63,8 +68,9 @@ const Video: FC<Props> = ({ publication }) => {
           )}
         </div>
         </div>
-
         </div>
+
+        
   );
 };
 

@@ -10,8 +10,6 @@ import { BsPlay } from "react-icons/bs";
 
 
   const ProfileVideos = () => {
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
     const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();
     const { id } = router.query
@@ -34,39 +32,37 @@ import { BsPlay } from "react-icons/bs";
     const publications = data?.publications.items;
     console.log("DATA", data?.publications?.items);
 
-    const onVideoClick = () => {
-        if (isPlaying) {
-          videoRef?.current?.pause();
-          setIsPlaying(false);
-        } else {
-          videoRef?.current?.play();
-          setIsPlaying(true);
-        }
-      };
+    const handleOnMouseOver = (e: React.MouseEvent<HTMLVideoElement>) => {
+      e.currentTarget.play();
+    };
+    const handleOnMouseOut = (e: React.MouseEvent<HTMLVideoElement>) => {
+      e.currentTarget.pause();
+    };
 
     return (
   <div>
         {publications?.length === 0 ? (
             <p className="text-center">No videos yet</p>
            ) : (
-            <div className="grid gap-2 mr-2 mt-2 lg:grid-cols-3 md:gap-y-8 gap-y-2 3xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-col-1">
+            <div className="grid gap-2 mr-2 mt-2 mb-10 lg:grid-cols-3 md:gap-y-6 gap-x-4 gap-y-2 3xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-col-1">
             {publications?.map((pub) => (
                 <div key={pub.id}>
                     <Link href={`/detail/${pub.id}`} key={pub.id}>
                         <a className="block h-0 relative pb-[131%]">
                         <video
                         ref={videoRef}
-                        loop
                         src={sanitizeIpfsUrl(pub.metadata.media[0].original.url)}
-                        className="absolute inset-0 h-full w-full object-cover rounded"
-                        
+                        muted // Needs to be there to be able to play
+                        onMouseOver={handleOnMouseOver}
+                        onMouseOut={handleOnMouseOut}
+                        className="absolute inset-0 h-full w-full object-cover rounded-md transform transition duration-500 md:hover:scale-125 hover:z-10 md:hover:border border-white"
                         /> 
-                        <BsPlay onClick={onVideoClick} className="absolute left-3 bottom-3 fill-white w-7 h-7" />
+                        {/*<BsPlay onClick={onVideoClick} className="absolute left-3 bottom-3 fill-white w-7 h-7" />*/}
+                         <p className="whitespace-nowrap overflow-hidden text-ellipsis text-white">
+                        {pub.metadata.name}
+                        </p> 
                         </a>
                      </Link>
-                    {/* <p className="whitespace-nowrap overflow-hidden text-ellipsis">
-                    {pub.metadata.name}
-                    </p> */}
                 </div>
              ))}
              </div>

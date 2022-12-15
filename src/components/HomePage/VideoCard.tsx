@@ -5,6 +5,7 @@ import type { Profile, Publication } from "@/types/lens";
 import Video from './Video'
 import { GoVerified } from "react-icons/go";
 import getAvatar from "@/lib/getAvatar";
+import { timeStamp } from "console";
 
 interface Props {
   publication: Publication;
@@ -12,6 +13,8 @@ interface Props {
 }
 const VideoCard: FC<Props> = ({ publication, profile }) => {
 
+  const date = publication.createdAt;
+  const timestamp = date.split("T")[0];
 
   return (
     <div className="flex flex-col border-b-2 border-gray-200 pb-0 md:pb-6">
@@ -41,6 +44,7 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
               </p>
             </div>
           </Link>
+          <p className="text-xs block font-semibold text-gray-400"> {timestamp}</p>
           <Link href="/">
             <p className="mt-2 font-normal">
               {publication.metadata.description.slice(0, 105)} {""}
@@ -50,7 +54,7 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
         </div>
         <div className="flex ml-auto"> 
         {/* // follow button goes here */}
-        <div className="mt-6 md:mr-16">
+        <div className="mt-6 mr-6 md:mr-16">
         <button 
            className='active:bg-violet-600 py-1 px-3 rounded text-sm mt-2 border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-white font-semibold'>
           FOLLOW
@@ -64,9 +68,6 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>
-      <div>
-      <p className="text-xs block font-semibold text-gray-400"> {publication.createdAt}</p>
-      </div>
         </div>
     </div>
   );

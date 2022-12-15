@@ -11,6 +11,8 @@ import Footer from "./Footer";
 import LoginButton from "@/components/Login/LoginButton";
 import { useAppStore } from '@/store/app';
 
+import ButtonTest from "@/components/Login/ButtonTest";
+
 const Sidebar = () => {
   const currentProfile = useAppStore((state) => state.currentProfile)
   const [showSidebar, setShowSidebar] = useState(true);
@@ -40,7 +42,7 @@ const Sidebar = () => {
                     <p className="text-2xl">
                         <AiFillHome />
                     </p>
-                <span className="text-lg hidden lg:block">For You</span>
+                <a className="text-lg hidden lg:block cursor-pointer">For You</a>
               </div>
             </Link>
             <Link href="/latest">
@@ -48,9 +50,9 @@ const Sidebar = () => {
                 <p className="text-2xl text-[#25511f]">
                   <AiFillCalendar />
                 </p>
-                <span className="text-lg hidden lg:block text-[#25511f]">
+                <a className="text-lg hidden lg:block text-[#25511f] cursor-pointer">
                   Latest
-                </span>
+                </a>
               </div>
             </Link>
           </div>
@@ -58,7 +60,8 @@ const Sidebar = () => {
               <p className="text-gray-400">
                 Log in to like and comment on videos
               </p>
-              <LoginButton />
+              {/* <LoginButton /> */}
+              <ButtonTest/>
             </div>
           <SuggestedAccounts />
           {currentProfile ? (
@@ -66,6 +69,7 @@ const Sidebar = () => {
           ) : (
             null) 
           }
+       
           <Discover />
           <Footer />
         </div>
