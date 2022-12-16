@@ -95,7 +95,7 @@ export const useAppStore = create<AppState>((set) => ({
         BUNDLR_CURRENCY,
         signer?.provider,
         {
-          providerUrl: ANKR_RPC,
+          providerUrl: INFURA_RPC,
         }
       );
       await bundlr.utils.getBundlerAddress(BUNDLR_CURRENCY);
