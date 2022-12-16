@@ -3,16 +3,22 @@ import * as Apollo from '@apollo/client';
 import { useEffect, useState } from "react";
 import { useAppPersistStore, useAppStore, useReferenceModuleStore } from "@/store/app";
 import { useAccount, useDisconnect, useNetwork } from 'wagmi';
-import { Profile, ReferenceModules, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from "@/types/lens";
+import { Profile, Publication, ReferenceModules, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from "@/types/lens";
+import { usePublicationQuery, useUserProfilesQuery } from '@/types/graph';
 import { CHAIN_ID } from "@/constants";
 import Loading from "../Loading";
 import ProfileCard from '../ProfilePage/ProfileCard';
 import Profiles from '../ProfilePage/Profiles';
 import VideoDetail from './VideoDetail';
-
+import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
 
 const ProfileRender = () => {
     const [mounted, setMounted] = useState(false);
+    const currentProfile = useAppStore((state) => state.currentProfile)
+    const router = useRouter()
+    const { id } = router.query
+    const [following, setFollowing] = useState(false)
 
   useEffect(() => {
     setMounted(true);
@@ -22,7 +28,6 @@ const ProfileRender = () => {
 
   const setProfiles = useAppStore((state) => state.setProfiles);
   const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
-  const currentProfile = useAppStore((state) => state.currentProfile);
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile);
   const profileId = useAppPersistStore((state) => state.profileId);
   const setProfileId = useAppPersistStore((state) => state.setProfileId);
@@ -96,6 +101,20 @@ const ProfileRender = () => {
     }
   }
 
+  const { data, error } = usePublicationQuery({
+    variables: { 
+      request: {
+        publicationId: id
+      }
+     },
+  });
+  const profile = data?.publication?.profile
+  console.log("Profile", profile);
+
+  const publication = data?.publication
+  console.log("Publication", publication)
+
+
   useEffect(() => {
     validateAuthentication()
   }, [isDisconnected, address, chain, disconnect, profileId])
@@ -106,7 +125,8 @@ const ProfileRender = () => {
 
   return (
     <div>
-      <VideoDetail/>
+      <VideoDetail publication={publication as Publication} profile={profile as Profile} 
+      setFollowing={setFollowing} following={following}/>
     </div>
   )
 }

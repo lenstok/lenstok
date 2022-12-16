@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Comments from './CommentsBlock/Comments';
 import { useQuery } from '@apollo/client';
 import { Publication, PublicationDocument, Profile } from '@/types/lens';
+import { usePublicationQuery, useUserProfilesQuery } from '@/types/graph';
 import getMedia from '@/lib/getMedia';
 import getAvatar from '@/lib/getAvatar';
 import { copyToClipboard } from "@/utils/clipboard";
@@ -20,30 +21,39 @@ import LoginButton from '../Login/LoginButton';
 import { useAppStore } from "src/store/app";
 import UnfollowButton from '../Buttons/UnfollowButton';
 import FollowButton from '../Buttons/FollowButton';
+import Like from '../Buttons/Likes/Like';
+import { ChatBubbleLeftEllipsisIcon } from '@heroicons/react/24/solid';
 
-const VideoDetail = () => {
+interface Props {
+  publication: Publication
+  profile: Profile
+  setFollowing: Dispatch<boolean>
+  following: boolean
+}
+
+const VideoDetail: FC<Props> = ({publication, profile, setFollowing, following}) => {
     const currentProfile = useAppStore((state) => state.currentProfile);
+    const [liked, setLiked] = useState(false)
+    const [count, setCount] = useState(publication?.stats?.totalUpvotes)
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
-
-    const [following, setFollowing] = useState(false)
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();
     const { id } = router.query
     
-    const { data, loading, error } = useQuery(PublicationDocument, {
-      variables: { 
-        request: {
-          publicationId: id
-        }
-       },
-    });
-    const profile = data?.publication?.profile
-    console.log("Profile", profile);
+    // const { data, loading, error } = useQuery(PublicationDocument, {
+    //   variables: { 
+    //     request: {
+    //       publicationId: id
+    //     }
+    //    },
+    // });
+    // const profile = data?.publication?.profile
+    // console.log("Profile", profile);
 
-    const publication = data?.publication
-    console.log("Publication", publication)
+    // const publication = data?.publication
+    // console.log("Publication", publication)
 
     //CHANGE LINK ON DEPLOYMENT TO NEW DOMAIN!
     const Links = `https://lenstok-gamma.vercel.app/${publication?.id}`
@@ -117,10 +127,11 @@ const VideoDetail = () => {
 
               <div className="flex-shrink-0"> 
                          {/* // follow button goes here */}
-                {following ? 
-                <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> 
-                : <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />}
-              </div>
+                         {following ? 
+                  <UnfollowButton profile={profile as Profile} setFollowing={setFollowing} />
+                  : <FollowButton setFollowing={setFollowing} profile={profile as Profile} /> 
+                }
+                </div>
 
             </div>
             <p className="my-3 pb-3 text-lg text-gray-600" style={{ wordWrap: "break-word", overflowWrap: "break-word" }}>
@@ -134,6 +145,7 @@ const VideoDetail = () => {
                   <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
                      {/* // Like button goes here
                       <AiFillHeart className='w-5 h-5' /> */}
+                   <Like publication={publication} setCount={setCount} setLiked={setLiked} count={count} liked={liked} />
                   </button>
                   <span className="text-center text-xs font-semibold">
                       {publication?.stats.totalUpvotes}
@@ -143,6 +155,7 @@ const VideoDetail = () => {
                   <button className="w-9 h-9 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
                     {/* // comments button goes here
                       <FaCommentDots className="w-5 h-5 scale-x-[-1]" /> */}
+                       <ChatBubbleLeftEllipsisIcon className='w-4 h-4 text-[#96de26] font-bold md:text-white' />
                   </button>
                   <p className="text-center text-xs font-semibold">
                       {publication?.stats.totalAmountOfComments}
