@@ -117,7 +117,7 @@ const Home: NextPage = () => {
           <div className="h-[92vh] overflow-hidden hidden lg:block lg:hover:overflow-auto">
             <Sidebar />
           </div>
-          <div className="mt-4 flex flex-col gap-10 overflow-auto overflow-x-hidden h-[88vh] videos flex-1">
+          <div className="mt-2 flex flex-col gap-10 overflow-auto overflow-x-hidden h-[88vh] videos flex-1">
             <Explore />
           </div>
         </div>

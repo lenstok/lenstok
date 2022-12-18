@@ -1,5 +1,5 @@
 import * as Apollo from '@apollo/client';
-import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CollectorsDocument, CollectorsQuery, CollectorsQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, FollowersDocument, FollowersQuery, FollowersQueryVariables, FollowingDocument, FollowingQuery, FollowingQueryVariables, GenerateModuleCurrencyApprovalDataDocument, GenerateModuleCurrencyApprovalDataQuery, GenerateModuleCurrencyApprovalDataQueryVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables } from './lens';
+import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CollectorsDocument, CollectorsQuery, CollectorsQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, ExplorePublicationsDocument, ExplorePublicationsQuery, ExplorePublicationsQueryVariables, FollowersDocument, FollowersQuery, FollowersQueryVariables, FollowingDocument, FollowingQuery, FollowingQueryVariables, GenerateModuleCurrencyApprovalDataDocument, GenerateModuleCurrencyApprovalDataQuery, GenerateModuleCurrencyApprovalDataQueryVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, PublicationsDocument, PublicationsQuery, PublicationsQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from './lens';
 
 
 export function useAddReactionMutation(
@@ -198,4 +198,33 @@ export function useFollowingQuery(
   const options = { ...baseOptions }
   return Apollo.useQuery<FollowingQuery, FollowingQueryVariables>
   (FollowingDocument, options)
+}
+
+export function usePublicationQuery(
+  baseOptions?: Apollo.QueryHookOptions<PublicationQuery, PublicationQueryVariables>
+) {
+  const options = { ...baseOptions }
+  return Apollo.useQuery<PublicationQuery, PublicationQueryVariables>
+  (PublicationDocument, options)
+}
+
+export function useUserProfilesQuery(
+  baseOptions?: Apollo.QueryHookOptions<UserProfilesQuery, UserProfilesQueryVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useQuery<UserProfilesQuery, UserProfilesQueryVariables>(UserProfilesDocument, options);
+}
+
+export function usePublicationsQuery(
+  baseOptions?: Apollo.QueryHookOptions<PublicationsQuery, PublicationsQueryVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useQuery<PublicationsQuery, PublicationsQueryVariables>(PublicationsDocument, options);
+}
+
+export function useExplorePublicationsQuery(
+  baseOptions?: Apollo.QueryHookOptions<ExplorePublicationsQuery, ExplorePublicationsQueryVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useQuery<ExplorePublicationsQuery, ExplorePublicationsQueryVariables>(ExplorePublicationsDocument, options);
 }

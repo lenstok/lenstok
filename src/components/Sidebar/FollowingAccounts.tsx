@@ -51,7 +51,7 @@ const FollowingAccounts = () => {
                 <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
                   {following?.profile.handle}
                 </p>
-                <p className="cpaitalize text-gray-400 text-xs">
+                <p className="capitalize text-gray-400 text-xs">
                 {following?.profile.name} {""}
                 </p>
               </div>

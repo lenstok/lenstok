@@ -75,9 +75,13 @@ const LensSteps = () => {
     try {
       if (!bundlrData.instance) console.log("Bundlr instance is undefined");
       if (bundlrData.balance > bundlrData.estimatedPrice) {
+        console.log(
+          "BUNDLR INSTANCE",
+          bundlrData.instance?.uploader.chunkedUploader
+        );
         setUploadedVideo({ loading: true, buttonText: "Uploading to Arweave" });
         const uploader = bundlrData.instance?.uploader.chunkedUploader;
-        uploader?.setBatchSize(2);
+        //uploader?.setBatchSize(5);
         uploader?.setChunkSize(10_000_000);
         uploader?.on("chunkUpload", (chunkInfo) => {
           const fileSize = uploadedVideo?.file?.size as number;
@@ -88,6 +92,7 @@ const LensSteps = () => {
             percent: percentCompleted,
           });
         });
+        console.log("UPLOADER ", uploader);
         const tags = [
           {
             name: "Content-Type",
@@ -95,12 +100,12 @@ const LensSteps = () => {
           },
           { name: "App-Name", value: "Lenstok" },
         ];
-        const upload = uploader?.uploadData(uploadedVideo.stream as any, {
+        const upload = await uploader?.uploadData(uploadedVideo.stream as any, {
           tags: tags,
         });
-        const response = await upload;
-        console.log("Upload", response);
-        const arweaveUrl: string = `${ARWEAVE_WEBSITE_URL}/${response?.data.id}`;
+
+        console.log("Upload", upload);
+        const arweaveUrl: string = `${ARWEAVE_WEBSITE_URL}/${upload?.data.id}`;
         setUploadedVideo({
           loading: false,
           videoSource: arweaveUrl,
