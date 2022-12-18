@@ -79,6 +79,7 @@ const LensSteps = () => {
           "BUNDLR INSTANCE",
           bundlrData.instance?.uploader.chunkedUploader
         );
+        console.log("VIIIIIIIIIIDEOOOOO", uploadedVideo.stream);
         setUploadedVideo({ loading: true, buttonText: "Uploading to Arweave" });
         const uploader = bundlrData.instance?.uploader.chunkedUploader;
         //uploader?.setBatchSize(5);

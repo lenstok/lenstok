@@ -8,6 +8,7 @@ import { CHAIN_ID } from "@/constants";
 import Loading from "../Loading";
 import ProfileCard from './ProfileCard';
 import Profiles from './Profiles';
+import { useUserProfilesQuery } from '@/types/graph';
 
 
 const ProfileRender = () => {
@@ -34,13 +35,6 @@ const ProfileRender = () => {
   const resetAuthState = () => {
     setProfileId(null)
     setCurrentProfile(null)
-  }
-
-  function useUserProfilesQuery(
-    baseOptions?: Apollo.QueryHookOptions<UserProfilesQuery, UserProfilesQueryVariables>
-  ) {
-    const options = { ...baseOptions };
-    return Apollo.useQuery<UserProfilesQuery, UserProfilesQueryVariables>(UserProfilesDocument, options);
   }
 
   const getIsAuthTokensAvailable = () => {

@@ -1,7 +1,13 @@
 import { ApolloProvider } from "@apollo/client";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
-import { INFURA_ID, INFURA_RPC, CHAIN_ID, IS_MAINNET } from "src/constants";
+import {
+  INFURA_ID,
+  INFURA_RPC,
+  CHAIN_ID,
+  IS_MAINNET,
+  LENSTOK_URL,
+} from "src/constants";
 import {
   LivepeerConfig,
   createReactClient,
@@ -42,7 +48,7 @@ const wagmiClient = createClient({
 const livepeerClient = createReactClient({
   provider: studioProvider({
     apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
-    baseUrl: "localhost:3000/",
+    baseUrl: LENSTOK_URL,
   }),
 });
 
