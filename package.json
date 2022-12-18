@@ -19,8 +19,6 @@
     "@heroicons/react": "^2.0.13",
     "@lit-protocol/sdk-browser": "^1.1.238",
     "@livepeer/react": "^1.5.5",
-    "@vime/core": "^5.4.0",
-    "@vime/react": "^5.4.0",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.1",
