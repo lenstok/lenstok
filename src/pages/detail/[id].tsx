@@ -1,3 +1,3 @@
-import DetailHydrate from "@/components/DetailPage/DetailHydrate";
+import DetailRender from "@/components/DetailPage/DetailRender";
 
-export default DetailHydrate
+export default DetailRender

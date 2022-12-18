@@ -1,4 +1,3 @@
-import { LS_KEYS } from "@/constants";
 import { WebBundlr } from "@bundlr-network/client";
 import { Profile, ReferenceModules } from "@/types/lens";
 import { BundlrDataState, UploadedVideo } from "@/types/app";
@@ -6,6 +5,7 @@ import type { FetchSignerResult } from "@wagmi/core";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import {
+  LS_KEYS,
   WMATIC_TOKEN_ADDRESS,
   BUNDLR_NODE_URL,
   BUNDLR_CURRENCY,

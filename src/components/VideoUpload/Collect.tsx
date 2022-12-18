@@ -37,13 +37,13 @@ const Collect = () => {
   console.log("Prize", prize);
 
   return (
-    <div className="space-y-2">
-      {" "}
+    <div className="rounded lg:after:w-650 outline-none text-md border-2 border-gray-200 p-4 mb-4">
+        {" "}
       <RadioGroup value={canCollect} onChange={setCanCollect}>
-        <RadioGroup.Label as="div" className="my-2">
+        <RadioGroup.Label as="div" className="text-md font-medium">
           Who can collect your video?
         </RadioGroup.Label>
-        <div className="flex justify-center">
+        <div>
           {canCollects.map((canCollect) => (
             <RadioGroup.Option key={canCollect} value={canCollect}>
               {({ active, checked }) => (
@@ -61,10 +61,10 @@ const Collect = () => {
         </div>
       </RadioGroup>
       <RadioGroup value={prize} onChange={setPrize}>
-        <RadioGroup.Label as="div" className="my-2">
-          Prize (in wMatic):
+        <RadioGroup.Label as="div" className="text-md font-medium">
+          Price (in wMatic):
         </RadioGroup.Label>
-        <div className="flex justify-center">
+        <div className="flex flex-row ">
           {prizes.map((prize) => (
             <RadioGroup.Option key={prize} value={prize}>
               {({ active, checked }) => (

@@ -19,6 +19,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { apolloClient } from "@/apollo-client";
+import Video from "./HomePage/Video";
 
 const { chains, provider } = configureChains(
   [IS_MAINNET ? chain.polygon : chain.polygonMumbai],
@@ -59,6 +60,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
           <ThemeProvider defaultTheme="light" attribute="class">
             {children}
           </ThemeProvider>
+          {/* <Video /> */}
         </LivepeerConfig>
       </ApolloProvider>
     </WagmiConfig>

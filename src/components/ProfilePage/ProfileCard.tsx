@@ -45,10 +45,10 @@ interface Props {
                             </div>
     
                             <div className='flex flex-col justify-center p-2'>
-                                <h1 className="text-3xl font-semibold">
-                                {profile?.name}
+                                <h1 className="text-3xl font-semibold capitalize">
+                                {profile?.handle}
                                 </h1>
-                                <span className="text-lg mt-2">{profile?.handle}</span>
+                                <span className="text-lg mt-2">{profile?.name}</span>
     
                      <div className="flex-shrink-0">
                            {itsNotMe ? (

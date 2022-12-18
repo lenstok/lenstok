@@ -82,7 +82,7 @@ const LensSteps = () => {
         console.log("VIIIIIIIIIIDEOOOOO", uploadedVideo.stream);
         setUploadedVideo({ loading: true, buttonText: "Uploading to Arweave" });
         const uploader = bundlrData.instance?.uploader.chunkedUploader;
-        uploader?.setBatchSize(2);
+        //uploader?.setBatchSize(5);
         uploader?.setChunkSize(10_000_000);
         uploader?.on("chunkUpload", (chunkInfo) => {
           const fileSize = uploadedVideo?.file?.size as number;
