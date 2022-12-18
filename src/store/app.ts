@@ -10,7 +10,6 @@ import {
   BUNDLR_NODE_URL,
   BUNDLR_CURRENCY,
   INFURA_RPC,
-  ANKR_RPC,
 } from "@/constants";
 
 export const UPLOADED_VIDEO_FORM_DEFAULTS = {
