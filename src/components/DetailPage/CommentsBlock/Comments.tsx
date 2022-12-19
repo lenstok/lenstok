@@ -12,6 +12,7 @@ import CreateComment from './CreateComment';
 import getAvatar from '@/lib/getAvatar';
 import CommentData from './CommentData';
 import QueuedData from '../../QueuedData';
+import LoginButton from '@/components/Login/LoginButtonMobile';
 
 interface Props {
     publication: Publication;
@@ -61,7 +62,13 @@ const Comments: FC<Props> = ({ publication }) => {
             )}
         </div>
     </div>
-        <CreateComment publication={publication as Publication} refetchComments={() => refetchComments()}/> 
+    {
+        currentProfile ? (
+            <CreateComment publication={publication as Publication} refetchComments={() => refetchComments()}/> 
+        ) : (
+            <LoginButton />
+        )
+    }
     </>
 );
 }
