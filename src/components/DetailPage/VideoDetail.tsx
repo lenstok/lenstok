@@ -194,13 +194,7 @@ const VideoDetail: FC<Props> = ({publication, profile, setFollowing, following})
                 </button>
             </div>
           </div>
-          { currentProfile ?
-            (<Comments key={publication?.profile.id} publication={publication as Publication} />
-            ) : (
-            <div className='flex-shrink-0 flex pt-1 p-4 border-t'><LoginButton /></div>
-            )
-          }
-
+          <Comments key={publication?.profile.id} publication={publication as Publication} />
         </div>
        </div>
     ) 
