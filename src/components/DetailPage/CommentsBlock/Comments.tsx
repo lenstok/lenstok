@@ -12,7 +12,7 @@ import CreateComment from './CreateComment';
 import getAvatar from '@/lib/getAvatar';
 import CommentData from './CommentData';
 import QueuedData from '../../QueuedData';
-import LoginButton from '@/components/Login/LoginButtonMobile';
+import LoginButton from '@/components/Login/LoginButton';
 
 interface Props {
     publication: Publication;
