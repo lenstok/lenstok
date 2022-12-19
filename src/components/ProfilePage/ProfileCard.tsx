@@ -97,9 +97,9 @@ interface Props {
                         <span className={`text-xl font-semibold cursor-pointer ${videos} mt-2`} onClick={() => setShowUserVideos(true)}>
                         Videos
                         </span>
-                        <span className={`text-xl font-semibold cursor-pointer ${liked} mt-2`} onClick={() => setShowUserVideos(false)}>
+                        {/* <span className={`text-xl font-semibold cursor-pointer ${liked} mt-2`} onClick={() => setShowUserVideos(false)}>
                         Collected
-                        </span>
+                        </span> */}
                         </div>
                     {(showUserVideos) ? <ProfileVideos /> : <CollectedVideos profile={profile as Profile} />}
                 </div>
