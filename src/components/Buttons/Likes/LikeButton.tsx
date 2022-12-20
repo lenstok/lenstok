@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { Publication } from '@/types/lens';
 import Like from './Like';
+import { useAppStore } from '@/store/app';
 
 interface Props {
   publication: Publication
@@ -10,11 +11,16 @@ interface Props {
 const LikeButton: FC<Props> = ({publication }) => {
   const [liked, setLiked] = useState(false)
   const [count, setCount] = useState(publication.stats.totalUpvotes)
+  const currentProfile = useAppStore((state) => state.currentProfile);
+
 
   useEffect(() => {
     if (publication?.reaction === 'UPVOTE') {
       setLiked(true)
     } else {
+      setLiked(false)
+    }
+    if (!currentProfile) {
       setLiked(false)
     }
   }, [publication?.reaction])
