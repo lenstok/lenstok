@@ -60,18 +60,24 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
            className='active:bg-violet-600 py-1 px-3 rounded text-sm border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-white font-semibold'>
           FOLLOW
         </button>
-        <button className="block md:hidden flex-row m-2 ml-8">
+        {/* <button className="block md:hidden flex-row m-2 ml-8">
         <LikeButton publication={publication as Publication}/>
-        </button>
+        </button> */}
         </div>
       </div>
       </div>
       <Video publication={publication as Publication} />
-      <div className='flex flex-row space-x-3 pt-2 pl-2'>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalUpvotes} likes</p>
+      <div className='flex flex-row space-x-3 right-0'>
+      {/* <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalUpvotes} likes</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p> */}
+      <button className="block md:hidden flex-row m-2 ml-8">
+      <LikeButton publication={publication as Publication} />
+        </button>
+      <LikeButton publication={publication as Publication}/>
+      <LikeButton publication={publication as Publication}/>
+      <LikeButton publication={publication as Publication}/>
         </div>
     </div>
   );
