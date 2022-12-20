@@ -22,11 +22,19 @@ const BottomNav: React.FC = () => {
         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
       </button>
       </Link>
-      ) : ( toast.error("Connect wallet to view profile")
+      ) : ( 
+      <button 
+      onClick= {() => {
+        {toast.error("Log in to view profile");}
+       }}
+      className="text-white hover:text-gray-100 focus:outline-none focus:text-gray-100 border-gray-800">
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+    </button>
       )}
 
       <Link href='/upload'>
-       <button className="text-white hover:text-gray-100 focus:outline-none focus:text-gray-100 border-gray-800">
+       <button 
+       className="text-white hover:text-gray-100 focus:outline-none focus:text-gray-100 border-gray-800">
         <IoMdAdd className='text-xl h-8 w-10 border-2 border-white '/>{' '}
         </button>  
         </Link>
@@ -36,3 +44,4 @@ const BottomNav: React.FC = () => {
 }
 
 export default BottomNav
+
