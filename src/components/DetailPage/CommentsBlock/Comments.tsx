@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, useEffect, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAppStore, useTransactionPersistStore } from "src/store/app";
@@ -13,8 +13,6 @@ import getAvatar from "@/lib/getAvatar";
 import CommentData from "./CommentData";
 import QueuedData from "../../QueuedData";
 import LoginButton from "@/components/Login/LoginButton";
-import LitJsSdk from "@lit-protocol/sdk-browser";
-import lit from "@/lib/lit";
 
 interface Props {
   publication: Publication;
@@ -35,17 +33,7 @@ const Comments: FC<Props> = ({ publication }) => {
   const { data, loading, error, refetch } = useQuery(PublicationsDocument, {
     variables,
   });
-  const [comments, setComments] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (data) {
-      const fetchComments = async () => {
-        const fetchedComments: any = await decrypt();
-        setComments(fetchedComments);
-      };
-      fetchComments().catch(console.error);
-    }
-  }, [data]);
+  const comments = data?.publications?.items ?? [];
   console.log("Comments", comments);
 
   const refetchComments = () => {
@@ -53,37 +41,6 @@ const Comments: FC<Props> = ({ publication }) => {
       ...variables,
     });
   };
-
-  async function decrypt() {
-    if (data) {
-      let decryptedComments = await Promise.all(
-        comments.map(async (comment) => {
-          const attributes = comment.metadata.attributes[0];
-          if (attributes && attributes.traitType === "encrypted") {
-            try {
-              const ipfsUrl = comment.metadata.attributes[0].value;
-              const response = await fetch(ipfsUrl);
-              const jsonLit = await response.json();
-              const blob = LitJsSdk.base64StringToBlob(jsonLit.litComment);
-              const message = await lit.decryptString(
-                blob,
-                jsonLit.litKkey,
-                publication.profile.ownedBy,
-                currentProfile?.ownedBy
-              );
-              const decrypted = message.decryptedFile;
-              return decrypted;
-            } catch (err) {
-              console.log(err);
-            }
-          } else {
-            return comment.metadata.content;
-          }
-        })
-      );
-      return decryptedComments;
-    }
-  }
 
   return (
     <>
