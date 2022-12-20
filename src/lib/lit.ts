@@ -39,11 +39,11 @@ const accessControlConditions = [
 ];
 
 const setAccessControlConditions = (address_1: string, address_2: string) => {
-  console.log("EEEEEEEEEEEEEEEEEEEEE", address_1);
+  console.log("Set access control conditions, address 1:", address_1);
 
   accessControlConditions[0].returnValueTest!.value = address_1;
   accessControlConditions[2].returnValueTest!.value = address_2;
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA", accessControlConditions);
+  console.log("Access control conditions:", accessControlConditions);
   return accessControlConditions;
 };
 
@@ -60,7 +60,7 @@ class Lit {
   }
 
   async encryptString(text: string, address1: string, address2: string) {
-    console.log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN", address1);
+    console.log("Encrypt string address 1:", address1);
     if (!this.litNodeClient) {
       await this.connect();
     }
@@ -79,7 +79,7 @@ class Lit {
       chain,
     });
     console.log(
-      "§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§acees control conditinos",
+      "access control conditions",
       setAccessControlConditions(address1, address2)
     );
 
@@ -95,17 +95,15 @@ class Lit {
   async decryptString(
     encryptedStr: string,
     encryptedSymmetricKey: string,
-    address: string
+    address1: string,
+    address2: string
   ) {
     if (!this.litNodeClient) {
       await this.connect();
     }
     const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain });
     const symmetricKey = await this.litNodeClient.getEncryptionKey({
-      accessControlConditions: setAccessControlConditions(
-        address,
-        "0x60Ae865eevv725cd04353b5AAb364553f56ceF82"
-      ),
+      accessControlConditions: setAccessControlConditions(address1, address2),
       toDecrypt: encryptedSymmetricKey,
       chain,
       authSig,
