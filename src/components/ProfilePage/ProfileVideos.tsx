@@ -50,6 +50,7 @@ import { BsPlay } from "react-icons/bs";
                     <Link href={`/detail/${pub.id}`} key={pub.id}>
                         <a className="block h-0 relative pb-[131%]">
                         <video
+                        preload="metadata"
                         ref={videoRef}
                         src={sanitizeIpfsUrl(pub.metadata.media[0].original.url)}
                         muted // Needs to be there to be able to play
@@ -57,8 +58,7 @@ import { BsPlay } from "react-icons/bs";
                         onMouseOut={handleOnMouseOut}
                         className="absolute inset-0 h-full w-full object-cover rounded-md transform transition duration-500 md:hover:scale-125 hover:z-10 md:hover:border border-white"
                         /> 
-                        {/*<BsPlay onClick={onVideoClick} className="absolute left-3 bottom-3 fill-white w-7 h-7" />*/}
-                         <p className="whitespace-nowrap overflow-hidden text-ellipsis text-white">
+                         <p className="absolute left-3 bottom-3 text-white font-semibold text-xs">
                         {pub.metadata.name}
                         </p> 
                         </a>
