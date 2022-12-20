@@ -1,4 +1,3 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAppStore, useTransactionPersistStore } from "src/store/app";
@@ -13,6 +12,7 @@ import getAvatar from "@/lib/getAvatar";
 import CommentData from "./CommentData";
 import QueuedData from "../../QueuedData";
 import LoginButton from "@/components/Login/LoginButton";
+
 
 interface Props {
   publication: Publication;
@@ -30,17 +30,6 @@ const Comments: FC<Props> = ({ publication }) => {
     },
   };
 
-  const { data, loading, error, refetch } = useQuery(PublicationsDocument, {
-    variables,
-  });
-  const comments = data?.publications?.items ?? [];
-  console.log("Comments", comments);
-
-  const refetchComments = () => {
-    refetch({
-      ...variables,
-    });
-  };
 
   return (
     <>
