@@ -45,7 +45,7 @@ const Comments: FC<Props> = ({ publication }) => {
     return (
     <>
     <div className="overflow-y-auto">
-        <div className=" h-screen flex-grow flex flex-col items-stretch gap-3 overflow-y-auto bg-[#F2F4F7] p-5">
+        <div className=" h-screen flex-grow flex flex-col items-stretch gap-3 overflow-y-auto overflow-x-hidden bg-[#F2F4F7] p-5">
             {txnQueue.map((txn) =>
                 txn?.type === 'NEW_COMMENT' &&
                 txn?.parent === publication?.id && (

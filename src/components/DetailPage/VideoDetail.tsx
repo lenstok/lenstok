@@ -8,9 +8,9 @@ import Comments from './CommentsBlock/Comments';
 import { useQuery } from '@apollo/client';
 import { Publication, PublicationDocument, Profile } from '@/types/lens';
 import { usePublicationQuery, useUserProfilesQuery } from '@/types/graph';
-import getMedia from '@/lib/getMedia';
 import getAvatar from '@/lib/getAvatar';
 import { copyToClipboard } from "@/utils/clipboard";
+import getMedia from '@/lib/getMedia';
 
 import { AiFillHeart, AiFillTwitterCircle } from "react-icons/ai";
 import { FaCommentDots, FaTimes } from "react-icons/fa";

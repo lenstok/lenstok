@@ -48,7 +48,7 @@ const Video: FC<Props> = ({ publication }) => {
         </Link>
         </div>
         
-        <div className='absolute md:relative md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[135px]'>
+        <div className='absolute md:relative mr-6 md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[135px]'>
         <div className="dropdown inline-block relative">
            <button 
            onClick={() => setShowButtons(!showButtons)}
@@ -59,7 +59,7 @@ const Video: FC<Props> = ({ publication }) => {
            </button>
            {showButtons && (
           <ul className="dropdown-menu hidden md:block pt-1">
-            <li><LikeButton publication={publication as Publication}/></li>
+            <li className="hidden md:block"><LikeButton publication={publication as Publication}/></li>
             <li><CommentButton publication={publication as Publication} /></li>
             <li> <MirrorButton publication={publication as Publication}/></li>
             <li><CollectButton publication={publication as Publication}/></li>
