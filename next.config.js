@@ -14,7 +14,8 @@ const nextConfig = {
       "statics-mumbai-lens-staging.s3.eu-west-1.amazonaws.com",
       "cdn.stamp.fyi",
       "avatars.dicebear.com",
-      "assets.lenster.xyz"
+      "assets.lenster.xyz",
+      "as1.ftcdn.net"
     ],
   },
 };
