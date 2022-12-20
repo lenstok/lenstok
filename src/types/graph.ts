@@ -1,5 +1,5 @@
 import * as Apollo from '@apollo/client';
-import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CollectorsDocument, CollectorsQuery, CollectorsQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, ExplorePublicationsDocument, ExplorePublicationsQuery, ExplorePublicationsQueryVariables, FollowersDocument, FollowersQuery, FollowersQueryVariables, FollowingDocument, FollowingQuery, FollowingQueryVariables, GenerateModuleCurrencyApprovalDataDocument, GenerateModuleCurrencyApprovalDataQuery, GenerateModuleCurrencyApprovalDataQueryVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, PublicationsDocument, PublicationsQuery, PublicationsQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, SearchProfilesDocument, SearchProfilesQuery, SearchProfilesQueryVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from './lens';
+import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CollectorsDocument, CollectorsQuery, CollectorsQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, ExplorePublicationsDocument, ExplorePublicationsQuery, ExplorePublicationsQueryVariables, FollowersDocument, FollowersQuery, FollowersQueryVariables, FollowingDocument, FollowingQuery, FollowingQueryVariables, GenerateModuleCurrencyApprovalDataDocument, GenerateModuleCurrencyApprovalDataQuery, GenerateModuleCurrencyApprovalDataQueryVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, PublicationsDocument, PublicationsQuery, PublicationsQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, SearchProfilesDocument, SearchProfilesQuery, SearchProfilesQueryVariables, SearchPublicationsDocument, SearchPublicationsQuery, SearchPublicationsQueryVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from './lens';
 
 
 export function useAddReactionMutation(
@@ -245,6 +245,16 @@ export function useSearchProfilesQuery(
   const options = { ...baseOptions };
   return Apollo.useQuery<SearchProfilesQuery, SearchProfilesQueryVariables>(
     SearchProfilesDocument,
+    options
+  );
+}
+
+export function useSearchPublicationsQuery(
+  baseOptions?: Apollo.QueryHookOptions<SearchPublicationsQuery, SearchPublicationsQueryVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useQuery<SearchPublicationsQuery, SearchPublicationsQueryVariables>(
+    SearchPublicationsDocument,
     options
   );
 }

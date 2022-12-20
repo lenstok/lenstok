@@ -6,6 +6,7 @@ import CollectModule from './CollectModule';
 import { Modal } from '../../UI/Modal';
 import { getModule } from '@/lib/getModule';
 import GetModuleIcon from '@/utils/GetModuleIcon';
+import { useAppStore } from '@/store/app';
 
 
 //should also add authorisation so user cant like posttwice
@@ -20,11 +21,16 @@ const CollectButton: FC<Props> = ({publication}) => {
   const [showCollectModal, setShowCollectModal] = useState(false);
   const isFreeCollect = publication?.collectModule.__typename === 'FreeCollectModuleSettings';
   const isUnknownCollect = publication?.collectModule.__typename === 'UnknownCollectModuleSettings';
+  const currentProfile = useAppStore((state) => state.currentProfile);
+
 
   useEffect(() => {
     if (publication?.hasCollectedByMe === true) {
       setAlreadyCollected(true)
     } else {
+      setAlreadyCollected(false)
+    }
+    if (!currentProfile) {
       setAlreadyCollected(false)
     }
   }, [publication?.hasCollectedByMe])

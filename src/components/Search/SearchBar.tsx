@@ -38,7 +38,7 @@ const SearchBar: FC<Props> = ({ hideDropdown = false }) => {
     const handleKeyDown = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (pathname === '/search') {
-            push(`/search?=${searchText}&type=${query.type}`)
+            push(`/search?q=${searchText}&type=${query.type}`)
         } else {
             push(`/search?q=${searchText}&type=profiles`)
         }
