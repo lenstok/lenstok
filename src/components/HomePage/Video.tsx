@@ -34,17 +34,19 @@ const Video: FC<Props> = ({ publication }) => {
         onMouseLeave={() => setIsHover(false)}
         className="rounded-3xl"
       >
-        <Link href={`/detail/${publication.id}`} key={publication.id} 
-        className="pointer-events-none hidden md:pointer-events-auto md:inline-block">
+        <Link 
+        className="pointer-events-none md:pointer-events-auto"
+        href={`/detail/${publication.id}`} key={publication.id} 
+        >
           <video
             loop
             muted
             autoPlay
-            // ref={videoRef}
+            ref={videoRef}
             src={getMedia(publication)}
             // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
-            className='lg:w-[410px] lg:h-[547px] md:h-[400px] md:w-[400px] h-[547px] w-full
-            object-cover md:object-contain md:rounded-lg cursor-pointer bg-black lg:bg-gray-100 shadow-inner'
+            className='lg:w-[410px] lg:h-[547px] md:h-[400px] md:w-[400px] h-[547px] w-full shadow-inner 
+            object-cover md:object-contain md:rounded-lg cursor-pointer bg-black lg:bg-gray-100 pointer-events-none md:pointer-events-auto'
           ></video>
         </Link>
         </div>
