@@ -38,11 +38,11 @@ const Video: FC<Props> = ({ publication }) => {
           <video
             loop
             muted
-            // autoPlay
+            autoPlay
             // ref={videoRef}
             src={getMedia(publication)}
             // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
-            className='lg:w-[410px] lg:h-[547px] md:h-[400px] md:w-[400px] h-[600px] w-full
+            className='lg:w-[410px] lg:h-[547px] md:h-[400px] md:w-[400px] h-[547px] w-full
             object-cover md:object-contain md:rounded-lg cursor-pointer bg-black lg:bg-gray-100 shadow-inner'
           ></video>
         </Link>
@@ -50,16 +50,16 @@ const Video: FC<Props> = ({ publication }) => {
         
         <div className='absolute md:relative mr-6 md:flex md:flex-col z-50 top-0 right-0 space-x-6 md:space-x-0 flex flex-row p-2 m-2 mb-10 md:p-0 md:m-0 md:pt-[135px]'>
         <div className="dropdown inline-block relative">
-           <button 
+           {/* <button 
            onClick={() => setShowButtons(!showButtons)}
            className="bg-black text-[#96de26] md:invisible font-semibold py-2 px-2 rounded inline-flex overflow-auto items-center border-2 border-gray-800">
                <span>
                 <ChevronDoubleDownIcon className='w-4 h-4'/>
                </span>
-           </button>
+           </button> */}
            {showButtons && (
           <ul className="dropdown-menu hidden md:block pt-1">
-            <li className="hidden md:block"><LikeButton publication={publication as Publication}/></li>
+            <li><LikeButton publication={publication as Publication}/></li>
             <li><CommentButton publication={publication as Publication} /></li>
             <li> <MirrorButton publication={publication as Publication}/></li>
             <li><CollectButton publication={publication as Publication}/></li>
@@ -67,6 +67,7 @@ const Video: FC<Props> = ({ publication }) => {
           )}
         </div>
         </div>
+        
         </div>
 
         

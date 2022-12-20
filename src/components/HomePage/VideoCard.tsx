@@ -7,6 +7,9 @@ import { GoVerified } from "react-icons/go";
 import getAvatar from "@/lib/getAvatar";
 import { timeStamp } from "console";
 import LikeButton from  "@/components/Buttons/Likes/LikeButton";
+import CommentButton from "../Buttons/CommentButton";
+import MirrorButton from "../Buttons/Mirrors/MirrorButton";
+import CollectButton from "../Buttons/Collects/CollectButton";
 
 interface Props {
   publication: Publication;
@@ -67,18 +70,28 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
       </div>
       </div>
       <Video publication={publication as Publication} />
-      <div className='flex flex-row space-x-3 right-0'>
-      {/* <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalUpvotes} likes</p>
+{/* 
+      <div className='flex flex-row space-x-3'>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalUpvotes} likes</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p> */}
-      <button className="block md:hidden flex-row m-2 ml-8">
-      <LikeButton publication={publication as Publication} />
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>  
+      </div> */}
+
+      <div className='flex ml-auto'>
+      <button className="block md:hidden p-2 ">
+        <LikeButton publication={publication as Publication} />
         </button>
-      <LikeButton publication={publication as Publication}/>
-      <LikeButton publication={publication as Publication}/>
-      <LikeButton publication={publication as Publication}/>
-        </div>
+        <button className="block md:hidden p-2">
+        <CommentButton publication={publication as Publication} />
+        </button>
+        <button className="block md:hidden p-2">
+          <MirrorButton publication={publication as Publication}/>
+        </button>
+      <button className="block md:hidden p-2 ">
+      <CollectButton publication={publication as Publication}/>
+      </button>
+      </div>
     </div>
   );
 };
