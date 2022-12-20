@@ -70,25 +70,25 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
       </div>
       </div>
       <Video publication={publication as Publication} />
-{/* 
+
       <div className='flex flex-row space-x-3'>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalUpvotes} likes</p>
+      <p className="text-xs block md:hidden font-semibold text-gray-400 pl-1"> {publication.stats.totalUpvotes} likes</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>  
-      </div> */}
+      </div>
 
       <div className='flex ml-auto'>
-      <button className="block md:hidden p-2 ">
+      <button className="block md:hidden pr-2 pb-2 ">
         <LikeButton publication={publication as Publication} />
         </button>
-        <button className="block md:hidden p-2">
+        <button className="block md:hidden pr-2 pb-2">
         <CommentButton publication={publication as Publication} />
         </button>
-        <button className="block md:hidden p-2">
+        <button className="block md:hidden pr-2 pb-2">
           <MirrorButton publication={publication as Publication}/>
         </button>
-      <button className="block md:hidden p-2 ">
+      <button className="block md:hidden pr-2 pb-2">
       <CollectButton publication={publication as Publication}/>
       </button>
       </div>
