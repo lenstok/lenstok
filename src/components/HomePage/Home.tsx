@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Explore from "@/components/HomePage/Explore";
+import BottomNav from "../Navs/BottomNav";
 
 import * as Apollo from '@apollo/client';
 
@@ -117,9 +118,12 @@ const Home: NextPage = () => {
           <div className="h-[92vh] overflow-hidden hidden lg:block lg:hover:overflow-auto">
             <Sidebar />
           </div>
-          <div className="mt-2 flex flex-col gap-10 overflow-auto overflow-x-hidden h-[88vh] videos flex-1">
+          <div className="mt-2 mb-8 pb-8 flex flex-col gap-10 overflow-auto overflow-x-hidden h-[88vh] videos flex-1">
             <Explore />
           </div>
+        </div>
+        <div className="block md:hidden">
+          <BottomNav/>
         </div>
       </div>
     </div>

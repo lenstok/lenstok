@@ -35,7 +35,7 @@ const Navbar: FC = () => {
       <div className='flex gap-5 md:gap-10 '>
       
         <Link href='/upload'>
-        <button className=' px-2 py-2 md:px-4 text-md font-semibold flex items-center gap-2 cursor-pointer
+        <button className='hidden md:flex px-2 py-2 md:px-4 text-md font-semibold items-center gap-2 cursor-pointer
          bg-white text-lg border-[1px] border-[#96de26] text-[#25511f] hover:bg-[#96de26]' >
          {/*className='border-2 px-2 py-2 md:px-4 text-md font-semibold flex items-center gap-2'*/}
          <IoMdAdd className='text-xl' />{' '}

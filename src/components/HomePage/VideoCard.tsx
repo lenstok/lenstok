@@ -9,6 +9,10 @@ import { timeStamp } from "console";
 import UnfollowButton from "../Buttons/UnfollowButton";
 import FollowButton from "../Buttons/FollowButton";
 import { useAppStore } from "@/store/app";
+import LikeButton from  "@/components/Buttons/Likes/LikeButton";
+import CommentButton from "../Buttons/CommentButton";
+import MirrorButton from "../Buttons/Mirrors/MirrorButton";
+import CollectButton from "../Buttons/Collects/CollectButton";
 
 interface Props {
   publication: Publication;
@@ -80,12 +84,28 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
       </div>
       </div>
       <Video publication={publication as Publication} />
-      <div className='flex flex-row space-x-3 pt-2 pl-2'>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalUpvotes} likes</p>
+
+      <div className='flex flex-row space-x-3'>
+      <p className="text-xs block md:hidden font-semibold text-gray-400 pl-1"> {publication.stats.totalUpvotes} likes</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>
-        </div>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>  
+      </div>
+
+      <div className='flex ml-auto'>
+      <button className="block md:hidden pr-2 pb-2 ">
+        <LikeButton publication={publication as Publication} />
+        </button>
+        <button className="block md:hidden pr-2 pb-2">
+        <CommentButton publication={publication as Publication} />
+        </button>
+        <button className="block md:hidden pr-2 pb-2">
+          <MirrorButton publication={publication as Publication}/>
+        </button>
+      <button className="block md:hidden pr-2 pb-2">
+      <CollectButton publication={publication as Publication}/>
+      </button>
+      </div>
     </div>
   );
 };
