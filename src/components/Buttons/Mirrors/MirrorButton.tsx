@@ -18,13 +18,14 @@ const MirrorButton: FC<Props> = ({publication}) => {
        <div className="flex gap-6">
         <div className="md:mt-4 flex flex-col justify-center items-center cursor-pointer">
         {alreadyMirrored ? (
-         <div className="flex items-center md:bg-emerald-700 rounded-full p-2 md:p-3">
-         <ArrowsRightLeftIcon className="w-4 md:h-4 text-[#96de26]" />
+         <div className="flex items-center drop-shadow-lg border border-[#96de26] md:border-none bg-emerald-700 rounded-full p-2 md:p-3">
+         <ArrowsRightLeftIcon className="w-4 h-4 text-[#96de26] font-bold" />
           </div>
         ) : (
         <div 
-        className="flex items-center border md:border-none bg-[#96de26] md:bg-emerald-700 rounded-full p-2 md:p-3 md:hover:bg-[#96de26] group relative w-max">
-        <ArrowsRightLeftIcon className='w-4 md:h-4 font-bold text-white' />
+        className="flex items-center drop-shadow-lg border border-[#96de26] md:border-none bg-emerald-700 rounded-full p-2 md:p-3
+        md:hover:bg-[#96de26] group relative w-max">
+        <ArrowsRightLeftIcon className='w-4 h-4 font-bold text-white' />
          <span className="hidden md:block pointer-events-none absolute -bottom-7 left-7 w-max shadow px-2 py-1 
           text-xs text-emerald-700 opacity-0 group-hover:opacity-100"> Mirror </span>
           </div>

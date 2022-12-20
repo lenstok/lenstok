@@ -34,7 +34,8 @@ const Video: FC<Props> = ({ publication }) => {
         onMouseLeave={() => setIsHover(false)}
         className="rounded-3xl"
       >
-        <Link href={`/detail/${publication.id}`} key={publication.id} className="pointer-events-none md:pointer-events-auto">
+        <Link href={`/detail/${publication.id}`} key={publication.id} 
+        className="pointer-events-none hidden md:pointer-events-auto md:inline-block">
           <video
             loop
             muted
