@@ -6,6 +6,10 @@ import Video from './Video'
 import { GoVerified } from "react-icons/go";
 import getAvatar from "@/lib/getAvatar";
 import { timeStamp } from "console";
+import LikeButton from  "@/components/Buttons/Likes/LikeButton";
+import CommentButton from "../Buttons/CommentButton";
+import MirrorButton from "../Buttons/Mirrors/MirrorButton";
+import CollectButton from "../Buttons/Collects/CollectButton";
 
 interface Props {
   publication: Publication;
@@ -54,21 +58,40 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
         </div>
         <div className="flex ml-auto"> 
         {/* // follow button goes here */}
-        <div className="mt-6 mr-6 md:mr-16">
+        <div className="mt-6 mr-6 md:mr-16 flex flex-col justify-center items-center cursor-pointer">
         <button 
-           className='active:bg-violet-600 py-1 px-3 rounded text-sm mt-2 border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-white font-semibold'>
+           className='active:bg-violet-600 py-1 px-3 rounded text-sm border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-white font-semibold'>
           FOLLOW
         </button>
+        {/* <button className="block md:hidden flex-row m-2 ml-8">
+        <LikeButton publication={publication as Publication}/>
+        </button> */}
         </div>
       </div>
       </div>
       <Video publication={publication as Publication} />
-      <div className='flex flex-row space-x-3 pt-2 pl-2'>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalUpvotes} likes</p>
+
+      <div className='flex flex-row space-x-3'>
+      <p className="text-xs block md:hidden font-semibold text-gray-400 pl-1"> {publication.stats.totalUpvotes} likes</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
       <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>
-        </div>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>  
+      </div>
+
+      <div className='flex ml-auto'>
+      <button className="block md:hidden pr-2 pb-2 ">
+        <LikeButton publication={publication as Publication} />
+        </button>
+        <button className="block md:hidden pr-2 pb-2">
+        <CommentButton publication={publication as Publication} />
+        </button>
+        <button className="block md:hidden pr-2 pb-2">
+          <MirrorButton publication={publication as Publication}/>
+        </button>
+      <button className="block md:hidden pr-2 pb-2">
+      <CollectButton publication={publication as Publication}/>
+      </button>
+      </div>
     </div>
   );
 };

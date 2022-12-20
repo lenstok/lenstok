@@ -69,12 +69,15 @@ const Like: FC<Props> = ({ setCount, setLiked, count, liked, publication }) => {
   return (
     <>
       {liked ? 
-        <div onClick={createLike} className="flex items-center border border-[#96de26] md:border-none md:bg-emerald-700 rounded-full p-2 md:p-3"> 
+        <div 
+        onClick={createLike} 
+        className="flex items-center drop-shadow-lg border border-[#96de26] md:border-none bg-emerald-700 rounded-full p-2 md:p-3"> 
           <HeartIcon className='w-4 h-4 text-[#96de26] font-bold'/> 
         </div>
         :
-        <div onClick={createLike} className="flex items-center border border-[#96de26] md:border-none md:bg-emerald-700 rounded-full p-2 md:p-3 md:hover:bg-[#96de26] group relative w-max">
-          <HeartIcon className='w-4 h-4 text-[#96de26] font-bold md:text-white' />
+        <div onClick={createLike} className="flex items-center drop-shadow-lg border border-[#96de26] md:border-none bg-emerald-700 rounded-full p-2 md:p-3
+        md:hover:bg-[#96de26] group relative w-max">
+          <HeartIcon className='w-4 h-4 font-bold text-white' />
         </div>
       }
     </>
