@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import { Profile, ProfileDocument } from "@/types/lens";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { useAppStore } from "@/store/app";
 
 
 
@@ -15,6 +16,7 @@ const Profile: NextPage = () => {
   const router = useRouter();
   const { id } = router.query
   const [following, setFollowing] = useState(false)  
+  const currentProfile = useAppStore((state) => state.currentProfile);
 
   const { data, loading, error } = useQuery
     (ProfileDocument, {
@@ -34,6 +36,9 @@ const Profile: NextPage = () => {
     } else {
       setFollowing(false)
     }
+      if (!currentProfile) {
+        setFollowing(false)
+      }
       }, [profile?.isFollowedByMe])
 
   return (

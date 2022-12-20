@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import type { Profile, Publication } from "@/types/lens";
 import Video from './Video'
 import { GoVerified } from "react-icons/go";
 import getAvatar from "@/lib/getAvatar";
 import { timeStamp } from "console";
+import UnfollowButton from "../Buttons/UnfollowButton";
+import FollowButton from "../Buttons/FollowButton";
+import { useAppStore } from "@/store/app";
 import LikeButton from  "@/components/Buttons/Likes/LikeButton";
 import CommentButton from "../Buttons/CommentButton";
 import MirrorButton from "../Buttons/Mirrors/MirrorButton";
@@ -19,6 +22,19 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
 
   const date = publication.createdAt;
   const timestamp = date.split("T")[0];
+  const [following, setFollowing] = useState(false) 
+  const currentProfile = useAppStore((state) => state.currentProfile); 
+
+  useEffect(() => {
+    if(profile?.isFollowedByMe === true) {
+    setFollowing(true) 
+  } else {
+    setFollowing(false)
+  }
+    if (!currentProfile) {
+      setFollowing(false)
+    }
+    }, [profile?.isFollowedByMe])
 
   return (
     <div className="flex flex-col border-b-2 border-gray-200 pb-0 md:pb-6">
@@ -58,14 +74,12 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
         </div>
         <div className="flex ml-auto"> 
         {/* // follow button goes here */}
-        <div className="mt-6 mr-6 md:mr-16 flex flex-col justify-center items-center cursor-pointer">
-        <button 
-           className='active:bg-violet-600 py-1 px-3 rounded text-sm border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-white font-semibold'>
-          FOLLOW
-        </button>
-        {/* <button className="block md:hidden flex-row m-2 ml-8">
-        <LikeButton publication={publication as Publication}/>
-        </button> */}
+        <div className="mt-6 mr-6 md:mr-16">
+          { following ? ( 
+            <UnfollowButton setFollowing={ setFollowing } profile={ profile as Profile } /> 
+            ) : (
+            <FollowButton setFollowing={ setFollowing } profile={ profile as Profile } />
+          )}
         </div>
       </div>
       </div>

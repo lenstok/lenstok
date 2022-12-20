@@ -5,6 +5,8 @@ import { NextPage } from 'next'
 import Sidebar from '../Sidebar/Sidebar'
 import { Toaster } from 'react-hot-toast'
 import Navbar from '../Navbar'
+import SearchSidebar from './SearchSidebar'
+import SearchPublications from './SearchPublications'
 
 const SearchPage: NextPage = () => {
     const { query } = useRouter()
@@ -20,10 +22,11 @@ const SearchPage: NextPage = () => {
         <Navbar />
         <div className="flex gap-6 md:gap-20">
           <div className="h-[92vh] overflow-hidden hidden lg:block lg:hover:overflow-auto">
-            <Sidebar />
+            <SearchSidebar />
           </div>
           <div className="mt-2 flex flex-col gap-10 overflow-auto overflow-x-hidden h-[88vh] videos flex-1">       
             {query.type === 'profiles' && <SearchProfiles query={query.q} />}
+            {query.type === 'pubs' && <SearchPublications query={query.q} />}
           </div>
         </div>
       </div>

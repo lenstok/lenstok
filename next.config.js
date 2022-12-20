@@ -15,7 +15,9 @@ const nextConfig = {
       "cdn.stamp.fyi",
       "avatars.dicebear.com",
       "assets.lenster.xyz",
-      "as1.ftcdn.net"
+      "as1.ftcdn.net",
+      "avataaars.io",
+      "theshr.infura-ipfs.io"
     ],
   },
 };
