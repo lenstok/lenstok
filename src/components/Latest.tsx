@@ -21,7 +21,7 @@ const Latest = () => {
         sortCriteria: "LATEST",
         publicationTypes: ["POST"],
         limit: 10,
-        excludeProfileIds: ["0x5eaf"],
+        excludeProfileIds: ["0x5eaf", "0x3f7d"],
         metadata: {
           mainContentFocus: ["VIDEO"],
         },
