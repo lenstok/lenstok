@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { IoMdAdd } from 'react-icons/io'
 import { useAppStore } from "src/store/app";
 import { toast } from "react-hot-toast";
-import SearchBarMobile from '../Search/SearchBarMobile';
 import { useState } from 'react';
 
 const BottomNav: React.FC = () => {
