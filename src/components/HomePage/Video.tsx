@@ -41,7 +41,7 @@ const Video: FC<Props> = ({ publication }) => {
           <video
             loop
             muted
-            // autoPlay
+            autoPlay
             // ref={videoRef}
             src={getMedia(publication)}
             // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
