@@ -24,7 +24,7 @@ const Categories = () => {
               <span className='font-bold text-2xl xl:text-md '>
                 {item.icon}
               </span>
-              <span className={`font-medium text-md hidden lg:block capitalize`}>
+              <span className={`font-medium text-md capitalize`}>
                 {item.name}
               </span>
             </div>

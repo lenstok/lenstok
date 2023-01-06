@@ -47,7 +47,7 @@ const FollowingAccounts = () => {
                 />
               </div>
               <div/>
-              <div className="hidden lg:block">
+              <div >
                 <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
                   {following?.profile.handle}
                 </p>
