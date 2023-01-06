@@ -48,7 +48,6 @@ const wagmiClient = createClient({
 const livepeerClient = createReactClient({
   provider: studioProvider({
     apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
-    baseUrl: LENSTOK_URL,
   }),
 });
 

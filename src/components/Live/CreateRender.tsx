@@ -6,9 +6,11 @@ import { CHAIN_ID } from "@/constants";
 import Loading from "../Loading";
 import { useUserProfilesQuery } from '@/types/graph';
 import Live from "./Live";
+import CreateStream from "./CreateStream";
+import Navbar from "../Navbar";
 
 
-const LiveRender = () => {
+const CreateRender = () => {
     const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -96,9 +98,14 @@ const LiveRender = () => {
 
   return (
     <div>
-      <Live/>
+        <div className="xl:w-[1200px] lg:w-[1100px] m-auto overflow-hidden h-[100vh]">
+            <Navbar />
+            <div className="mt-4 flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
+                <CreateStream/>
+            </div>
+        </div>
     </div>
   )
 }
 
-export default LiveRender
+export default CreateRender

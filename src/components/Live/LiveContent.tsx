@@ -34,19 +34,20 @@ const LiveContent = () => {
     <div>
         {data?.map(data => (
             <>
-                {data?.isActive === false && (
+                {data?.isActive === true && (
                     <>
                         {data?.playbackId && (
-                            <div className='p-5'>
+                            <div className='p-5' key={data?.id}>
                                 <Player 
-                                    title={data?.name}
-                                    playbackId="dcf2xoqf8ttzndnk"
+                                  title={data?.name}
+                                  playbackId={data?.playbackId}
+                                  autoPlay
                                 />
                                 <div>
-                                    {data?.name}
+                                  {data?.name}
                                 </div>
                                 <div>
-                                    {data?.playbackId}
+                                  {data?.playbackId}
                                 </div>
                             </div>
                         )}

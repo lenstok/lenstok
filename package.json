@@ -14,7 +14,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.0",
     "@bundlr-network/client": "^0.9.6",
-    "@headlessui/react": "^1.7.4",
+    "@headlessui/react": "^1.7.7",
     "@headlessui/tailwindcss": "^0.1.2",
     "@heroicons/react": "^2.0.13",
     "@lit-protocol/sdk-browser": "^1.1.238",
