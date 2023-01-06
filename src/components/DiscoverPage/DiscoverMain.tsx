@@ -9,7 +9,7 @@ import getAvatar from "@/lib/getAvatar";
 import SuggestedAccounts from "@/components/Sidebar/SuggestedAccounts";
 import FollowingAccounts from "@/components/Sidebar/FollowingAccounts";
 import Categories from "@/components/Sidebar/Categories";
-import SearchBar from "@/components/Search/SearchBar";
+import SearchBarDiscover from "../Search/SearchBarDiscover";
 
 const DiscoverMain = () => {
     const currentProfile = useAppStore((state) => state.currentProfile);
@@ -61,7 +61,7 @@ console.log("c", searchClass);
                     </>
                 )}
                 {selectedTab === "categories" && <Categories />}
-                {selectedTab === "search" && <SearchBar />}
+                {selectedTab === "search" && <SearchBarDiscover />}
             </div>
         </div>
     );
