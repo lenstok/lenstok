@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ImCancelCircle } from "react-icons/im";
 import { AiFillHome, AiOutlineMenu, AiFillCalendar } from "react-icons/ai";
+import { RiLiveLine } from "react-icons/ri"
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -52,6 +53,16 @@ const Sidebar = () => {
                 </p>
                 <a className="text-lg hidden lg:block text-[#25511f] cursor-pointer">
                   Latest
+                </a>
+              </div>
+            </Link>
+            <Link href="/live">
+              <div className={normalLink}>
+                <p className="text-2xl text-[#25511f]">
+                  <RiLiveLine />
+                </p>
+                <a className="text-lg hidden lg:block text-[#25511f] cursor-pointer">
+                  LIVE
                 </a>
               </div>
             </Link>

@@ -1,0 +1,31 @@
+import React, { useEffect, useState } from 'react'
+import LiveContent from './LiveContent'
+import { Toaster } from 'react-hot-toast'
+import Navbar from '../Navbar'
+import Sidebar from '../Sidebar/Sidebar'
+import BottomNav from '../Navs/BottomNav'
+
+const Live = () => {
+
+  return (
+    <div>
+      <div className="xl:w-[1200px] lg:w-[1100px] m-auto overflow-hidden h-[100vh]">
+        <Toaster position="bottom-right" />
+        <Navbar />
+        <div className="flex gap-6">
+          <div className="h-[92vh] overflow-hidden hidden lg:block lg:hover:overflow-auto">
+            <Sidebar />
+          </div>
+          <div className="mt-4 flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
+            <LiveContent />
+          </div>
+        </div>
+        <div className="block md:hidden">
+          <BottomNav/>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Live
