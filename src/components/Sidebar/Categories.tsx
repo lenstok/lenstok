@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import { topics } from '../../utils/const';
 
-const Discover = () => {
+const Categories = () => {
     const router = useRouter();
     const { topic } = router.query
 
@@ -35,4 +35,4 @@ const Discover = () => {
     )
 }
 
-export default Discover
+export default Categories

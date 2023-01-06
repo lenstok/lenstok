@@ -4,7 +4,6 @@ import { AiFillHome, AiOutlineMenu, AiFillCalendar } from "react-icons/ai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import Discover from "@/components/Sidebar/Discover";
 import SuggestedAccounts from "@/components/Sidebar/SuggestedAccounts";
 import FollowingAccounts from "@/components/Sidebar/FollowingAccounts";
 import Footer from "./Footer";
@@ -12,6 +11,7 @@ import LoginButton from "@/components/Login/LoginButton";
 import { useAppStore } from '@/store/app';
 
 import ButtonTest from "@/components/Login/ButtonTest";
+import Categories from "@/components/Sidebar/Categories";
 
 const Sidebar = () => {
   const currentProfile = useAppStore((state) => state.currentProfile)
@@ -70,7 +70,7 @@ const Sidebar = () => {
             null) 
           }
        
-          <Discover />
+          <Categories />
           <Footer />
         </div>
       )}
