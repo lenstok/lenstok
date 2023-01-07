@@ -16,6 +16,7 @@ const Footer = () => (
     <List items={[]} mt={false} />
     <List items={[]} mt />
     <List items={[]} mt />
+    <a className="text-gray-400 text-sm mt-5" href="https://lens-do-it.vercel.app/" target="_blank" rel="noreferrer">→ Click here for a testnet Lens handle</a>
     <p className="text-gray-400 text-sm mt-5">© 2022 LensTok</p>
   </div>
 );
