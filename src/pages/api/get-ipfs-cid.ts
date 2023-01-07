@@ -1,3 +1,4 @@
+import { API_KEY } from "@/constants";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -12,7 +13,7 @@ export default async function handler(
       const response = await fetch(`https://livepeer.studio/api/asset/${id}`, {
         method: "PATCH",
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_LIVEPEER_KEY}`,
+          Authorization: `Bearer ${API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -44,7 +45,7 @@ async function getAsset(id: string) {
   const response = await fetch(`https://livepeer.studio/api/asset/${id}`, {
     method: "PATCH",
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_LIVEPEER_KEY}`,
+      Authorization: `Bearer ${API_KEY}`,
       "Content-Type": "application/json",
     },
   });
