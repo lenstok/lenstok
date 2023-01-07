@@ -5,7 +5,6 @@ import { RiLiveLine } from "react-icons/ri"
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import Discover from "@/components/Sidebar/Discover";
 import SuggestedAccounts from "@/components/Sidebar/SuggestedAccounts";
 import FollowingAccounts from "@/components/Sidebar/FollowingAccounts";
 import Footer from "./Footer";
@@ -13,6 +12,7 @@ import LoginButton from "@/components/Login/LoginButton";
 import { useAppStore } from '@/store/app';
 
 import ButtonTest from "@/components/Login/ButtonTest";
+import Categories from "@/components/Sidebar/Categories";
 
 const Sidebar = () => {
   const currentProfile = useAppStore((state) => state.currentProfile)
@@ -21,11 +21,11 @@ const Sidebar = () => {
 
   const userProfile = false;
 
-  // const activeLink =
-  //   "flex items-center gap-3 hover:bg-primary p-3 justify-center xl:justify-start cursor-pointer font-semibold text-[#527862]";
+  const activeLink =
+    "flex items-center gap-3 hover:bg-primary p-3 justify-center lg:justify-start cursor-pointer font-semibold text-[#96de26] rounded";
 
   const normalLink =
-  'flex items-center gap-3 hover:bg-primary p-3 justify-center lg:justify-start curser-pointer font-semibold text-[#96de26] rounded';
+  'flex items-center gap-3 hover:bg-primary p-3 justify-center lg:justify-start curser-pointer font-semibold text-[#25511f] rounded';
 
   return (
     <div>
@@ -39,7 +39,7 @@ const Sidebar = () => {
         <div className="lg:w-400 w-20 flex flex-col justify-start mb-10 border-r-2 border-gray-100 xl:border-0 p-3">
         <div className="lg:border-b-2 border-gray-200 xl:pb-4">
             <Link href="/">
-                <div className={normalLink}>
+            <div className={pathname === '/' ? activeLink : normalLink}>
                     <p className="text-2xl">
                         <AiFillHome />
                     </p>
@@ -47,11 +47,11 @@ const Sidebar = () => {
               </div>
             </Link>
             <Link href="/latest">
-              <div className={normalLink}>
-                <p className="text-2xl text-[#25511f]">
+            <div className={pathname === '/latest' ? activeLink : normalLink}>
+                <p className="text-2xl">
                   <AiFillCalendar />
                 </p>
-                <a className="text-lg hidden lg:block text-[#25511f] cursor-pointer">
+                <a className="text-lg hidden lg:block cursor-pointer">
                   Latest
                 </a>
               </div>
@@ -81,7 +81,7 @@ const Sidebar = () => {
             null) 
           }
        
-          <Discover />
+          <Categories />
           <Footer />
         </div>
       )}

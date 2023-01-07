@@ -63,7 +63,7 @@ const SearchProfiles: FC<Props> = ({ query }) => {
                 <div key={profile?.id} className="p-5">
                     <Link href={`/profile/${profile?.id}`}>                           
                         <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded items-center">
-                                <img 
+                                <Image 
                                     width={62}
                                     height={62}
                                     className="rounded-full cursor-pointer"

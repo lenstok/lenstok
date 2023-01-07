@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import { topics } from '../../utils/const';
 
-const Discover = () => {
+const Categories = () => {
     const router = useRouter();
     const { topic } = router.query
 
@@ -24,7 +24,7 @@ const Discover = () => {
               <span className='font-bold text-2xl xl:text-md '>
                 {item.icon}
               </span>
-              <span className={`font-medium text-md hidden lg:block capitalize`}>
+              <span className={`font-medium text-md capitalize`}>
                 {item.name}
               </span>
             </div>
@@ -35,4 +35,4 @@ const Discover = () => {
     )
 }
 
-export default Discover
+export default Categories

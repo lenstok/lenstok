@@ -19,7 +19,7 @@ const SuggestedAccounts = () => {
       </p>
 
       <div>
-        {data?.recommendedProfiles.slice(0, 5).map((profile) => (
+        {data?.recommendedProfiles.slice(0, 8).map((profile) => (
           <Link href={`/profile/${profile.id}`} key={profile.id}>
             <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded items-center">
               <div className="relative h-[32px] w-[32px]">
@@ -31,12 +31,12 @@ const SuggestedAccounts = () => {
                 />
               </div>
               <div/>
-              <div className="hidden lg:block">
+              <div >
               <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
                   {profile.handle}
                   <GoVerified className="text-blue-400" />
                 </p>
-                <p className="capaitalize text-gray-400 text-xs">
+                <p className="capitalize text-gray-400 text-xs">
                   {profile.name} {""}
                 </p>
               </div>

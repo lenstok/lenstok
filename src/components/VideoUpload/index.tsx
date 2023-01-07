@@ -108,7 +108,7 @@ const UploadVideo = () => {
   <div className='flex w-full absolute left-0 pt-10 lg:pt-5 bg-[#F8F8F8] justify-center'>
   <div className=' bg-white rounded-lg flex gap-6 flex-wrap justify-center items-center p-14 pt-6 md:mb-10 '>
          
-          <div className="object-contain h-full">
+          <div className="md:object-contain md:h-full">
               <div>
                <p className='text-2xl font-bold'>Upload Video</p>
                <p className='text-md text-gray-400 mt-1'>Post a video to your account</p>
