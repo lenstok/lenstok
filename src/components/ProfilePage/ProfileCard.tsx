@@ -14,6 +14,8 @@ import CollectedVideos from '@/components/ProfilePage/CollectedVideos';
 import { Modal } from '../UI/Modal';
 import Followers from './Followers';
 import Following from './Following';
+import Link from 'next/link';
+import { RiLiveLine } from 'react-icons/ri';
 
 interface Props {
     profile: Profile
@@ -61,7 +63,9 @@ interface Props {
                             }
                             </div>
                            ) : (
-                            null
+                            <button className='active:bg-violet-600 py-1 px-3 drop-shadow-xl rounded text-sm mt-2 border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-[#25511f] font-semibold'>
+                                <Link href='/createstream'>GO LIVE</Link>
+                            </button>
                            )
                            } 
                     </div>

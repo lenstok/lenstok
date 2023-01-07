@@ -32,27 +32,24 @@ const LiveContent = () => {
 
   return (
     <div>
+      {data?.length === 0 && (
+        <div>No active livestreams</div>
+      )}
         {data?.map(data => (
             <>
-                {data?.isActive === true && (
-                    <>
-                        {data?.playbackId && (
-                            <div className='p-5' key={data?.id}>
-                                <Player 
-                                  title={data?.name}
-                                  playbackId={data?.playbackId}
-                                  autoPlay
-                                />
-                                <div>
-                                  {data?.name}
-                                </div>
-                                <div>
-                                  {data?.playbackId}
-                                </div>
-                            </div>
-                        )}
-                    </>
-                )}
+              {data?.isActive === true && (
+                <>
+                  {data?.playbackId && (
+                    <div className='p-5' key={data?.id}>
+                      <Player 
+                        title={data?.name}
+                        playbackId={data?.playbackId}
+                        autoPlay
+                      />
+                    </div>
+                  )}
+                </>
+              )}
             </>
         ))}
     </div>
