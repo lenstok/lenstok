@@ -11,7 +11,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <div>
       <Head>
-      <title>Lenstok</title>
+      <title>LensTok</title>
         <meta
           name="description"
           content="Decentralised social video sharing"/>
