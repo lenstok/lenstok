@@ -95,7 +95,7 @@ Toggle to 'Watch Live' or 'Go Live'
 NB: videos do not autoplay on iphone.
 <img src="https://i.imgur.com/4vNkStq.jpeg" height="400">
 
-11) Comments: click the comment button, same as on the webapp to go through to see more video details
+11) Comments: click the comment button below the video to go through to see more video details and to see and leave a comment.
 <img src="https://i.imgur.com/lasNpyM.jpeg" height="400">
 
 12) Discover page: The bottom scroll bar has timeline, upload, disover and profile links. This is the discover page. See other users, search categories or profiles. 
