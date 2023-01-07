@@ -33,7 +33,9 @@ const LiveContent = () => {
   return (
     <div>
       {data?.length === 0 && (
-        <div>No active livestreams</div>
+        <div className="bg-black h-[500px] flex justify-center items-center m-4">
+        <p className="text-white font-semibold text-xl">No active livestreams happening right now</p>
+      </div>
       )}
         {data?.map(data => (
             <>

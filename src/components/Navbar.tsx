@@ -16,6 +16,9 @@ import { NextLink } from "./UI/NextLink";
 
 const Navbar: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
+
+  const profilePic = currentProfile?.picture
+  console.log('CURRENT PROFILE', currentProfile?.picture)
   
   return (
     <div className="w-full flex justify-between items-center border-b-2 border-gray-200 py-2 px-4">
@@ -46,33 +49,31 @@ const Navbar: FC = () => {
 
       <div className="flex">
         {currentProfile ? (
-           <Menu as="div" className='w-12 h-12'>
-              <Menu.Button
-                as="div"
-              >
-                <Image
-                  src={getAvatar(currentProfile)}
-                  width={40}
-                  height={40}
-                  className='rounded-full cursor-pointer'
-                  alt={currentProfile.id.handle}
-                  layout='responsive'
-                />
-              </Menu.Button>
-              <MenuTransition>
-                <Menu.Items
-                static
-                className="flex flex-col absolute right-20 py-1 px-3 mt-2 w-32 bg-white border shadow-sm focus:outline-none"
-                >
-                  <Menu.Item as={NextLink} href={`/profile/${currentProfile.id}`} key={currentProfile.id}>
-                    Show Profile
-                  </Menu.Item>
-                  <Menu.Item as={NextLink} href={`/createstream`}>
-                    LIVE
-                  </Menu.Item>
-                </Menu.Items>
-              </MenuTransition>
-            </Menu>
+           <div className='w-12 h-12'>
+          <Link href={`/profile/${currentProfile.id}`} key={currentProfile.id}>
+            { profilePic?.__typename === "MediaSet" ? (
+              profilePic.original?.url.includes("ipfs") ? (
+                    <Image
+                    src={sanitizeIpfsUrl(profilePic?.original.url)}
+                    width={40}
+                    height={40}
+                    className='rounded-full cursor-pointer'
+                    alt={currentProfile.id.handle}
+                    layout='responsive'
+                    />
+                    ) : (
+                      <Image
+                      src={profilePic?.original.url}
+                      width={40}
+                      height={40}
+                      className='rounded-full cursor-pointer'
+                      alt={currentProfile.id.handle}
+                      layout='responsive'
+                      />
+                    )
+                    ) : <div className="bg-emerald-900 w-8 h-8 rounded-full" />}
+           </Link>
+             </div>
         ) : (
           <div className='block lg:hidden'>
           <LoginButtonMobile  />
