@@ -123,5 +123,3 @@ Comments, encrypted with Lit Protocol give further user control on both the crea
 
 ## Credits
 LensTok was created by @N44TS, @driespindola, @PaoloCalzone
-
-Check us out on twitter [@Lenstokxyz](https://twitter.com/lenstokxyz)
