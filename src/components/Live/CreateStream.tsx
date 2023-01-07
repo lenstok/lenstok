@@ -19,14 +19,14 @@ const CreateStream = () => {
     <div className='flex flex-col justify-items-center m-auto text-center p-3 w-[600px]'>
       {stream?.playbackId && (
         <>
-        <div className='mb-5'>
+        <p className='mb-5'>
           For the stream to work please input the following keys in OBS Studio:
           <ul>
             <li><b>RTMP Ingest Url:</b> rtmp://rtmp.livepeer.com/live</li>
             <li><b>Stream Key:</b> {stream?.streamKey}</li>
           </ul>
           Don't have OBS? <a href="https://obsproject.com/">Download here.</a>
-        </div>
+        </p>
         
         <Player
           title={stream?.name}
