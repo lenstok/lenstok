@@ -17,7 +17,7 @@ const CreateStream = () => {
     } = useCreateStream(streamName ? { name: streamName } : null)
 
     console.log(stream)
-    
+
 
     const terminateStream = () => {
       const response = {

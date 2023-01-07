@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast'
 import Navbar from '../Navbar'
 import Sidebar from '../Sidebar/Sidebar'
 import BottomNav from '../Navs/BottomNav'
+import Toggle from './Toggle'
 
 const Live = () => {
 
@@ -17,7 +18,7 @@ const Live = () => {
             <Sidebar />
           </div>
           <div className="mt-4 flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
-            <LiveContent />
+            <Toggle />
           </div>
         </div>
         <div className="block md:hidden">

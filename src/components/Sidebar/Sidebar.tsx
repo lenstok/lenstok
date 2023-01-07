@@ -57,11 +57,11 @@ const Sidebar = () => {
               </div>
             </Link>
             <Link href="/live">
-              <div className={normalLink}>
-                <p className="text-2xl text-[#25511f]">
-                  <RiLiveLine />
+            <div className={pathname === '/live' ? activeLink : normalLink}>
+                <p className="text-2xl">
+                <RiLiveLine />
                 </p>
-                <a className="text-lg hidden lg:block text-[#25511f] cursor-pointer">
+                <a className="text-lg hidden lg:block cursor-pointer">
                   LIVE
                 </a>
               </div>
