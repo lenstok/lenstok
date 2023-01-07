@@ -36,11 +36,11 @@ For full transparency we started to build LensTok as part of the Encode/WBW3 acc
 
 - **Social sharing**: LensTok includes a variety of social sharing features, these come from using Lens social graph, and include the ability to comment, like, and collect videos.
 - **Follow and search profiles**: Users can search for and follow other profiles on the platform, and view their followers and videos. There is a mobile discover page.
-- **Collect module**: LensTok includes a collect module, where users can set conditions on who can collect their video
-- **Upload**: In addition to live streaming, users can also upload their videos to the platform for others to discover. 
+- **Lens Collect module**: LensTok includes a collect module, where users can set conditions on who can collect their video
+- **Upload on Bundlr/Arweave**: In addition to live streaming, users can also upload their videos to the platform for others to discover. 
 - **Mobile**: LensTok is mobile friendly, making it accessible to a wide range of users.
-- **Encrypted Commenting with Lit**: 
-- **Live streaming**: LensTok allows users to share their videos in real-time with the community through live streaming.
+- **Encrypted Commenting with Lit**: Just push a toggle to encrypt your comment to keep it secret to all except the user that posted the video.
+- **Live streaming with Livepeer**: LensTok allows users to share their videos in real-time with the community through live streaming.
 
 ## Stack
 - Nextjs
