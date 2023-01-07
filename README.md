@@ -75,8 +75,10 @@ Here are some images of LensTok in action:
 6) Click on your profile image on the top right of the web app or on any users profile will bring you here, to their (or your) profile page where you will see all of your videos. Click one to like, comment and see more detail.
 <img src="https://i.imgur.com/Bhghw0p.png" width="500">
 
-7) Commenting: Click on a video or the comment button to get to this page where you can leave a comment. Toggle to encrypt it so only the creator can see it. 
+7) Commenting: Click on a video or the comment button to get to this page where you can leave a comment. Toggle to encrypt it (using LIT protocol) so only the creator can see it. 
 <img src="https://i.imgur.com/34u2BnN.png" width="500">
+<img src="https://i.imgur.com/qYt9lBt.png" width="500">
+
 
 8) Search: sort of self explanatory, start typing the name or handle of a user into the search bar, and some profiles will come up, click through to see their profile
 <img src="https://i.imgur.com/HkPt1Ym.png" width="500">
