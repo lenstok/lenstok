@@ -13,7 +13,7 @@ interface Props {
     hideDropdown?: boolean
 }
 
-const SearchBar: FC<Props> = ({ hideDropdown = false }) => {
+const SearchBarDiscover: FC<Props> = ({ hideDropdown = false }) => {
     const { push, pathname, query } = useRouter()
     const [searchText, setSearchText] = useState('')
     const dropdownRef = useRef(null)
@@ -65,8 +65,8 @@ const SearchBar: FC<Props> = ({ hideDropdown = false }) => {
         </button>
       </form>
       {pathname !== '/search' && !hideDropdown && searchText.length > 0 && (
-        <div className='flex absolute flex-col mt-2 w-[94%] z-50' ref={dropdownRef}>
-            <div className='overflow-y-auto py-2 max-h-[80vh] rounded-none border bg-white'>
+        <div className='flex absolute flex-col mt-2 w-full' ref={dropdownRef}>
+            <div className='overflow-y-scroll py-2 rounded-none border bg-white'>
                 {searchUsersLoading ? (
                     <div className='py-2 px-4 space-y-2 text-sm font-bold text-center'>
                         <Spinner size="sm" className='mx-auto' />
@@ -82,12 +82,12 @@ const SearchBar: FC<Props> = ({ hideDropdown = false }) => {
                                             <Image 
                                                 width={40}
                                                 height={40}
-                                                className="rounded-full cursro-pointer"
+                                                className="rounded-full cursor-pointer"
                                                 src={getAvatar(profile)}
                                                 alt={profile?.handle}
                                             />
                                         </div>
-                                        <div className='hidden lg:block'>
+                                        <div>
                                             <p className='flex gap-1 items-center text-md font-bold text-primary lowercase'>{profile?.handle}</p>
                                         </div>
                                     </div>
@@ -104,4 +104,4 @@ const SearchBar: FC<Props> = ({ hideDropdown = false }) => {
   )
 }
 
-export default SearchBar
+export default SearchBarDiscover
