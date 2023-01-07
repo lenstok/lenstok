@@ -70,4 +70,4 @@ export const POLYGONSCAN_URL = IS_MAINNET
   ? "https://polygonscan.com"
   : "https://mumbai.polygonscan.com";
   
-export const API_KEY = process.env.NEXT_PUBLIC_LIVEPEER_KEY
+export const API_KEY = process.env.NEXT_PUBLIC_STUDIO_API_KEY
