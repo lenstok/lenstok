@@ -25,7 +25,7 @@ const CreateStream = () => {
             <li><b>RTMP Ingest Url:</b> rtmp://rtmp.livepeer.com/live</li>
             <li><b>Stream Key:</b> {stream?.streamKey}</li>
           </ul>
-          Don't have OBS? <a href="https://obsproject.com/">Download here.</a>
+          Don&apos;t have OBS? <a href="https://obsproject.com/">Download here.</a>
         </div>
         
         <Player
