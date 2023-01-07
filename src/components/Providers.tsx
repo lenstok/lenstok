@@ -7,6 +7,7 @@ import {
   CHAIN_ID,
   IS_MAINNET,
   LENSTOK_URL,
+  API_KEY,
 } from "src/constants";
 import {
   LivepeerConfig,
@@ -47,7 +48,7 @@ const wagmiClient = createClient({
 
 const livepeerClient = createReactClient({
   provider: studioProvider({
-    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
+    apiKey: API_KEY,
   }),
 });
 
