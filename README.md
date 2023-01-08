@@ -5,7 +5,7 @@ With LensTok, users can share and discover short videos through live streaming, 
 
 Live Demo: [LensTok Testnet](http://lenstok-gamma.vercel.app)
 
-For the best experience view on web (although mobile works too just not as much, autoplay not compatible on IOS, although android should be fine.)
+For the best experience view on web (although mobile works too just not as much, autoplay not compatible on iOS, although android should be fine.)
 
 ## Summary
 
@@ -35,11 +35,17 @@ For full transparency we started to build LensTok as part of the Encode/WBW3 acc
 ## Features Summary
 
 - **Social sharing**: LensTok includes a variety of social sharing features, these come from using Lens social graph, and include the ability to comment, like, and collect videos.
+
 - **Follow and search profiles**: Users can search for and follow other profiles on the platform, and view their followers and videos. There is a mobile discover page.
+
 - **Lens Collect module**: LensTok includes a collect module, where users can set conditions on who can collect their video
+
 - **Upload on Bundlr/Arweave**: In addition to live streaming, users can also upload their videos to the platform for others to discover. 
+
 - **Mobile**: LensTok is mobile friendly, making it accessible to a wide range of users.
+
 - **Encrypted Commenting with Lit**: Just push a toggle to encrypt your comment to keep it secret to all except the user that posted the video.
+
 - **Live streaming with Livepeer**: LensTok allows users to share their videos in real-time with the community through live streaming.
 
 ## Stack
@@ -60,20 +66,30 @@ Here are some images of LensTok in action:
 1) Landing page, you will land on the for you page where you will find a timeline of videos to scroll through. Want a different view? there is a second timeline of the 'Latest' video posts also available and some suggested accounts to look at.
 <img src="https://i.imgur.com/ti197mz.png" width="500">
 
+
 2) The best way to experience LensTok is to connect your wallet and login with Lens. 
 <img src="https://i.imgur.com/L17GmeC.png" width="500">
+
 
 3) If you need a testnet Lens handle, we gotchu, you’ll find the link to easily mint one at the bottom of the sidebar. It takes you to [Lens-do-it](https://lens-do-it.vercel.app/), created by our dev @paolo to easily mint a testnet handle.
 <img src="https://i.imgur.com/IM8fJrM.png" width="500">
 
+
 4) Social sharing: now you can interact and Follow(or unfollow), Like, Comment, Collect, Upload, using these buttons. You can also now see who you follow, click on their profile, see what they're up to
 <img src="https://i.imgur.com/ZpKyH2W.png" width="500">
+
 
 5) Clicking upload will bring you here: Select the file you want to upload, choose a title and description. you can also choose to use the Lens collect module here to put a condition on your video collects. Choose to allow anyone or only followers and set a price or leave it free. 
 <img src="https://i.imgur.com/pNztsT1.png" width="500">
 
+5.5) Uploading: budlr is a bit funny. You need to hvae a storage balance with them in order to upload. So the first time you will have zero and will need to depoist (not much, and its mumbai not real Matic). PRess the black depoist button, enter the amount you want, click the second deposit button and then wait for it to refresh. We show you an estimate of how much it'll cost to upload the video so you know how much to top up.
+
+<img src="https://i.imgur.com/lSzU6g7.png" width="500">
+
+
 6) Click on your profile image on the top right of the web app or on any users profile will bring you here, to their (or your) profile page where you will see all of your videos. Click one to like, comment and see more detail.
 <img src="https://i.imgur.com/Bhghw0p.png" width="500">
+
 
 7) Commenting: Click on a video or the comment button to get to this page where you can leave a comment. Toggle to encrypt it (using LIT protocol) so only the creator can see it. 
 <img src="https://i.imgur.com/34u2BnN.png" width="500">
@@ -82,6 +98,7 @@ Here are some images of LensTok in action:
 
 8) Search: sort of self explanatory, start typing the name or handle of a user into the search bar, and some profiles will come up, click through to see their profile
 <img src="https://i.imgur.com/HkPt1Ym.png" width="500">
+
 
 9) Live Streaming: Watch livestreams (if there are any happening at that moment) or share your own. nb: currently Livepeer require you to have OBS installed to stream. You also must be logged into with Lens.
 Toggle to 'Watch Live' or 'Go Live' 
