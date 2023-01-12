@@ -71,14 +71,20 @@ const CreateStream = () => {
 
         {!stream && (
           <>
-            <button
-              className='active:bg-violet-600 py-1 px-3 drop-shadow-xl rounded text-sm mt-2 border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-[#25511f] font-semibold'
-              onClick={() => {
-                createStream?.()
-              } }
-            >
-              Create Stream
-            </button>
+            {currentProfile ? (
+              <>
+                <button
+                  className='active:bg-violet-600 py-1 px-3 drop-shadow-xl rounded text-sm mt-2 border hover:text-[#25511f] hover:bg-[#96de26] transition cursor-pointer bg-[#96de26] text-[#25511f] font-semibold'
+                  onClick={() => {
+                    createStream?.()
+                  } }
+                >
+                  Create Stream
+                </button>
+              </>
+            ) : (
+              <div>Please log in to be able to create stream!</div>
+            )}
           </>
         )}
       </>
