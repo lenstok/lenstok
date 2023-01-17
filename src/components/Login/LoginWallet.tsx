@@ -50,6 +50,7 @@ const LoginWallet: FC = () => {
         console.log("Account", account);
       }
     } catch {}
+      toast.error("Please download metamask!");
   };
 
   const handleLogin = async () => {
@@ -110,7 +111,7 @@ const LoginWallet: FC = () => {
             if (switchNetwork) {
               switchNetwork(CHAIN_ID);
             } else {
-              toast.error("Please change your network wallet!");
+              toast.error("Please change your network!");
             }
           }}
         >
