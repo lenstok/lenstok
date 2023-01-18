@@ -17,7 +17,8 @@ const nextConfig = {
       "assets.lenster.xyz",
       "as1.ftcdn.net",
       "avataaars.io",
-      "theshr.infura-ipfs.io"
+      "theshr.infura-ipfs.io",
+      "test.com"
     ],
   },
 };
