@@ -41,7 +41,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "uuid": "^9.0.0",
     "uuidv4": "^6.2.13",
-    "wagmi": "^0.7.5",
+    "wagmi": "^0.9.6",
     "zod": "^3.19.1"
   },
   "devDependencies": {

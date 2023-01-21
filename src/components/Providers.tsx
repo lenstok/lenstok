@@ -14,16 +14,18 @@ import {
   createReactClient,
   studioProvider,
 } from "@livepeer/react";
-import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import {configureChains, createClient, WagmiConfig } from "wagmi";
+import { mainnet, polygon, polygonMumbai} from 'wagmi/chains'
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { apolloClient } from "@/apollo-client";
 import Video from "./HomePage/Video";
 
 const { chains, provider } = configureChains(
-  [IS_MAINNET ? chain.polygon : chain.polygonMumbai],
+  [IS_MAINNET ? polygon : polygonMumbai],
   [infuraProvider({ apiKey: INFURA_ID }), publicProvider()]
 );
 

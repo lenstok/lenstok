@@ -15,7 +15,7 @@ export default function BundlrUpload() {
     },
   });
   const { data: userBalance } = useBalance({
-    addressOrName: address,
+    address: address,
     chainId: CHAIN_ID,
   });
   const bundlrData = useAppStore((state) => state.bundlrData);
