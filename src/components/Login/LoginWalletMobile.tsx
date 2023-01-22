@@ -17,7 +17,7 @@ import {
 import type { Connector } from "wagmi";
 import toast from "react-hot-toast";
 
-const LoginWallet: FC = () => {
+const LoginWalletMobile: FC = () => {
   const setProfiles = useAppStore((state) => state.setProfiles);
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile);
   const setProfileId = useAppPersistStore((state) => state.setProfileId);
@@ -110,7 +110,7 @@ const LoginWallet: FC = () => {
             if (switchNetwork) {
               switchNetwork(CHAIN_ID);
             } else {
-              toast.error("Please change your network wallet!");
+              toast.error("Please change your network!");
             }
           }}
         >
@@ -119,12 +119,14 @@ const LoginWallet: FC = () => {
       )}
     </div>
   ) : (
-    <div className="flex flex-1">
-      <button className="flex-1" onClick={() => onConnect(connectors[0])}>
-        {mounted ? "Connect Wallet" : ""}
-      </button>
-    </div>
+        <button 
+      onClick= {() => {
+        {toast.error("Log in to view profile", {duration: 1000});}
+       }}
+      className="text-white hover:text-gray-100 focus:outline-none focus:text-gray-100 border-gray-800">
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+    </button>
   );
 };
 
-export default LoginWallet;
+export default LoginWalletMobile;

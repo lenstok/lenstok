@@ -7,15 +7,23 @@ import {
   CHAIN_ID,
   IS_MAINNET,
   LENSTOK_URL,
-  API_KEY,
 } from "src/constants";
 import {
   LivepeerConfig,
   createReactClient,
   studioProvider,
 } from "@livepeer/react";
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  connectorsForWallets,
+  getDefaultWallets,
+  RainbowKitProvider,
+  darkTheme,
+  lightTheme,
+  midnightTheme,
+} from '@rainbow-me/rainbowkit';
 import {configureChains, createClient, WagmiConfig } from "wagmi";
-import { mainnet, polygon, polygonMumbai} from 'wagmi/chains'
+import { mainnet, polygon, polygonMumbai} from 'wagmi/chains' 
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
@@ -29,18 +37,26 @@ const { chains, provider } = configureChains(
   [infuraProvider({ apiKey: INFURA_ID }), publicProvider()]
 );
 
-const connectors = () => {
-  return [
-    new InjectedConnector({
-      chains,
-      options: { shimDisconnect: true },
-    }),
-    new WalletConnectConnector({
-      chains,
-      options: { rpc: { [CHAIN_ID]: INFURA_RPC } },
-    }),
-  ];
-};
+// const connectors = () => {
+//   return [
+//     new MetaMaskConnector({ chains }),
+//     new InjectedConnector({
+//       chains,
+//       options: { shimDisconnect: true },
+//     }),
+//     new WalletConnectConnector({
+//       chains,
+//       options: { rpc: { [CHAIN_ID]: INFURA_RPC } },
+//     }),
+//   ];
+// };
+
+const { wallets } = getDefaultWallets({
+  appName: 'LensTok',
+  chains
+});
+
+const connectors = connectorsForWallets([...wallets])
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -50,13 +66,21 @@ const wagmiClient = createClient({
 
 const livepeerClient = createReactClient({
   provider: studioProvider({
-    apiKey: API_KEY,
+    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
+    baseUrl: LENSTOK_URL,
   }),
 });
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains} 
+      theme={lightTheme({
+        ...lightTheme.accentColors.purple,
+        borderRadius: 'small',
+        fontStack: 'system',
+        overlayBlur: 'small',
+      })}>
       <ApolloProvider client={apolloClient}>
         <LivepeerConfig client={livepeerClient}>
           <ThemeProvider defaultTheme="light" attribute="class">
@@ -65,6 +89,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
           {/* <Video /> */}
         </LivepeerConfig>
       </ApolloProvider>
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 };
