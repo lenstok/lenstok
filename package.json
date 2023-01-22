@@ -19,6 +19,7 @@
     "@heroicons/react": "^2.0.13",
     "@lit-protocol/sdk-browser": "^1.1.238",
     "@livepeer/react": "^1.5.5",
+    "@rainbow-me/rainbowkit": "^0.8.1",
     "axios": "^1.2.2",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
@@ -41,7 +42,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "uuid": "^9.0.0",
     "uuidv4": "^6.2.13",
-    "wagmi": "^0.7.5",
+    "wagmi": "^0.9.6",
     "zod": "^3.19.1"
   },
   "devDependencies": {

@@ -13,6 +13,7 @@ import getAvatar from "@/lib/getAvatar";
 import { Menu } from "@headlessui/react";
 import MenuTransition from "./UI/MenuTransition";
 import { NextLink } from "./UI/NextLink";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Navbar: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -76,7 +77,7 @@ const Navbar: FC = () => {
              </div>
         ) : (
           <div className='block lg:hidden'>
-          <LoginButtonMobile  />
+          <ConnectButton />
           </div>
         )}
         </div>

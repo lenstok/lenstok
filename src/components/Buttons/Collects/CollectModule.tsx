@@ -113,10 +113,10 @@ const CollectModule: FC<Props> = ({publication, setCount, count }) => {
         setUsdPrice(data)
       })
     }
-  }, [revenueData])
+  }, [collectModule?.amount, revenueData])
 
   const { data: balanceData, isLoading: balanceLoading } = useBalance({
-    addressOrName: address,
+    address: address,
     token: collectModule?.amount?.asset?.address,
     formatUnits: collectModule?.amount?.asset?.decimals,
     watch: true

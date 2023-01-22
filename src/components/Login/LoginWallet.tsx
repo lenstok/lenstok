@@ -16,6 +16,8 @@ import {
 } from "wagmi";
 import type { Connector } from "wagmi";
 import toast from "react-hot-toast";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { MainButton } from "../Buttons/Rainbow/mainbutton";
 
 const LoginWallet: FC = () => {
   const setProfiles = useAppStore((state) => state.setProfiles);
@@ -121,9 +123,7 @@ const LoginWallet: FC = () => {
     </div>
   ) : (
     <div className="flex flex-1">
-      <button className="flex-1" onClick={() => onConnect(connectors[0])}>
-        {mounted ? "Connect Your Wallet" : ""}
-      </button>
+      <MainButton/>
     </div>
   );
 };
