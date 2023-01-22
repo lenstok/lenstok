@@ -78,7 +78,7 @@ const CommentData: FC<Props> = ({ comment, publication }) => {
           />
         </div>
       </Link>
-      <div className="flex-grow">
+      <div className="flex-grow w-[90%]">
         <p className="font-bold hover:underline">{comment.profile.handle}</p>
         <p
           style={{
