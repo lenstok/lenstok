@@ -57,7 +57,7 @@ import { BsPlay } from "react-icons/bs";
                         muted // Needs to be there to be able to play
                         onMouseOver={handleOnMouseOver}
                         onMouseOut={handleOnMouseOut}
-                        className="absolute inset-0 h-full w-full object-cover rounded-md transform transition duration-500 md:hover:scale-125 hover:z-10 md:hover:border border-white"
+                        className="absolute inset-0 h-full w-full object-cover rounded-md transform transition duration-500 md:hover:scale-125 md:hover:z-10 md:hover:border border-white"
                         /> 
                          <p className="absolute left-3 bottom-3 text-white font-semibold text-xs">
                         {pub.metadata.name}

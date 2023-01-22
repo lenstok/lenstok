@@ -100,7 +100,7 @@ const LoginWalletMobile: FC = () => {
   return activeConnector?.id ? (
     <div>
       {chain?.id === CHAIN_ID ? (
-        <button className="flex-1" onClick={() => handleLogin()}>
+        <button className="flex-1 text-white" onClick={() => handleLogin()}>
           {mounted ? "Log In" : ""}
         </button>
       ) : (
