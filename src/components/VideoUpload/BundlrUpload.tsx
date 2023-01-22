@@ -156,13 +156,13 @@ export default function BundlrUpload() {
               placeholder="ENTER AMOUNT IN MATIC"
               className="!p-1.5 border border-gray-500 inline-flex items-center w-full justify-between text-xs font-semibold rounded opacity-70"
               autoComplete="off"
-              min={0.01}
+              min={0}
               value={bundlrData.deposit || ""}
               onChange={(e) => {
                 setBundlrData({ deposit: e.target.value });
               }}
             />
-            <div >
+            <div>
               <button
                 type="button"
                 disabled={bundlrData.depositing}
