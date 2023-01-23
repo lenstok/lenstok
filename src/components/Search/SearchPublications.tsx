@@ -35,7 +35,7 @@ const SearchPublications: FC<Props> = ({ query }) => {
   return (
     <div>
       {publications?.map((publication) => (
-        <VideoCard key={publication?.id} publication={publication} profile={publication.profile as Profile} />
+        <VideoCard key={publication?.id} publication={publication} />
       ))}
     </div>
   )
