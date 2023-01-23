@@ -67,7 +67,7 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
           <p className="text-xs block font-semibold text-gray-400"> {timestamp}</p>
           <Link href="/">
             <p className="mt-2 text-sm font-normal">
-              {publication.metadata.description.slice(0, 90)} {""}
+              {publication?.metadata?.description?.slice(0, 90)} {""}
             </p>
           </Link>
         </div>

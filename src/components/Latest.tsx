@@ -22,7 +22,8 @@ const Latest = () => {
       request: {
         sortCriteria: "LATEST",
         publicationTypes: ["POST"],
-        limit: 10,
+        timestamp: 1,
+        limit: 50,
         excludeProfileIds: [
           "0x5eaf",
           "0x3f7d",
@@ -42,9 +43,19 @@ const Latest = () => {
   const publications = data?.explorePublications.items;
   console.log("DATA", data?.explorePublications.items);
 
+  const onlyVideoPublications = publications?.filter((publication) => {
+    if(publication && publication.metadata && publication.metadata.media[0] && publication.metadata.media[0].original && publication.metadata.media[0].original.url){
+    return (
+      publication.metadata.media[0].original.url.startsWith("https://lens.infura-ipfs.io") 
+    || publication.metadata.media[0].original.url.startsWith("ipfs://")
+    || publication.metadata.media[0].original.url.startsWith("https://arweave")
+    )
+  }
+});
+
   return (
     <div>
-      {publications?.map((pub: Publication) => (
+      {onlyVideoPublications?.map((pub: Publication) => (
         <VideoCard
           key={pub.id}
           publication={pub as Publication}
