@@ -13,17 +13,19 @@ import LikeButton from  "@/components/Buttons/Likes/LikeButton";
 import CommentButton from "../Buttons/CommentButton";
 import MirrorButton from "../Buttons/Mirrors/MirrorButton";
 import CollectButton from "../Buttons/Collects/CollectButton";
+import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 
 interface Props {
   publication: Publication;
-  profile: Profile;
 }
-const VideoCard: FC<Props> = ({ publication, profile }) => {
+const VideoCard: FC<Props> = ({ publication}) => {
 
   const date = publication.createdAt;
   const timestamp = date.split("T")[0];
   const [following, setFollowing] = useState(false) 
-  const currentProfile = useAppStore((state) => state.currentProfile); 
+  const currentProfile = useAppStore((state) => state.currentProfile);
+  const isMirror = publication?.__typename === 'Mirror'
+  const profile = isMirror ? publication?.mirrorOf?.profile : publication?.profile 
 
   useEffect(() => {
     if(profile?.isFollowedByMe === true) {
@@ -38,6 +40,14 @@ const VideoCard: FC<Props> = ({ publication, profile }) => {
 
   return (
     <div className="flex flex-col border-b-2 border-gray-200 pb-0 md:pb-6">
+      <div className="text-sm flex flex-row items-center">
+        {isMirror && (
+          <>
+            <ArrowsRightLeftIcon className="w-6 h-6 text-emerald-600" />
+            <span> Mirrored by {publication?.profile?.handle}</span>
+          </>
+        )}
+      </div>
       <div className="flex flex-row">
         <div className="flex gap-3 p-2 mt-4 cursor-pointer font-semibold rounded">
         <Link href={`/profile/${profile.id}`} key={profile.id}>

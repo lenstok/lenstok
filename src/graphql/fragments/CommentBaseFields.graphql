@@ -18,7 +18,7 @@ fragment CommentBaseFields on Comment {
   }
   appId
   hidden
-  reaction(request: null)
-  mirrors(by: null)
+  reaction(request: $reactionRequest)
+  mirrors(by: $profileId)
   hasCollectedByMe
 }

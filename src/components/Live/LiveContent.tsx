@@ -8,24 +8,26 @@ const LiveContent = () => {
     const [name, setName] = useState("")
 
   useEffect(() => {
-    const response = {
-      method: "get",
-      url: "https://livepeer.studio/api/stream",
-      params: {
-        "streamsonly": 1
-      },
-      headers: {
-        "authorization": `Bearer ${API_KEY}`
-      }
-    }
-
-    axios(response)
-      .then((result) => {
-        setData(result?.data)
-      })
-      .catch((error) => {
-        error = new Error()
-      })
+    const headers = {
+      'authorization': `Bearer ${API_KEY}`
+    };
+    
+    axios({
+        method: 'get',
+        url: 'https://livepeer.studio/api/stream',
+        headers: headers,
+        params: {
+            streamsonly: 1,
+            filters: JSON.stringify([{
+                id: 'isActive', 
+                value: true
+            }])
+        }
+    }).then(response => {
+        setData(response.data);
+    }).catch(error => {
+        console.log(error);
+    });
   }, [])
   
   console.log(data)
@@ -38,8 +40,6 @@ const LiveContent = () => {
       </div>
       )}
         {data?.map(data => (
-            <>
-              {data?.isActive === true && (
                 <>
                   {data?.playbackId && (
                     <div className='p-5' key={data?.id}>
@@ -51,8 +51,6 @@ const LiveContent = () => {
                     </div>
                   )}
                 </>
-              )}
-            </>
         ))}
     </div>
   )
