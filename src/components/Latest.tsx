@@ -22,7 +22,7 @@ const Latest = () => {
       request: {
         sortCriteria: "LATEST",
         publicationTypes: ["POST"],
-        limit: 10,
+        limit: 20,
         excludeProfileIds: [
           "0x5eaf",
           "0x3f7d",
