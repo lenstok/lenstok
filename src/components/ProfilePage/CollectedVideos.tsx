@@ -5,7 +5,7 @@ import { Nft, Profile } from '@/types/lens';
 import Link from 'next/link';
 import React, { FC, useState } from 'react'
 import { BsPlay } from 'react-icons/bs';
-import { chain } from 'wagmi';
+import { mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import NFT from './NFT';
 
 interface Props {
@@ -16,7 +16,7 @@ const CollectedVideos: FC<Props> = ({ profile }) => {
   const currentProfile = useAppStore((state) => state.currentProfile);
   
   const request = {
-    chainIds: [CHAIN_ID, chain.polygonMumbai.id],
+    chainIds: [CHAIN_ID, polygonMumbai.id],
     ownerAddress: profile?.ownedBy,
   };
 

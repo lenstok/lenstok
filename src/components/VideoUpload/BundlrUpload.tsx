@@ -15,7 +15,7 @@ export default function BundlrUpload() {
     },
   });
   const { data: userBalance } = useBalance({
-    addressOrName: address,
+    address: address,
     chainId: CHAIN_ID,
   });
   const bundlrData = useAppStore((state) => state.bundlrData);
@@ -140,7 +140,7 @@ export default function BundlrUpload() {
               }
               className="inline-flex py-0.5 items-center pl-1.5 pr-0.5 bg-emerald-700 text-white rounded-full focus:outline-none dark:bg-gray-800"
             >
-              <span className="text-xs px-0.5">Deposit</span>
+              <span className="text-xs px-0.5">Top-Up</span>
             </button>
           </span>
         </div>
@@ -153,8 +153,8 @@ export default function BundlrUpload() {
           <div className="flex items-end space-x-2">
             <input
               type="number"
-              placeholder="100 MATIC"
-              className="!py-1.5"
+              placeholder="ENTER AMOUNT IN MATIC"
+              className="!p-1.5 border border-gray-500 inline-flex items-center w-full justify-between text-xs font-semibold rounded opacity-70"
               autoComplete="off"
               min={0}
               value={bundlrData.deposit || ""}
@@ -167,7 +167,7 @@ export default function BundlrUpload() {
                 type="button"
                 disabled={bundlrData.depositing}
                 onClick={() => depositToBundlr()}
-                className="mb-0.5 !py-1.5"
+                className="text-xs mb-0.5 !p-1.5 inline-flex items-center pl-1.5 pr-0.5 bg-emerald-700 text-white rounded-full focus:outline-none dark:bg-gray-800"
               >
                 Deposit
               </button>

@@ -278,7 +278,7 @@ const CreateComment: FC<Props> = ({ publication, refetchComments }) => {
           onClick={createComment}
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Commenting..." : "Comment"}
+          {isSubmitting ? "Commenting..." : <div className="cursor-pointer border-1 hover:text-[#96de26]">Comment</div>}
         </button>
         <Switch.Group>
           <div className="flex items-center">
