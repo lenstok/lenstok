@@ -24,8 +24,7 @@ const Video: FC<Props> = ({ publication }) => {
   const [playing, setPlaying] = useState(false);
   const [showButtons, setShowButtons] = useState(true);
   const videoRef = useRef(publication?.metadata?.media[0]?.original?.url);
-  const [url, setUrl] = useState<string>(publication?.metadata?.media[0]?.original?.url);
-
+  const [url, setUrl] = useState<string>('');
   const idParsed = useMemo(() => parseCid(url) ?? parseArweaveTxId(url), [url]);
 
   return (
@@ -39,19 +38,16 @@ const Video: FC<Props> = ({ publication }) => {
         className="pointer-events-none md:pointer-events-auto"
         href={`/detail/${publication.id}`} key={publication.id} 
         >
-          {idParsed && (
-            <div className="lg:w-[410px] lg:h-[547px] md:h-[400px] md:w-[400px] h-[547px] w-full shadow-inner 
-            object-cover md:object-contain md:rounded-lg cursor-pointer bg-black lg:bg-gray-100 pointer-events-none md:pointer-events-auto">
-              <Player
-                title={idParsed.id}
-                src={url}
-                autoPlay
-                muted
-                aspectRatio="9to16"
-                autoUrlUpload={{ fallback: true, ipfsGateway: 'https://w3s.link' }}
-              />
-            </div>
-          )}
+          <video
+            loop
+            muted
+            autoPlay
+            // ref={videoRef}
+            src={getMedia(publication)}
+            // className='lg:w-[400px] h-[300px] md:h-[400px] lg:h-[500px] w-[400px] rounded-2xl cursor-pointer bg-gray-100'
+            className='lg:w-[410px] lg:h-[547px] md:h-[400px] md:w-[400px] h-[547px] w-full shadow-inner 
+            object-cover md:object-contain md:rounded-lg cursor-pointer bg-black lg:bg-gray-100 pointer-events-none md:pointer-events-auto'
+          ></video>
         </Link>
         </div>
         
