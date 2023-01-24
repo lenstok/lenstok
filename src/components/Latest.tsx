@@ -21,7 +21,7 @@ const Latest = () => {
     variables: {
       request: {
         sortCriteria: "LATEST",
-        publicationTypes: ["POST", "MIRROR"],
+        publicationTypes: ["POST"],
         timestamp: 1,
         limit: 50,
         excludeProfileIds: [
@@ -59,6 +59,7 @@ const Latest = () => {
         <VideoCard
           key={pub.id}
           publication={pub as Publication}
+          profile={pub.profile as Profile}
         />
       ))}
     </div>
