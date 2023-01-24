@@ -19,7 +19,7 @@ const Explore = () => {
     variables: {
       request: {
         sortCriteria: "CURATED_PROFILES",
-        publicationTypes: ["POST", "MIRROR"],
+        publicationTypes: ["POST"],
         limit: 20,
         metadata: {
           mainContentFocus: ["VIDEO"],
@@ -35,7 +35,7 @@ const Explore = () => {
   return (
     <div>
       {publications?.map((pub: Publication) => (
-        <VideoCard key={pub.id} publication={pub as Publication} />
+        <VideoCard key={pub.id} publication={pub as Publication} profile={pub.profile as Profile} />
       ))}
     </div>
   );
