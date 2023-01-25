@@ -61,7 +61,7 @@ const VideoDetail: FC<Props> = ({
   // console.log("Publication", publication)
 
   //CHANGE LINK ON DEPLOYMENT TO NEW DOMAIN!
-  const Links = `https://lenstok-gamma.vercel.app/${publication?.id}`;
+  const Links = `https://lenstok-gamma.vercel.app/detail/${publication?.id}`;
   const Title = `${profile?.handle} on Lenstok`;
 
   const itsNotMe = profile?.id !== currentProfile?.id;
@@ -150,7 +150,7 @@ const VideoDetail: FC<Props> = ({
             className="my-3 pb-3 text-lg text-gray-600"
             style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
           >
-            {publication?.metadata.content.slice(0, 175)}
+            {publication?.metadata.description.slice(0, 175)}
           </p>
 
           {/* BUTTONS */}
