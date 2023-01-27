@@ -23,7 +23,7 @@ const Latest = () => {
         sortCriteria: "LATEST",
         publicationTypes: ["POST"],
         timestamp: 1,
-        limit: 50,
+        // limit: 50,
         excludeProfileIds: [
           "0x5eaf",
           "0x3f7d",
@@ -44,7 +44,7 @@ const Latest = () => {
   console.log("DATA", data?.explorePublications.items);
 
   const onlyVideoPublications = publications?.filter((publication) => {
-    if(publication && publication.metadata && publication.metadata.media[0] && publication.metadata.media[0].original && publication.metadata.media[0].original.url){
+    if(publication.metadata.media[0].original.mimeType === "video/mp4" && publication.metadata.media[0].original.url){
     return (
       publication.metadata.media[0].original.url.startsWith("https://lens.infura-ipfs.io") 
     || publication.metadata.media[0].original.url.startsWith("ipfs://")
