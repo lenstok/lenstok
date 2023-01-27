@@ -18,7 +18,9 @@ const nextConfig = {
       "as1.ftcdn.net",
       "avataaars.io",
       "theshr.infura-ipfs.io",
-      "test.com"
+      "test.com",
+      "ui-avatars.com",
+      "bafybeifiw5y4fowyuonetx3u3pufj5y46b3e5zkr4ld25u4et2n4opueni.ipfs.w3s.link"
     ],
   },
 };

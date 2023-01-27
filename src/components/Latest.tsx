@@ -23,8 +23,9 @@ const Latest = () => {
         sortCriteria: "LATEST",
         publicationTypes: ["POST"],
         timestamp: 1,
-        limit: 50,
+        // limit: 50,
         excludeProfileIds: [
+          //nsfw
           "0x5eaf",
           "0x3f7d",
           "0x5b94",
@@ -44,22 +45,24 @@ const Latest = () => {
   console.log("DATA", data?.explorePublications.items);
 
   const onlyVideoPublications = publications?.filter((publication) => {
-    if(publication && publication.metadata && publication.metadata.media[0] && publication.metadata.media[0].original && publication.metadata.media[0].original.url){
-    return (
-      publication.metadata.media[0].original.url.startsWith("https://lens.infura-ipfs.io") 
-    || publication.metadata.media[0].original.url.startsWith("ipfs://")
-    || publication.metadata.media[0].original.url.startsWith("https://arweave")
-    )
-  }
-});
+    if (
+      publication.metadata.media[0].original.mimeType.startsWith("video/") &&
+      publication.metadata.media[0].original.url
+    ) {
+      return (
+        publication.metadata.media[0].original.url.startsWith(
+          "https://lens.infura-ipfs.io"
+        ) ||
+        publication.metadata.media[0].original.url.startsWith("ipfs://") ||
+        publication.metadata.media[0].original.url.startsWith("https://arweave")
+      );
+    }
+  });
 
   return (
     <div>
       {onlyVideoPublications?.map((pub: Publication) => (
-        <VideoCard
-          key={pub.id}
-          publication={pub as Publication}
-        />
+        <VideoCard key={pub.id} publication={pub as Publication} />
       ))}
     </div>
   );
