@@ -44,7 +44,6 @@ const SearchPublications: FC<Props> = ({ query }) => {
         <VideoCard
           key={publication?.id}
           publication={publication}
-          profile={publication.profile as Profile}
         />
       ))}
     </div>
