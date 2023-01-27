@@ -23,9 +23,26 @@ const Video: FC<Props> = ({ publication }) => {
   const [isVideoMuted, setIsVideoMuted] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [showButtons, setShowButtons] = useState(true);
-  const videoRef = useRef(publication?.metadata?.media[0]?.original?.url);
   const [url, setUrl] = useState<string>('');
   const idParsed = useMemo(() => parseCid(url) ?? parseArweaveTxId(url), [url]);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const isMirror = publication.__typename === 'Mirror'
+  const video = isMirror ? publication.mirrorOf : publication
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      });
+    });
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+  }, []);
 
   return (
     <div className="lg:ml-20 md:flex gap-4 relative">
@@ -36,7 +53,7 @@ const Video: FC<Props> = ({ publication }) => {
       >
         <Link 
         className="pointer-events-none md:pointer-events-auto"
-        href={`/detail/${publication.id}`} key={publication.id} 
+        href={`/detail/${video.id}`} key={video.id} 
         >
           <video
             loop

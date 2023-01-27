@@ -35,7 +35,7 @@ const Explore = () => {
   return (
     <div>
       {publications?.map((pub: Publication) => (
-        <VideoCard key={pub.id} publication={pub as Publication} profile={pub.profile as Profile} />
+        <VideoCard key={pub.id} publication={pub as Publication} />
       ))}
     </div>
   );
