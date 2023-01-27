@@ -17,7 +17,8 @@ interface Props {
 
 const CollectButton: FC<Props> = ({publication}) => {
   const [alreadyCollected, setAlreadyCollected] = useState(false);
-  const [count, setCount] = useState(publication.stats.totalAmountOfCollects)
+  const isMirror = publication.__typename === 'Mirror'
+  const [count, setCount] = useState(isMirror ? publication.mirrorOf.stats.totalAmountOfCollects : publication.stats.totalAmountOfCollects)
   const [showCollectModal, setShowCollectModal] = useState(false);
   const isFreeCollect = publication?.collectModule.__typename === 'FreeCollectModuleSettings';
   const isUnknownCollect = publication?.collectModule.__typename === 'UnknownCollectModuleSettings';

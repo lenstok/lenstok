@@ -16,7 +16,7 @@ interface Props {
 const CommentData: FC<Props> = ({ comment, publication }) => {
   const currentProfile = useAppStore((state) => state.currentProfile);
   const [decryptedComment, setDecryptedComment] = useState("");
-  useEffect(() => {
+  /* useEffect(() => {
     const decrypted = async () => {
       if (comment.metadata.attributes[0]?.traitType === "encrypted") {
         const response = await decrypt();
@@ -31,7 +31,7 @@ const CommentData: FC<Props> = ({ comment, publication }) => {
       }
     };
     decrypted();
-  }, []);
+  }, []); */
 
   async function decrypt() {
     const attributes = comment.metadata.attributes[0];
@@ -86,7 +86,7 @@ const CommentData: FC<Props> = ({ comment, publication }) => {
             overflowWrap: "break-word",
           }}
         >
-          {decryptedComment}
+          {comment.metadata.content}
         </p>
       </div>
     </div>

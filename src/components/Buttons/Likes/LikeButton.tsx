@@ -10,7 +10,8 @@ interface Props {
 
 const LikeButton: FC<Props> = ({publication }) => {
   const [liked, setLiked] = useState(false)
-  const [count, setCount] = useState(publication.stats.totalUpvotes)
+  const isMirror = publication.__typename === 'Mirror'
+  const [count, setCount] = useState(isMirror ? publication.mirrorOf.stats.totalUpvotes : publication.stats.totalUpvotes)
   const currentProfile = useAppStore((state) => state.currentProfile);
 
 

@@ -59,7 +59,6 @@ const Latest = () => {
         <VideoCard
           key={pub.id}
           publication={pub as Publication}
-          profile={pub.profile as Profile}
         />
       ))}
     </div>

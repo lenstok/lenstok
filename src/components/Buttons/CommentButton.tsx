@@ -14,6 +14,8 @@ interface Props {
 
 const CommentButton: FC<Props> = ({ publication }) => {
     const [alreadyCommented, setAlreadyLiked] = useState(false);
+    const isMirror = publication.__typename === 'Mirror'
+    const comments = isMirror ? publication.mirrorOf.stats.totalAmountOfComments : publication.stats.totalAmountOfComments
 
     return (
        <div className="flex gap-6">
@@ -32,7 +34,7 @@ const CommentButton: FC<Props> = ({ publication }) => {
             <span className="hidden md:block pointer-events-none absolute -bottom-7 left-7 w-max shadow px-2 py-1 text-xs text-emerald-700 opacity-0 group-hover:opacity-100"> Comment </span>
           </div>
         )}
-        <p className="text-xs hidden lg:block font-semibold text-gray-400">{publication.stats.totalAmountOfComments}</p>
+        <p className="text-xs hidden lg:block font-semibold text-gray-400">{comments}</p>
         </a>
         </Link>
         </div>
