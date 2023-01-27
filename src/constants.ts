@@ -71,3 +71,5 @@ export const POLYGONSCAN_URL = IS_MAINNET
   : "https://mumbai.polygonscan.com";
   
 export const API_KEY = process.env.NEXT_PUBLIC_STUDIO_API_KEY
+
+export const LIT_PROTOCOL_ENV = IS_MAINNET ? "polygon" : "mumbai"

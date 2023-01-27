@@ -26,6 +26,10 @@ const VideoCard: FC<Props> = ({ publication}) => {
   const currentProfile = useAppStore((state) => state.currentProfile);
   const isMirror = publication?.__typename === 'Mirror'
   const profile = isMirror ? publication?.mirrorOf?.profile : publication?.profile 
+  const likes = isMirror ? publication?.mirrorOf?.stats?.totalUpvotes : publication?.stats?.totalUpvotes
+  const comments = isMirror ? publication.mirrorOf.stats.totalAmountOfComments : publication.stats.totalAmountOfComments
+  const mirrors = isMirror ? publication?.mirrorOf?.stats?.totalAmountOfComments : publication?.stats?.totalAmountOfComments
+  const collects = isMirror ? publication?.mirrorOf?.stats?.totalAmountOfCollects : publication?.stats?.totalAmountOfCollects
 
   useEffect(() => {
     if(profile?.isFollowedByMe === true) {
@@ -96,10 +100,10 @@ const VideoCard: FC<Props> = ({ publication}) => {
       <Video publication={publication as Publication} />
 
       <div className='flex flex-row space-x-3'>
-      <p className="text-xs block md:hidden font-semibold text-gray-400 pl-1"> {publication.stats.totalUpvotes} likes</p>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfComments} comments</p>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfMirrors} mirrors</p>
-      <p className="text-xs block md:hidden font-semibold text-gray-400"> {publication.stats.totalAmountOfCollects} collects</p>  
+      <p className="text-xs block md:hidden font-semibold text-gray-400 pl-1"> {likes} likes</p>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {comments} comments</p>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {mirrors} mirrors</p>
+      <p className="text-xs block md:hidden font-semibold text-gray-400"> {collects} collects</p>  
       </div>
 
       <div className='flex ml-auto'>

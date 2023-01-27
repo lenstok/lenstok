@@ -27,6 +27,8 @@ const Video: FC<Props> = ({ publication }) => {
   const idParsed = useMemo(() => parseCid(url) ?? parseArweaveTxId(url), [url]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const isMirror = publication.__typename === 'Mirror'
+  const video = isMirror ? publication.mirrorOf : publication
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -51,7 +53,7 @@ const Video: FC<Props> = ({ publication }) => {
       >
         <Link 
         className="pointer-events-none md:pointer-events-auto"
-        href={`/detail/${publication.id}`} key={publication.id} 
+        href={`/detail/${video.id}`} key={video.id} 
         >
           <video
             loop
