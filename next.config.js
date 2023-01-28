@@ -20,7 +20,8 @@ const nextConfig = {
       "theshr.infura-ipfs.io",
       "test.com",
       "ui-avatars.com",
-      "bafybeifiw5y4fowyuonetx3u3pufj5y46b3e5zkr4ld25u4et2n4opueni.ipfs.w3s.link"
+      "bafybeifiw5y4fowyuonetx3u3pufj5y46b3e5zkr4ld25u4et2n4opueni.ipfs.w3s.link",
+      "statics-polygon-lens.s3.eu-west-1.amazonaws.com"
     ],
   },
 };
