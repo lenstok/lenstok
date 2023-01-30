@@ -22,6 +22,8 @@ import {
   useCreateCommentTypedDataMutation,
   useCreateCommentViaDispatcherMutation,
 } from "@/types/graph";
+import lit from "@/lib/lit";
+import LitJsSdk from "@lit-protocol/sdk-browser";
 import AccessSettings from "./AccessSettings";
 import { useAccessSettingsStore } from "@/store/access";
 import { CollectCondition, EncryptedMetadata, FollowCondition, LensGatedSDK } from "@lens-protocol/sdk-gated";
