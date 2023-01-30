@@ -12,23 +12,4 @@ fragment MetadataOutputFields on MetadataOutput {
     traitType
     value
   }
-  encryptionParams {
-    accessCondition {
-      or {
-        criteria {
-          ...SimpleConditionFields
-          and {
-            criteria {
-              ...SimpleConditionFields
-            }
-          }
-          or {
-            criteria {
-              ...SimpleConditionFields
-            }
-          }
-        }
-      }
-    }
-  }
 }

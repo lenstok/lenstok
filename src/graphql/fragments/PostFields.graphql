@@ -16,12 +16,6 @@ fragment PostFields on Post {
   referenceModule {
     ...ReferenceModuleFields
   }
-  onChainContentURI
-  isGated
-  canDecrypt(profileId: $profileId) {
-    result
-    reasons
-  }
   appId
   hidden
   reaction(request: $reactionRequest)
