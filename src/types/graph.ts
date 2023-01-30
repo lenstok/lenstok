@@ -1,5 +1,5 @@
 import * as Apollo from '@apollo/client';
-import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, BroadcastDocument, BroadcastMutation, BroadcastMutationVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CollectorsDocument, CollectorsQuery, CollectorsQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateMirrorTypedDataDocument, CreateMirrorTypedDataMutation, CreateMirrorTypedDataMutationVariables, CreateMirrorViaDispatcherDocument, CreateMirrorViaDispatcherMutation, CreateMirrorViaDispatcherMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, ExplorePublicationsDocument, ExplorePublicationsQuery, ExplorePublicationsQueryVariables, FollowersDocument, FollowersQuery, FollowersQueryVariables, FollowingDocument, FollowingQuery, FollowingQueryVariables, GenerateModuleCurrencyApprovalDataDocument, GenerateModuleCurrencyApprovalDataQuery, GenerateModuleCurrencyApprovalDataQueryVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, PublicationsDocument, PublicationsQuery, PublicationsQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, SearchProfilesDocument, SearchProfilesQuery, SearchProfilesQueryVariables, SearchPublicationsDocument, SearchPublicationsQuery, SearchPublicationsQueryVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from './lens';
+import { AddReactionDocument, AddReactionMutation, AddReactionMutationVariables, ApprovedModuleAllowanceAmountDocument, ApprovedModuleAllowanceAmountQuery, ApprovedModuleAllowanceAmountQueryVariables, BroadcastDocument, BroadcastMutation, BroadcastMutationVariables, CanDecryptStatusDocument, CanDecryptStatusQuery, CanDecryptStatusQueryVariables, CollectModuleDocument, CollectModuleQuery, CollectModuleQueryVariables, CollectorsDocument, CollectorsQuery, CollectorsQueryVariables, CreateCollectTypedDataDocument, CreateCollectTypedDataMutation, CreateCollectTypedDataMutationVariables, CreateCommentTypedDataDocument, CreateCommentTypedDataMutation, CreateCommentTypedDataMutationVariables, CreateCommentViaDispatcherDocument, CreateCommentViaDispatcherMutation, CreateCommentViaDispatcherMutationVariables, CreateFollowTypedDataDocument, CreateFollowTypedDataMutation, CreateFollowTypedDataMutationVariables, CreateMirrorTypedDataDocument, CreateMirrorTypedDataMutation, CreateMirrorTypedDataMutationVariables, CreateMirrorViaDispatcherDocument, CreateMirrorViaDispatcherMutation, CreateMirrorViaDispatcherMutationVariables, CreateUnfollowTypedDataDocument, CreateUnfollowTypedDataMutation, CreateUnfollowTypedDataMutationVariables, ExplorePublicationsDocument, ExplorePublicationsQuery, ExplorePublicationsQueryVariables, FollowersDocument, FollowersQuery, FollowersQueryVariables, FollowingDocument, FollowingQuery, FollowingQueryVariables, GenerateModuleCurrencyApprovalDataDocument, GenerateModuleCurrencyApprovalDataQuery, GenerateModuleCurrencyApprovalDataQueryVariables, HasTxHashBeenIndexedDocument, HasTxHashBeenIndexedQuery, HasTxHashBeenIndexedQueryVariables, NftFeedDocument, NftFeedQuery, NftFeedQueryVariables, ProxyActionDocument, ProxyActionMutation, ProxyActionMutationVariables, PublicationDocument, PublicationQuery, PublicationQueryVariables, PublicationRevenueDocument, PublicationRevenueQuery, PublicationRevenueQueryVariables, PublicationsDocument, PublicationsQuery, PublicationsQueryVariables, RemoveReactionDocument, RemoveReactionMutation, RemoveReactionMutationVariables, SearchProfilesDocument, SearchProfilesQuery, SearchProfilesQueryVariables, SearchPublicationsDocument, SearchPublicationsQuery, SearchPublicationsQueryVariables, TimelineDocument, TimelineQuery, TimelineQueryVariables, UserProfilesDocument, UserProfilesQuery, UserProfilesQueryVariables } from './lens';
 
 
 export function useAddReactionMutation(
@@ -282,6 +282,25 @@ export function useCreateMirrorViaDispatcherMutation(
   const options = { ...baseOptions };
   return Apollo.useMutation<CreateMirrorViaDispatcherMutation, CreateMirrorViaDispatcherMutationVariables>(
     CreateMirrorViaDispatcherDocument,
+    options
+  );
+}
+
+export function useCanDecryptStatusQuery(
+  baseOptions: Apollo.QueryHookOptions<CanDecryptStatusQuery, CanDecryptStatusQueryVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useQuery<CanDecryptStatusQuery, CanDecryptStatusQueryVariables>(
+    CanDecryptStatusDocument,
+    options
+  );
+}
+export function useCanDecryptStatusLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<CanDecryptStatusQuery, CanDecryptStatusQueryVariables>
+) {
+  const options = { ...baseOptions };
+  return Apollo.useLazyQuery<CanDecryptStatusQuery, CanDecryptStatusQueryVariables>(
+    CanDecryptStatusDocument,
     options
   );
 }

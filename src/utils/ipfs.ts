@@ -16,7 +16,7 @@ const client = create({
   },
 });
 
-export const uploadIpfs = async <T>(data: T) => {
+export const uploadIpfs = async <T>(data: T): Promise<any> => {
   const result = await client.add(JSON.stringify(data));
 
   console.log('upload result ipfs', result);

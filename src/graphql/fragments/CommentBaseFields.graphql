@@ -19,6 +19,12 @@ fragment CommentBaseFields on Comment {
   appId
   hidden
   reaction(request: $reactionRequest)
+  onChainContentURI
+  isGated
+  canDecrypt(profileId: $profileId) {
+    result
+    reasons
+  }
   mirrors(by: $profileId)
   hasCollectedByMe
 }

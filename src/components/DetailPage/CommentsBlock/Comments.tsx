@@ -57,10 +57,7 @@ const Comments: FC<Props> = ({ publication }) => {
           )}
           {comments?.map((comment) => (
             <>
-              <CommentData
-                comment={comment as Publication}
-                publication={publication as Publication}
-              />
+              <CommentData comment={comment as Publication} />
             </>
           ))}
         </div>

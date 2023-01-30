@@ -1,16 +1,18 @@
 import {
+  AccessConditionOutput,
   CreatePublicCommentRequest,
   Publication,
   PublicationMainFocus,
+  PublicationMetadataV2Input,
 } from "@/types/lens";
 import React, { Dispatch, FC, useRef, useState, Fragment } from "react";
 import { LENS_HUB_ABI } from "@/abi/abi";
 import { useAppStore, useTransactionPersistStore } from "src/store/app";
-import { useContractWrite, useSignTypedData } from "wagmi";
+import { useContractWrite, useProvider, useSignTypedData, useSigner } from "wagmi";
 import onError from "@/lib/onError";
 import toast from "react-hot-toast";
 import { Switch } from "@headlessui/react";
-import { APP_NAME, LENSHUB_PROXY, RELAY_ON } from "@/constants";
+import { APP_NAME, LENSHUB_PROXY, LIT_PROTOCOL_ENV, RELAY_ON } from "@/constants";
 import getSignature from "@/lib/getSignature";
 import { splitSignature } from "ethers/lib/utils";
 import { uploadIpfs } from "@/utils/ipfs";
@@ -22,6 +24,9 @@ import {
 } from "@/types/graph";
 import lit from "@/lib/lit";
 import LitJsSdk from "@lit-protocol/sdk-browser";
+import AccessSettings from "./AccessSettings";
+import { useAccessSettingsStore } from "@/store/access";
+import { CollectCondition, EncryptedMetadata, FollowCondition, LensGatedSDK } from "@lens-protocol/sdk-gated";
 
 interface Props {
   publication: Publication;
@@ -31,33 +36,25 @@ interface Props {
 const CreateComment: FC<Props> = ({ publication, refetchComments }) => {
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isEncrypted, setIsEncrypted] = useState(false);
+  const provider = useProvider();
+  const { data: signer } = useSigner();
 
   const userSigNonce = useAppStore((state) => state.userSigNonce);
   const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
   const currentProfile = useAppStore((state) => state.currentProfile);
   const txnQueue = useTransactionPersistStore((state) => state.txnQueue);
   const setTxnQueue = useTransactionPersistStore((state) => state.setTxnQueue);
+  const restricted = useAccessSettingsStore((state) => state.restricted);
+  const followToView = useAccessSettingsStore((state) => state.followToView);
+  const collectToView = useAccessSettingsStore((state) => state.collectToView);
+  const resetAccessSettings = useAccessSettingsStore((state) => state.reset);
 
   const { signTypedDataAsync } = useSignTypedData({ onError });
 
-  async function encryptComment(comment: string) {
-    try {
-      const { encryptedFile, encryptedSymmetricKey } = await lit.encryptString(
-        comment,
-        publication?.profile?.ownedBy,
-        currentProfile?.ownedBy
-      );
-      // Convert a Blob to a base64urlpad string. This function returns a promise.
-      const encryptedComment = await LitJsSdk.blobToBase64String(encryptedFile);
-      return { encryptedComment, encryptedSymmetricKey };
-    } catch (err) {
-      console.log("Error during encryption", err);
-    }
-  }
   const onCompleted = () => {
     toast.success("Post has been commented!");
     setComment("");
+    resetAccessSettings();
   };
 
   console.log("PUBLICATION ADDRESS", publication?.profile?.ownedBy);
@@ -170,72 +167,89 @@ const CreateComment: FC<Props> = ({ publication, refetchComments }) => {
     }
   };
 
-  async function createComment() {
-    let encryptedComment = "";
-    let encryptedUri = "";
+  const createTokenGatedMetadata = async (metadata: PublicationMetadataV2Input) => {
     if (!currentProfile) {
       return toast.error("Please connect your Wallet!");
     }
-    console.log("Is encryped toggle", isEncrypted);
-    // 1. Encrypt comment with Lit
-    if (isEncrypted) {
-      setIsSubmitting(true);
-      const litResponse = await encryptComment(comment);
-      //console.log("LitResponse:", litResponse);
-      encryptedComment = litResponse?.encryptedComment;
-      const encryptedKey = litResponse?.encryptedSymmetricKey;
-      //console.log("ENCRYPTED COMMENT", encryptedComment);
 
-      // 2. Store encrypted File and encrypted Key and retrieve URI
-      const body = {
-        litComment: encryptedComment,
-        litKkey: encryptedKey,
+    if (!signer) {
+      return toast.error("Please connect your Wallet!");
+    }
+
+    // Create the SDK instance
+    const tokenGatedSdk = await LensGatedSDK.create({
+      provider,
+      signer,
+      env: LIT_PROTOCOL_ENV as any
+    });
+
+    // Connect to the SDK
+    await tokenGatedSdk.connect({
+      address: currentProfile.ownedBy,
+      env: LIT_PROTOCOL_ENV as any
+    });
+
+    // Condition for gating the content
+    const collectAccessCondition: CollectCondition = { thisPublication: true };
+    const followAccessCondition: FollowCondition = { profileId: currentProfile.id };
+
+    // Create the access condition
+    let accessCondition: AccessConditionOutput = {};
+    if (collectToView && followToView) {
+      accessCondition = {
+        and: { criteria: [{ collect: collectAccessCondition }, { follow: followAccessCondition }] }
       };
-      try {
-        console.log("Fetch api route");
-        const response = await fetch("/api/store-encrypted", {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(body),
-        });
+    } else if (collectToView) {
+      accessCondition = { collect: collectAccessCondition };
+    } else if (followToView) {
+      accessCondition = { follow: followAccessCondition };
+    }
 
-        if (response.status !== 200) {
-          alert("Something went wrong while creating CID");
-        } else {
-          let responseJSON = await response.json();
-          const cid = responseJSON.cid;
-          console.log("Encrypted URI", cid);
-          encryptedUri = `https://infura-ipfs.io/ipfs/${responseJSON.cid}`;
-        }
-      } catch (err) {
-        console.log("Error while uploading encrypted comment to ipfs", err);
+    // Generate the encrypted metadata and upload it to Arweave
+    const { contentURI } = await tokenGatedSdk.gated.encryptMetadata(
+      metadata,
+      currentProfile.id,
+      accessCondition,
+      async (data: EncryptedMetadata) => {
+        return await uploadIpfs(data);
       }
+    );
+
+    return contentURI;
+  };
+
+  const createMetadata = async (metadata: PublicationMetadataV2Input) => {
+    return await uploadIpfs(metadata);
+  };
+
+  async function createComment() {
+    if (!currentProfile) {
+      return toast.error("Please connect your Wallet!");
     }
     try {
       setIsSubmitting(true);
-      const ipfsResult = await uploadIpfs({
+
+      const metadata: PublicationMetadataV2Input = {
         version: "2.0.0",
         mainContentFocus: PublicationMainFocus.TextOnly,
         metadata_id: uuid(),
-        description: "Description",
         locale: "en-US",
-        content: isEncrypted ? encryptedComment : comment,
+        content: comment,
         external_url: null,
         image: null,
         imageMimeType: null,
-        name: "Name",
-        attributes: isEncrypted
-          ? [
-              {
-                displayType: "string",
-                traitType: "encrypted",
-                value: encryptedUri,
-              },
-            ]
-          : [],
+        name: `Comment by :${currentProfile.handle}`,
+        attributes: [],
         tags: [],
         appId: APP_NAME,
-      });
+      }
+
+      let ipfsResult = null
+      if (restricted) {
+        ipfsResult = await createTokenGatedMetadata(metadata);
+      } else {
+        ipfsResult = await createMetadata(metadata);
+      }
 
       const request = {
         profileId: currentProfile?.id,
@@ -280,31 +294,7 @@ const CreateComment: FC<Props> = ({ publication, refetchComments }) => {
         >
           {isSubmitting ? "Commenting..." : <div className="cursor-pointer border-1 hover:text-[#96de26]">Comment</div>}
         </button>
-        <Switch.Group>
-          <div className="flex items-center">
-            <Switch.Label className="mr-4">Encrypted</Switch.Label>
-            <Switch
-              checked={isEncrypted}
-              onChange={setIsEncrypted}
-              as={Fragment}
-            >
-              {({ checked }) => (
-                /* Use the `checked` state to conditionally style the button. */
-                <button
-                  className={`${
-                    checked ? "bg-blue-600" : "bg-gray-400"
-                  } relative inline-flex h-4 w-8 items-center rounded-full`}
-                >
-                  <span
-                    className={`${
-                      checked ? "translate-x-5" : "translate-x-1"
-                    } inline-block h-2 w-2 transform rounded-full bg-white transition`}
-                  />
-                </button>
-              )}
-            </Switch>
-          </div>
-        </Switch.Group>
+        <AccessSettings />
       </div>
     </div>
   );
