@@ -5,7 +5,7 @@ import useNFT from "@/utils/useNFT";
 import { CollectConditionOutput, Erc20OwnershipOutput, NftOwnershipOutput } from "@lens-protocol/sdk-gated/dist/graphql/types";
 import Link from "next/link";
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useProvider, useSigner, useToken } from "wagmi";
 import getAvatar from "@/lib/getAvatar";
 import { LockOpenIcon, LockClosedIcon } from "@heroicons/react/24/outline";
@@ -140,7 +140,9 @@ const DecryptedCommentData: FC<Props> = ({ encryptedPublication }) => {
               overflowWrap: "break-word",
              }}
             >
-                Login to Decrypt
+                <span className="flex flex-row bg-[#96de26] text-[#25511f] font-semibold p-2 rounded cursor-pointer">
+                    Login to Decrypt
+                </span>
             </p>
         </div>
     </div>
@@ -308,7 +310,3 @@ const DecryptedCommentData: FC<Props> = ({ encryptedPublication }) => {
 }
 
 export default DecryptedCommentData
-
-function useEffect(arg0: () => void, arg1: never[]) {
-    throw new Error("Function not implemented.");
-}
