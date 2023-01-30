@@ -31,7 +31,6 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { apolloClient } from "@/apollo-client";
 import Video from "./HomePage/Video";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const { chains, provider } = configureChains(
   [IS_MAINNET ? polygon : polygonMumbai],
@@ -72,8 +71,6 @@ const livepeerClient = createReactClient({
   }),
 });
 
-const queryClient = new QueryClient()
-
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <WagmiConfig client={wagmiClient}>
@@ -86,11 +83,9 @@ const Providers = ({ children }: { children: ReactNode }) => {
       })}>
       <ApolloProvider client={apolloClient}>
         <LivepeerConfig client={livepeerClient}>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider defaultTheme="light" attribute="class">
-              {children}
-            </ThemeProvider>
-          </QueryClientProvider>
+          <ThemeProvider defaultTheme="light" attribute="class">
+            {children}
+          </ThemeProvider>
           {/* <Video /> */}
         </LivepeerConfig>
       </ApolloProvider>
